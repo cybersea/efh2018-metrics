@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <title>EFH Metrics</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+    <!--Remote -->
+    <!--
+    <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+    -->
+    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Work+Sans:400,500,600' rel='stylesheet' type='text/css'>
+
+    <!--Local -->
+    <script src="js/jquery-1.11.2.min.js"></script>
+    <script src="js/leaflet.js"></script>
+    <link rel="stylesheet" href="css/leaflet.css" />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: whitesmoke;
+            font-family: "Work Sans", sans-serif;
+        }
+        
+        #side-panel {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 33%;
+            background: whitesmoke;
+            border-right: 2px solid #494f99;
+            overflow-y: scroll;
+        }
+        
+        h1 {
+            padding: 8px 25px 8px 15px;
+            margin: 0;
+            /*
+            background: #494f99; 
+            background: #709dd6;
+            background: #648dc0;
+*/
+            background: #597DAB;
+            color: whitesmoke;
+            font-weight: 500;
+            font-size: 1.5em;
+            text-align: right;
+        }
+        
+        h2 {
+            margin: 0;
+            padding: 8px 25px 8px 15px;
+            color: #494f99;
+            font-weight: 500;
+            font-size: 1.2em;
+            text-align: right;
+        }
+        
+        #side-panel p {
+            margin: 8px 0 4px;
+            padding: 0 25px 0 15px;
+            color: #3d3d3d;
+            text-align: right;
+            font-size: 1em;
+        }
+        
+        #side-panel p:after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+        
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            width: 67%;
+        }
+        
+        .info {
+            padding: 6px 8px;
+            font-size: 1em;
+            color: #3d3d3d;
+            background: whitesmoke;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            text-align: right;
+        }
+        
+        .info h3 {
+            margin: 0;
+            color: #3d3d3d;
+        }
+        #layer-controls {
+            position: absolute;
+            top: 20px;
+            right: 15px;
+            z-index: 100;
+            padding: 6px 10px 6px 6px;
+            background: #fff;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+            border-radius: 5px;
+        }
+        #ui-controls {
+            position: absolute;
+            left: 37%;
+            top: 10px;
+            z-index: 100;
+        }
+        
+        #ui-controls label {
+            font-size: 1em;
+            margin-right: 5px;
+        }
+        #ui-controls button {
+            font-size: 1.1em;
+            max-width: 150px;
+/*            height: 80px;*/
+        }
+        table#summary-metrics {
+            width: 100%;
+            padding: 15px;
+            text-align: right; 
+        }
+        table#summary-metrics tr {
+            margin-bottom: 20px;
+        }
+        #panel-tabs button {
+            width: 45%;
+            border-radius: 0;
+            font-size: 1.3em;
+            margin-top: 5px;
+            color: #3d3d3d;
+        }
+        #panel-tabs button:first-child {
+            margin-left: 5%;
+        }
+        #panel-tabs button.selected {
+            color: #597DAB;
+        }
+        #summary-panel, polygons-panel {
+            position: absolute;
+            
+        }
+        #polygons-panel {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+        <!-- HTML form for user to select vacancy attribute to map -->
+    <!-- Note that values correspond exactly to attribute names in source GeoJSON data file -->
+
+    <div id='ui-controls'>
+        <button value="Zoom">Zoom to Selection</button>
+        <button value="Clear">Clear all Selections</button>
+    </div>
+    <!-- end ui-controls -->
+    
+    <div id="layer-controls">
+        <label style='color:#E5571D'><input type="checkbox" value="collabLayer" checked>Collaborative</label><br>
+        <label style='color:#6F067B'><input type="checkbox" value="onoLayer" checked>Oceana-NRDC-OC</label><br>
+        <label style='color:#377EB8'><input type="checkbox" value="fmaLayer" checked>FMA</label><br>
+        <label style='color:#E2007F'><input type="checkbox" value="gfnmsLayer" checked>GFNMS</label><br>
+        <label style='color:#0F6001'><input type="checkbox" value="greenpeaceLayer" checked>Greenpeace</label><br>
+        <label  style='color:#650B0B'><input type="checkbox" value="mciLayer" checked>MCI</label><br>
+    </div>
+    
+    <div id='map'></div>
+
+    <!-- Side panel Div   -->
+    <div id='side-panel'>
+        <h1>West Coast Groundfish<br> Essential Fish Habitat</h1>
+        <h2>Alternatives Analysis Metrics</h2>
+        <div id='panel-tabs'>
+            <button class='selected' value='summary-panel'>Summary</button>
+            <button value = 'polygons-panel'>Polygons</button>
+        </div>
+        <div id='summary-panel'>
+<!--            <h2>Alternatives Analysis Metrics</h2>-->
+            <table id="summary-metrics"></table>
+        </div>
+        <div id='polygons-panel'>
+<!--            <h2>Polygon Analysis Metrics</h2>-->
+            <table class="data">
+              <tr>
+                <th>Entry Header 1</th>
+                <th>Entry Header 2</th>
+                <th>Entry Header 3</th>
+                <th>Entry Header 4</th>
+              </tr>
+              <tr>
+                <td>Entry First Line 1</td>
+                <td>Entry First Line 2</td>
+                <td>Entry First Line 3</td>
+                <td>Entry First Line 4</td>
+              </tr>
+              <tr>
+                <td>Entry Line 1</td>
+                <td>Entry Line 2</td>
+                <td>Entry Line 3</td>
+                <td>Entry Line 4</td>
+              </tr>
+              <tr>
+                <td>Entry Last Line 1</td>
+                <td>Entry Last Line 2</td>
+                <td>Entry Last Line 3</td>
+                <td>Entry Last Line 4</td>
+              </tr>
+            </table>
+
+        </div>
+    </div>
+    
+
+    <!--  GeoJSON source data (var proposals_metrics)   -->
+    <script src="data/efh_proposals_metrics.js"></script>
+
+    <!--  Main mapping script   -->
+    <script>
+        // instantiate the Leaflet map
+        var options = {
+            center: [41, -124],
+            zoom: 6,
+            dragging: true,
+            zoomControl: true
+        }
+        var map = L.map('map', options);
+
+        // Base Map
+        var esri_ocean = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri',
+            maxZoom: 11
+        });
+        esri_ocean.addTo(map);
+
+        L.control.scale().addTo(map); // Add scale bar
+
+        // Create Info Box for display of feature data on hover
+        drawInfo();
+        
+        // Call function to create user interface for interacting with selected set
+        buildUI();
+        
+        buildSummary();
+
+        // Style info for individual proposal layers
+        var layerInfo = {
+                collabLayer: {
+                    proposer: "Collaborative",
+                    color: "#E5571D"
+                },
+                onoLayer: {
+                    proposer: "Oceana-NRDC-OC",
+                    color: "#6F067B"
+                },
+                fmaLayer: {
+                    proposer: "FMA",
+                    color: "#377EB8"
+                },
+                gfnmsLayer: {
+                    proposer: "GFNMS",
+                    color: "#E2007F"
+
+                },
+                greenpeaceLayer: {
+                    proposer: "Greenpeace",
+                    color: "#0F6001"
+                },
+                //                mbnmsLayer: {
+                //                    proposer: "MBNMS",
+                //                    color: "#E9BD02"
+                //                },
+                mciLayer: {
+                    proposer: "MCI",
+                    color: "#650B0B"
+                },
+            }
+            //
+
+
+        var geoJsonLayers = {}; // global to store all the geoJSON layers
+        var selectedSet = []; // array to store selected features
+
+        // Create individual geoJson Layers for each proposal
+        for (var lyr in layerInfo) {
+
+            geoJsonLayers[lyr] = L.geoJson(proposals_metrics, {
+                filter: function (feature) {
+                    if (feature.properties.Proposer == [layerInfo[lyr].proposer]) {
+                        return feature;
+                    }
+                },
+                style: function (feature) {
+                    var opcty;
+                    if (feature.properties.RegAction == "reopen")
+                        opcty = 0.1;
+                    else if (feature.properties.RegAction == "close")
+                        opcty = 0.4;
+                    styles = {
+                        color: layerInfo[lyr].color,
+                        fillColor: layerInfo[lyr].color,
+                        fill: true,
+                        weight: 2,
+                        fillOpacity: opcty
+                    }
+                    return styles
+                },
+                onEachFeature: function (feature, layer) {
+                    layer.on({
+                        mouseover: highlightFeature,
+                        mouseout: resetHighlight,
+                        click: selected,
+                    });
+                }
+            }).addTo(map);
+
+            geoJsonLayers[lyr].startStyle = styles
+
+        } // end of loop through all geoJSON layers
+
+
+        // Runs when a feature is selected -- Currently from a single-click
+        function selected(e) {
+
+            var layer = e.target;
+            var data = layer.feature.properties;
+            var id = layer.feature.properties.concat_id;
+
+            // If it isn't already selected, add to set and change style
+            //  otherwise, unselect it
+            if (isSelected(layer, id) < 0) {
+
+                // Add selected feature to the selected set
+                selectedSet.push(layer);
+
+                // Change Styles 
+                layer.setStyle({
+                    color: "yellow",
+                });
+                layer.bringToFront();
+                
+            } else {
+                
+                // Unselect it
+                unselected(layer);
+                
+            }
+
+            // Logging for debug
+//            console.log("Number of selected Sites: " + selectedSet.length);
+//            for (i = 0; i < selectedSet.length; i++) {
+//                console.log(selectedSet[i].feature.properties.concat_id)
+//            }
+            updateSummmary();
+
+        } // end selected()
+
+        // Runs when a feature is removed from selection 
+        //  currently passed through from single click
+        function unselected(layer) {
+           
+            // var layer = e.target;
+            var data = layer.feature.properties;
+            var id = layer.feature.properties.concat_id;
+            var proposer = layer.feature.properties.Proposer;
+
+            // If it is selected, remove from selected set array and revert style
+            //  otherwise, do nothing
+            var idx = isSelected(layer, id)
+
+            if (idx >= 0) {
+
+                // Remove poly from selected set
+                selectedSet.splice(idx, 1);
+
+                // Get original color of layer based on proposer
+                for (lyr in layerInfo) {
+                    if (proposer === layerInfo[lyr].proposer) {
+                        var strokeColor = layerInfo[lyr].color
+                    }
+                }
+                
+                // Change color back to original 
+                layer.setStyle({
+                    color: strokeColor,
+                });
+                layer.bringToFront();
+            }
+
+            // Logging for debug
+//            console.log("Number of selected Sites: " + selectedSet.length);
+//            for (var i = 0; i < selectedSet.length; i++) {
+//                console.log(selectedSet[i].feature.properties.concat_id)
+//            }
+
+        } // end unselected()
+
+        // Check to see if a feature is part of the selected set
+        function isSelected(layer, id) {
+            var idx = -1;
+            for (var i = 0; i < selectedSet.length; i++) {
+                if (selectedSet[i].feature.properties.concat_id === id) {
+                    // Get the array index of the object if it exists
+                    idx = i;
+                    break;
+                }
+            }
+            return idx
+        } // end isSelected()
+
+        // Create an array of Leaflet Bounds for each feature
+        function getSelectedBounds() {
+
+            var selectedBounds = [];
+
+            // Get bounds for selected set of layers
+            for (i = 0; i < selectedSet.length; i++) {
+                selectedBounds.push(selectedSet[i].getBounds())
+            }
+
+            return selectedBounds;
+            
+        } // end getSelectedBounds()
+
+        function zoomToSelected() {
+
+            // Get the bounds of currently selected features
+            var bounds = getSelectedBounds();
+            
+            // Zooms to currently selected polygons
+            map.fitBounds(getSelectedBounds());
+            
+        } // end zoomToSelected()
+        
+
+        // Clear all selected polygons
+        function clearSelected() {
+            
+            for (var i = 0; i < selectedSet.length; i++) {
+                
+                var layer = selectedSet[i];
+                var proposer = layer.feature.properties.Proposer;
+
+                // Get original color of layer based on proposer
+                for (lyr in layerInfo) {
+                    if (proposer === layerInfo[lyr].proposer) {
+                        var strokeColor = layerInfo[lyr].color
+                    }
+                }
+                
+                // Change color back to original 
+                layer.setStyle({
+                    color: strokeColor,
+                });
+            }
+            
+            selectedSet = [];  // remove all layers from selected set
+            
+            buildSummary() // create the summary table contents
+        }
+
+        // Runs on mouseover of a feature - updates style and grabs data for info box
+        function highlightFeature(e) {
+
+            var layer = e.target;
+
+            // Change Styles to make outline wider
+            layer.setStyle({
+                weight: 5,
+                dashArray: '',
+            });
+
+            if (!L.Browser.ie && !L.Browser.opera) {
+                layer.bringToFront();
+            }
+
+            // Update the info box               
+            updateInfo(layer)
+
+            $(".info").show(); // Show the info box
+
+        } // end highlightFeature()
+
+        // Runs when mouseout of feature - Returns feature style to original
+        function resetHighlight(e) {
+
+            // Function that when mouseout of feature
+            var layer = e.target;
+
+            layer.setStyle({
+                    weight: 2
+                })
+
+            $(".info").hide(); // Hide the info box
+
+        } // end resetHighlight()
+
+        function drawInfo() {
+
+            // create a new Leaflet control object, and position it lower right
+            var info = L.control({
+                position: 'bottomright'
+            });
+            info.onAdd = function (map) { // when info control is added to map
+                    // Create a div to hold the info box with a class name of "info"
+                    var div = L.DomUtil.create('div', 'info');
+                    // return empty div to be added to map
+                    return div;
+                }
+                // Add empty info div to map
+            info.addTo(map);
+            $(".info").hide(); // hide empty info box until populated
+
+        } // end drawInfo()
+
+
+        function updateInfo(layer) {
+
+            // create shorthand variable to access layer properties
+            var data = layer.feature.properties;
+
+            // populate html variable with header - Site name
+            // and values for the specified attributes using the 
+            // layer (feature) that was passed to this function
+            var html = "<h3>" + data.SiteName + "</h3>" // +
+            html += "<br>" + "<b>Action: </b>" + data.RegAction;
+            html += "<br>" + "<b>Proposer: </b>" + data.Proposer;
+            html += "<br>" + "<b>Area (sq mi): </b>" + sqm2sqmi(data.SiteAreaM2);
+            html += "<br>" + "<b>Hard Substrate: </b>" + 
+                (data.hard / data.SiteAreaM2).toLocaleString(undefined, {style: 'percent'});
+            html += "<br>" + "<b>Mixed Substrate: </b>" + 
+                (data.mixed / data.SiteAreaM2).toLocaleString(undefined, {style: 'percent'});
+            html += "<br>" + "<b>Soft Substrate: </b>" + 
+                (data.soft / data.SiteAreaM2).toLocaleString(undefined, {style: 'percent'});
+            html += "<br>" + "<b>Unknown Substrate: </b>" + 
+                (data.unknown / data.SiteAreaM2).toLocaleString(undefined, {style: 'percent'});
+
+            if (data.CynAreaM2) {
+                html += "<br>" + "<b>Canyons and Gullys: </b>" + 
+                    (data.CynAreaM2 / data.SiteAreaM2).toLocaleString(undefined, {style: 'percent'});
+            } else {
+                html += "<br>" + "<b>Canyons and Gullys: </b>  0%";
+            }
+
+            if (data.SmtAreaM2) {
+                html += "<br>" + "<b>Seamounts: </b>" + 
+                    (data.SmtAreaM2 / data.SiteAreaM2).toLocaleString(undefined, {style: 'percent'});
+            } else {
+                html += "<br>" + "<b>Seamounts: </b> 0%";
+            }
+
+            html += "<br>" + "<b>Corals & Sponges</b> (1x1 km blocks): " + data.CntCorSpg;
+
+            if (data.VesCountLB >= 3) {
+                html += "<br>" + "<b>Trawl Tow Length (mi): </b>" + m2mi(data.TowLenMLB);
+            } else {
+                html += "<br>" + "<b>Trawl Tow Length:</b> Unavailable";
+            }
+
+            // Assign the html content to the info box using JQuery selector
+            $(".info").html(html);
+
+        } // end updateInfo()
+        
+        function buildUI() {
+            // Perform following actions When the DOM object with id of "selPolys" is changed
+            // i.e., the user selects an option from the HTML form
+            $('#ui-controls button').click(function () {
+                // Set attribute to user selection from pull-down menu
+                attribute = $(this).val();
+                // Re-draw map with new attribute
+                if (attribute === "Zoom" && selectedSet.length > 0){
+                    zoomToSelected();
+                }
+                if (attribute === "Clear"){
+                    clearSelected();
+                }
+                
+            });
+            
+             $('#layer-controls input').change(function () {
+                 
+                 var targetLayer = $(this).val();
+                 if(this.checked) {
+                     map.addLayer(geoJsonLayers[targetLayer]);
+                 } else {
+                     map.removeLayer(geoJsonLayers[targetLayer]);
+                 }
+                 
+             });
+            
+            $('#panel-tabs button').on('click', function() {
+                
+                 $('#panel-tabs button').toggleClass('selected');
+                 $('#summary-panel').toggle();
+                 $('#polygons-panel').toggle();
+            
+            });
+            
+        }
+
+        // Convert sq meters to square miles and format nicely
+        function sqm2sqmi(val) {
+            return (val / 2589988.11).toLocaleString(undefined, {
+                maximumFractionDigits: 0
+            })
+        }
+
+        // Convert meters to miles and format nicely
+        function m2mi(val) {
+            return (val / 1609.344).toLocaleString(undefined, {
+                maximumFractionDigits: 0
+            })
+        }
+        
+        // Calculate percentage or return zero if denominator is zero
+        function pct(num, denom){
+            if (denom == 0) {
+                return denom.toLocaleString(undefined, {style: 'percent'});
+            } else {
+                return (num / denom).toLocaleString(undefined, {style: 'percent'});
+            }         
+        }
+        
+        function buildSummary(){
+            // shortcut to our table element
+            var $table = $('#summary-metrics'),
+                rows = '';
+            
+            // empty table structure
+            rows += '<tr><th></th>' + '<th>Closed</th>' + '<th>Reopened</th>' + '<th>Net</th></tr>' +
+                '<tr><td>Area (sq mi)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +   
+                '<tr><td>Physical Habitat</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +  
+                '<tr><td>Hard</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><td>Mixed</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><td>Soft</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><td>Unknown</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><td>Priority Habitats</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><td>Hard Substrate</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +   
+                '<tr><td>Canyons & Gullies</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><td>Seamounts</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><td>Invertebrates (1 km blocks)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><td>Highest 20% Predicted Spp Occurrence</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><td></td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><th>Trawl Activity</th>' + '<th>Displaced</th>' + '<th>Restored</th>' + '<th>Net</th></tr>' +
+                '<tr><td>Total Tow Length (mi)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><td>Catch</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><td>Ex-Vessel Value</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>';
+
+            // update the html of the table
+            $table.html(rows);          
+    
+        }
+
+        function updateSummmary() {
+            // use selectedSet to summarize Data
+            
+            // List of metric attributes
+            var metric_attributes = [
+                "SiteAreaM2",
+                "hard",
+                "mixed",
+                "soft",
+                "unknown",
+                "CynAreaM2",
+                "SmtAreaM2",
+                "CntCorSpg",
+                "TowLenMLB",          
+            ]
+            
+            
+            // empty object to hold data
+            var summaryData = {};
+            var polyData = []; // individual polygon attributes
+            
+            // Initialize Summary Data objects with zeros for all metrics
+            var summOpen = {
+                SiteAreaM2: 0,
+                hard: 0,
+                mixed: 0,
+                soft: 0,
+                unknown: 0,
+                CynAreaM2: 0,
+                SmtAreaM2: 0,
+                CntCorSpg: 0,
+                TowLenMLB: 0      
+            };
+            var summClose = {
+                SiteAreaM2: 0,
+                hard: 0,
+                mixed: 0,
+                soft: 0,
+                unknown: 0,
+                CynAreaM2: 0,
+                SmtAreaM2: 0,
+                CntCorSpg: 0,
+                TowLenMLB: 0      
+            };
+            
+            // loop through all the selected features
+            selectedSet.forEach(function(selection) {
+                
+                var props = selection.feature.properties;
+                
+                // Add individual polygon metrics to polyData list
+                polyData.push(props);
+                                
+                // loop through the properties
+                for(var att in props) {
+                    
+                    // Only use metrics of interest
+                    if (metric_attributes.indexOf(att) >= 0){
+                    // if it's a number
+                        if(Number(props[att])) {
+                            
+                            // Areas to be closed
+                            if (props.RegAction === "close"){
+                                summClose[att] += props[att];
+                            } else { // areas to be reopened
+                                summOpen[att] += props[att];
+                            }
+
+                             // add it to our object
+                             if(summaryData[att]) {
+                                 summaryData[att] += props[att];
+                             } else {
+                                  summaryData[att] = props[att];
+                             }
+                        }
+                    }
+                }
+                
+            });  // end of forEach loop through selectedSet
+            
+            // create Net value object
+            summNet = calcNet(summClose, summOpen);
+
+            
+            // shortcut to our table element
+            var $table = $('#summary-metrics'),
+                rows = '';
+            
+            // build up the table rows
+            for (var metric in summaryData) {
+                rows += '<tr><td>' + metric + '</td>' + '<td>' + summaryData[metric] + '</td></tr>'
+            }
+            
+            // build up empty table structure
+            rows += '<tr><th></th>' + '<th>Closed</th>' + '<th>Reopened</th>' + '<th>Net</th></tr>' +
+                '<tr><td>Area (sq mi)</td>' + '<td>' + sqm2sqmi(summClose.SiteAreaM2) + '</td>' + 
+                    '<td>' + sqm2sqmi(summOpen.SiteAreaM2) + '</td>' + 
+                    '<td>' + sqm2sqmi(summClose.SiteAreaM2 - summOpen.SiteAreaM2) + '</td></tr>' +   
+                '<tr><td>Physical Habitat</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +  
+                '<tr><td>Hard</td>' + '<td>' + pct(summClose.hard, summClose.SiteAreaM2) + '</td>' + 
+                    '<td>' + pct(summOpen.hard, summOpen.SiteAreaM2) + '</td>' + 
+                    '<td></td></tr>' +
+                '<tr><td>Mixed</td>'+ '<td>' + pct(summClose.mixed, summClose.SiteAreaM2) + '</td>' + 
+                    '<td>' + pct(summOpen.mixed, summOpen.SiteAreaM2) + '</td>' + 
+                    '<td></td></tr>' +
+                '<tr><td>Soft</td>' + '<td>' + pct(summClose.soft, summClose.SiteAreaM2) + '</td>' + 
+                    '<td>' + pct(summOpen.soft, summOpen.SiteAreaM2) + '</td>' + 
+                    '<td></td></tr>' +
+                '<tr><td>Unknown</td>'  + '<td>' + pct(summClose.unknown, summClose.SiteAreaM2) + '</td>' + 
+                    '<td>' + pct(summOpen.unknown, summOpen.SiteAreaM2) + '</td>' + 
+                    '<td></td></tr>' +
+                '<tr><td>Priority Habitats</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><td>Hard Substrate</td>' + '<td>' + pct(summClose.hard, summClose.SiteAreaM2) + '</td>' + 
+                    '<td>' + pct(summOpen.hard, summOpen.SiteAreaM2) + '</td>' + 
+                    '<td></td></tr>' +  
+                '<tr><td>Canyons & Gullies</td>' + '<td>' + pct(summClose.CynAreaM2, summClose.SiteAreaM2) + '</td>' + 
+                    '<td>' + pct(summOpen.CynAreaM2, summOpen.SiteAreaM2) + '</td>' + 
+                    '<td></td></tr>' +
+                '<tr><td>Seamounts</td>' + '<td>' + pct(summClose.SmtAreaM2, summClose.SiteAreaM2) + '</td>' + 
+                    '<td>' + pct(summOpen.SmtAreaM2, summOpen.SiteAreaM2) + '</td>' + 
+                    '<td></td></tr>' +
+                '<tr><td>Invertebrates (1 km blocks)</td>'  + '<td>' + summClose.CntCorSpg + '</td>' + 
+                    '<td>' + summOpen.CntCorSpg + '</td>' + 
+                    '<td></td></tr>' +
+                '<tr><td>Highest 20% Predicted Spp Occurrence</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><td></td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><th>Trawl Activity</th>' + '<th>Displaced</th>' + '<th>Restored</th>' + '<th>Net</th></tr>' +
+                '<tr><td>Total Tow Length (mi)</td>'  + '<td>' + m2mi(summClose.TowLenMLB) + '</td>' + 
+                    '<td>' + m2mi(summOpen.TowLenMLB) + '</td>' + 
+                    '<td></td></tr>' +
+                '<tr><td>Catch</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><td>Ex-Vessel Value</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>';
+            
+            // update the html of the table
+            $table.html(rows);
+            
+        } // end updatedSummary()
+        
+        function calcNet(open, close){
+            
+            // Calculate Net value from summary data values
+            
+        }
+    </script>
+
+</body>
+
+</html>
