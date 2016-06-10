@@ -10,6 +10,7 @@
     <!--
     <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <script src="http://api.tiles.mapbox.com/mapbox.js/plugins/turf/v2.0.0/turf.min.js"></script>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
     -->
     <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
@@ -18,6 +19,7 @@
     <!--Local -->
     <script src="js/jquery-1.11.2.min.js"></script>
     <script src="js/leaflet.js"></script>
+    <script src="js/turf.min.js"></script>
     <link rel="stylesheet" href="css/leaflet.css" />
 
     <style>
@@ -251,6 +253,7 @@
         // Call function to create user interface for interacting with selected set
         buildUI();
         
+        // Create a blank table for summary statistics
         buildSummary();
 
         // Style info for individual proposal layers
@@ -335,13 +338,11 @@
             var layer = e.target;
             var data = layer.feature.properties;
             var id = layer.feature.properties.concat_id;
+            var overlapping = [];
 
             // If it isn't already selected, add to set and change style
             //  otherwise, unselect it
             if (isSelected(layer, id) < 0) {
-
-                // Add selected feature to the selected set
-                selectedSet.push(layer);
 
                 // Change Styles 
                 layer.setStyle({
@@ -349,19 +350,42 @@
                 });
                 layer.bringToFront();
                 
-            } else {
+                // Test if it overlaps any current selections
+                for (var i = 0; i < selectedSet.length; i++) {
+                    var feat2compare = selectedSet[i]
+                    if ( isOverlapped(layer,feat2compare) ) {
+                        // if a current feature is overlapped by selection
+                        //  add to list 
+                        overlapping.push(feat2compare);
+                    }
+                }
+                
+                // Add selected feature to the selected set
+                selectedSet.push(layer);
+                
+                // Add the feature's stats to the summary statistics
+                updateSummmary();
+                
+                // Unselect any overlapping features
+                overlapping.forEach(function(layer) {
+                    unselected(layer);
+                });
+             
+            } else { // Currently selected
                 
                 // Unselect it
                 unselected(layer);
                 
             }
+            
 
+            
             // Logging for debug
 //            console.log("Number of selected Sites: " + selectedSet.length);
 //            for (i = 0; i < selectedSet.length; i++) {
 //                console.log(selectedSet[i].feature.properties.concat_id)
 //            }
-            updateSummmary();
+
 
         } // end selected()
 
@@ -397,6 +421,9 @@
                 layer.bringToFront();
             }
 
+            // Remove the feature's stats to the summary statistics
+            updateSummmary();
+            
             // Logging for debug
 //            console.log("Number of selected Sites: " + selectedSet.length);
 //            for (var i = 0; i < selectedSet.length; i++) {
@@ -405,7 +432,7 @@
 
         } // end unselected()
 
-        // Check to see if a feature is part of the selected set
+        // Check if a feature is part of the selected set
         function isSelected(layer, id) {
             var idx = -1;
             for (var i = 0; i < selectedSet.length; i++) {
@@ -417,6 +444,27 @@
             }
             return idx
         } // end isSelected()
+        
+        // Determine if two polygons overlap
+        function isOverlapped(feature1, feature2){
+            
+            // Input is two Leaflet layer polygons 
+            // Convert polys GeoJSON
+            var poly1 = feature1.toGeoJSON();
+            var poly2 = feature2.toGeoJSON();
+            console.log(poly1,poly2);
+            
+            // Turf Intersection function
+            var intersection = turf.intersect(poly1, poly2);
+            
+            // Only want poly overlaps, not shared boundary intersections
+            if (intersection) {
+                if (intersection.geometry.type === "Polygon"){
+                    return feature2;
+                } else { return false}
+            } else {return false}
+            
+        } // end isOverlapped()
 
         // Create an array of Leaflet Bounds for each feature
         function getSelectedBounds() {
