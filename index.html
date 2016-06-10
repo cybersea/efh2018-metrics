@@ -188,6 +188,7 @@
             <button value = 'polygons-panel'>Polygons</button>
         </div>
         <div id='summary-panel'>
+            <h3 id='poly-count'>No Proposal Areas Selected</h3>
             <table id="summary-metrics"></table>
         </div>
         <div id='polygons-panel'>
@@ -702,9 +703,7 @@
                 "TowLenMLB",          
             ]
             
-            
-            // empty object to hold data
-            var summaryData = {};
+
             var polyData = []; // individual polygon attributes
             
             // Initialize Summary Data objects with zeros for all metrics
@@ -754,12 +753,6 @@
                                 summOpen[att] += props[att];
                             }
 
-                             // add it to our object
-                             if(summaryData[att]) {
-                                 summaryData[att] += props[att];
-                             } else {
-                                  summaryData[att] = props[att];
-                             }
                         }
                     }
                 }
@@ -768,17 +761,15 @@
             
             // create Net value object
             summNet = calcNet(summClose, summOpen);
+            
+            // Update area count text
+            var polyCount = selectedSet.length;
+            $('#poly-count').text(polyCount + " Proposal Areas Selected")
                         
             // shortcut to our table element
             var $table = $('#summary-metrics'),
                 rows = '';
             
-//            // build up the table rows
-//            for (var metric in summaryData) {
-//                rows += '<tr><td>' + metric + '</td>' + '<td>' + summaryData[metric] + '</td></tr>'
-//            }
-            
-
             
             // Populate the table
             rows += '<tr><th></th>' + '<th>Closed</th>' + '<th>Reopened</th>' + '<th>Net</th></tr>' +
