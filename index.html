@@ -188,36 +188,10 @@
             <button value = 'polygons-panel'>Polygons</button>
         </div>
         <div id='summary-panel'>
-<!--            <h2>Alternatives Analysis Metrics</h2>-->
             <table id="summary-metrics"></table>
         </div>
         <div id='polygons-panel'>
-<!--            <h2>Polygon Analysis Metrics</h2>-->
-            <table class="data">
-              <tr>
-                <th>Entry Header 1</th>
-                <th>Entry Header 2</th>
-                <th>Entry Header 3</th>
-                <th>Entry Header 4</th>
-              </tr>
-              <tr>
-                <td>Entry First Line 1</td>
-                <td>Entry First Line 2</td>
-                <td>Entry First Line 3</td>
-                <td>Entry First Line 4</td>
-              </tr>
-              <tr>
-                <td>Entry Line 1</td>
-                <td>Entry Line 2</td>
-                <td>Entry Line 3</td>
-                <td>Entry Line 4</td>
-              </tr>
-              <tr>
-                <td>Entry Last Line 1</td>
-                <td>Entry Last Line 2</td>
-                <td>Entry Last Line 3</td>
-                <td>Entry Last Line 4</td>
-              </tr>
+            <table id ="polygon-metrics" class="data">
             </table>
 
         </div>
@@ -253,8 +227,11 @@
         // Call function to create user interface for interacting with selected set
         buildUI();
         
-        // Create a blank table for summary statistics
+        // Create a blank table for summary metrics
         buildSummary();
+        
+        // Create blank table for individual polygon metrics
+        buildPolyTable();
 
         // Style info for individual proposal layers
         var layerInfo = {
@@ -366,26 +343,26 @@
                 // Add the feature's stats to the summary statistics
                 updateSummmary();
                 
+                // Add the feature's metrics to the polygon table
+                updatePolyTable(data);
+                
                 // Unselect any overlapping features
                 overlapping.forEach(function(layer) {
                     unselected(layer);
                 });
              
-            } else { // Currently selected
+            } else { // If already selected
                 
                 // Unselect it
                 unselected(layer);
                 
             }
-            
-
-            
+                 
             // Logging for debug
 //            console.log("Number of selected Sites: " + selectedSet.length);
 //            for (i = 0; i < selectedSet.length; i++) {
 //                console.log(selectedSet[i].feature.properties.concat_id)
 //            }
-
 
         } // end selected()
 
@@ -421,7 +398,7 @@
                 layer.bringToFront();
             }
 
-            // Remove the feature's stats to the summary statistics
+            // Remove the feature's stats from the summary statistics
             updateSummmary();
             
             // Logging for debug
@@ -452,7 +429,6 @@
             // Convert polys GeoJSON
             var poly1 = feature1.toGeoJSON();
             var poly2 = feature2.toGeoJSON();
-            console.log(poly1,poly2);
             
             // Turf Intersection function
             var intersection = turf.intersect(poly1, poly2);
@@ -461,7 +437,7 @@
             if (intersection) {
                 if (intersection.geometry.type === "Polygon"){
                     return feature2;
-                } else { return false}
+                } else {return false}
             } else {return false}
             
         } // end isOverlapped()
@@ -574,7 +550,7 @@
 
         function updateInfo(layer) {
 
-            // create shorthand variable to access layer properties
+            // variable to access layer properties
             var data = layer.feature.properties;
 
             // populate html variable with header - Site name
@@ -673,8 +649,8 @@
         
         // Calculate percentage or return zero if denominator is zero
         function pct(num, denom){
-            if (denom == 0) {
-                return denom.toLocaleString(undefined, {style: 'percent'});
+            if (denom == 0 || !(num)) {
+                return "0%";
             } else {
                 return (num / denom).toLocaleString(undefined, {style: 'percent'});
             }         
@@ -688,12 +664,12 @@
             // empty table structure
             rows += '<tr><th></th>' + '<th>Closed</th>' + '<th>Reopened</th>' + '<th>Net</th></tr>' +
                 '<tr><td>Area (sq mi)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +   
-                '<tr><td>Physical Habitat</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +  
+                '<tr><th>Physical Habitat</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +  
                 '<tr><td>Hard</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Mixed</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Soft</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Unknown</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><td>Priority Habitats</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><th>Priority Habitats</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Hard Substrate</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +   
                 '<tr><td>Canyons & Gullies</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Seamounts</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
@@ -788,27 +764,28 @@
                     }
                 }
                 
-            });  // end of forEach loop through selectedSet
+            });  // end of forEach loop through selectedSet            
             
             // create Net value object
             summNet = calcNet(summClose, summOpen);
-
-            
+                        
             // shortcut to our table element
             var $table = $('#summary-metrics'),
                 rows = '';
             
-            // build up the table rows
-            for (var metric in summaryData) {
-                rows += '<tr><td>' + metric + '</td>' + '<td>' + summaryData[metric] + '</td></tr>'
-            }
+//            // build up the table rows
+//            for (var metric in summaryData) {
+//                rows += '<tr><td>' + metric + '</td>' + '<td>' + summaryData[metric] + '</td></tr>'
+//            }
             
-            // build up empty table structure
+
+            
+            // Populate the table
             rows += '<tr><th></th>' + '<th>Closed</th>' + '<th>Reopened</th>' + '<th>Net</th></tr>' +
                 '<tr><td>Area (sq mi)</td>' + '<td>' + sqm2sqmi(summClose.SiteAreaM2) + '</td>' + 
                     '<td>' + sqm2sqmi(summOpen.SiteAreaM2) + '</td>' + 
                     '<td>' + sqm2sqmi(summClose.SiteAreaM2 - summOpen.SiteAreaM2) + '</td></tr>' +   
-                '<tr><td>Physical Habitat</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +  
+                '<tr><th>Physical Habitat</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +  
                 '<tr><td>Hard</td>' + '<td>' + pct(summClose.hard, summClose.SiteAreaM2) + '</td>' + 
                     '<td>' + pct(summOpen.hard, summOpen.SiteAreaM2) + '</td>' + 
                     '<td></td></tr>' +
@@ -821,7 +798,7 @@
                 '<tr><td>Unknown</td>'  + '<td>' + pct(summClose.unknown, summClose.SiteAreaM2) + '</td>' + 
                     '<td>' + pct(summOpen.unknown, summOpen.SiteAreaM2) + '</td>' + 
                     '<td></td></tr>' +
-                '<tr><td>Priority Habitats</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><th>Priority Habitats</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Hard Substrate</td>' + '<td>' + pct(summClose.hard, summClose.SiteAreaM2) + '</td>' + 
                     '<td>' + pct(summOpen.hard, summOpen.SiteAreaM2) + '</td>' + 
                     '<td></td></tr>' +  
@@ -846,6 +823,10 @@
             // update the html of the table
             $table.html(rows);
             
+            // update individual poly table with the selected set
+            updatePolyTable();
+
+            
         } // end updatedSummary()
         
         function calcNet(open, close){
@@ -853,6 +834,108 @@
             // Calculate Net value from summary data values
             
         }
+        
+        function buildPolyTable(){
+            // shortcut to our table element
+            var $table = $('#polygon-metrics'),
+                rows = '';
+
+            // empty table structure
+            rows += '<tr>' + 
+                '<th colspan="3">Site</th>' + 
+                '<th></th>' + 
+                '<th colspan="4">Physical Habitat </th>' +
+                '<th colspan="4">Priority Habitats</th>' +
+                '<th>Trawl Activity</th>' +            
+                '</tr>'
+            rows += '<tr>' + 
+                '<th>Action</th>' + 
+                '<th>Name</th>' + 
+                '<th>Proposer</th>' + 
+                '<th>Area (sq mi)</th>' +
+                '<th>Hard</th>' +
+                '<th>Mixed</th>' +
+                '<th>Soft</th>' +
+                '<th>Unknown</th>' +
+                '<th>Canyons and Gullies</th>' +
+                '<th>Seamounts</th>' +
+                '<th>Corals & Sponges (1 km blocks)</th>' +
+                '<th>Highest 20% Predicted Spp</th>' +
+                '<th>Trawl Tow Length (mi)</th>' +            
+                '</tr>'
+
+            // update the html of the table
+            $table.html(rows);          
+    
+        }
+        
+        function updatePolyTable(){
+            // Build content of Poly Table with selectedSet
+            
+            var $table = $('#polygon-metrics'),
+                rows = '';
+
+            // Table Headers
+            rows += '<tr>' + 
+                '<th colspan="3">Site</th>' + 
+                '<th></th>' + 
+                '<th colspan="4">Physical Habitat </th>' +
+                '<th colspan="4">Priority Habitats</th>' +
+                '<th>Trawl Activity</th>' +            
+                '</tr>'
+            rows += '<tr>' + 
+                '<th>Action</th>' + 
+                '<th>Name</th>' + 
+                '<th>Proposer</th>' + 
+                '<th>Area (sq mi)</th>' +
+                '<th>Hard</th>' +
+                '<th>Mixed</th>' +
+                '<th>Soft</th>' +
+                '<th>Unknown</th>' +
+                '<th>Canyons and Gullies</th>' +
+                '<th>Seamounts</th>' +
+                '<th>Corals & Sponges (1 km blocks)</th>' +
+                '<th>Highest 20% Predicted Spp</th>' +
+                '<th>Trawl Tow Length (mi)</th>' +            
+                '</tr>'
+            
+            // loop through all the selected features
+            selectedSet.forEach(function(selection) {
+                
+                var data = selection.feature.properties;
+                
+                // Tow Length filter (< 3 vessels in an area)
+                var towLen;
+                if (data.VesCountLB >= 3) {
+                    towLen = m2mi(data.TowLenMLB);
+                } else {
+                    towLen = "unavailable";
+                }
+                
+                            
+                rows += '<tr>' + 
+                    '<td>' + data.RegAction + '</td>' + 
+                    '<td>' + data.SiteName + '</td>' + 
+                    '<td>' + data.Proposer + '</td>' + 
+                    '<td>' + sqm2sqmi(data.SiteAreaM2) + '</td>' +
+                    '<td>' + pct(data.hard, data.SiteAreaM2) + '</td>' +
+                    '<td>' + pct(data.mixed, data.SiteAreaM2) + '</td>' +
+                    '<td>' + pct(data.soft, data.SiteAreaM2) + '</td>' +
+                    '<td>' + pct(data.unknown, data.SiteAreaM2) + '</td>' +
+                    '<td>' + pct(data.CynAreaM2, data.SiteAreaM2) + '</td>' +
+                    '<td>' + pct(data.SmtAreaM2, data.SiteAreaM2) + '</td>' +
+                    '<td>' + data.CntCorSpg + '</td>' +
+                    '<td> X% </td>' +
+                    '<td>' + towLen + '</td>' +            
+                    '</tr>'              
+                });
+
+          
+            // update the html of the table
+            $table.html(rows);  
+         
+        } // end of updatePolyTable()
+        
     </script>
 
 </body>
