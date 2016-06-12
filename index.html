@@ -770,41 +770,45 @@
             var $table = $('#summary-metrics'),
                 rows = '';
             
+            // Variables for frequently used metrics
+            var areaClose = summClose.SiteAreaM2;
+            var areaOpen = summOpen.SiteAreaM2;
+            var areaNet = areaClose - areaOpen;
             
             // Populate the table
             rows += '<tr><th></th>' + '<th>Closed</th>' + '<th>Reopened</th>' + '<th>Net</th></tr>' +
-                '<tr><td>Area (sq mi)</td>' + '<td>' + sqm2sqmi(summClose.SiteAreaM2) + '</td>' + 
-                    '<td>' + sqm2sqmi(summOpen.SiteAreaM2) + '</td>' + 
-                    '<td>' + sqm2sqmi(summClose.SiteAreaM2 - summOpen.SiteAreaM2) + '</td></tr>' +   
-                '<tr><th>Physical Habitat</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +  
-                '<tr><td>Hard</td>' + '<td>' + pct(summClose.hard, summClose.SiteAreaM2) + '</td>' + 
-                    '<td>' + pct(summOpen.hard, summOpen.SiteAreaM2) + '</td>' + 
-                    '<td></td></tr>' +
-                '<tr><td>Mixed</td>'+ '<td>' + pct(summClose.mixed, summClose.SiteAreaM2) + '</td>' + 
-                    '<td>' + pct(summOpen.mixed, summOpen.SiteAreaM2) + '</td>' + 
-                    '<td></td></tr>' +
-                '<tr><td>Soft</td>' + '<td>' + pct(summClose.soft, summClose.SiteAreaM2) + '</td>' + 
-                    '<td>' + pct(summOpen.soft, summOpen.SiteAreaM2) + '</td>' + 
-                    '<td></td></tr>' +
-                '<tr><td>Unknown</td>'  + '<td>' + pct(summClose.unknown, summClose.SiteAreaM2) + '</td>' + 
-                    '<td>' + pct(summOpen.unknown, summOpen.SiteAreaM2) + '</td>' + 
-                    '<td></td></tr>' +
-                '<tr><th>Priority Habitats</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><td>Hard Substrate</td>' + '<td>' + pct(summClose.hard, summClose.SiteAreaM2) + '</td>' + 
-                    '<td>' + pct(summOpen.hard, summOpen.SiteAreaM2) + '</td>' + 
-                    '<td></td></tr>' +  
-                '<tr><td>Canyons & Gullies</td>' + '<td>' + pct(summClose.CynAreaM2, summClose.SiteAreaM2) + '</td>' + 
-                    '<td>' + pct(summOpen.CynAreaM2, summOpen.SiteAreaM2) + '</td>' + 
-                    '<td></td></tr>' +
-                '<tr><td>Seamounts</td>' + '<td>' + pct(summClose.SmtAreaM2, summClose.SiteAreaM2) + '</td>' + 
-                    '<td>' + pct(summOpen.SmtAreaM2, summOpen.SiteAreaM2) + '</td>' + 
-                    '<td></td></tr>' +
+                '<tr><td>Area (sq mi)</td>' + '<td>' + sqm2sqmi(areaClose) + '</td>' + 
+                    '<td>' + sqm2sqmi(areaOpen) + '</td>' + 
+                    '<td>' + sqm2sqmi(areaNet) + '</td></tr>' +   
+                '<tr><th>Physical Habitat</th><td></td><td></td><td></td></tr>' +  
+                '<tr><td>Hard</td>' + '<td>' + pct(summClose.hard, areaClose) + '</td>' + 
+                    '<td>' + pct(summOpen.hard, areaOpen) + '</td>' + 
+                    '<td>' + pct(calcNet(summClose.hard, summOpen.hard), areaNet) + '</td></tr>' +
+                '<tr><td>Mixed</td>'+ '<td>' + pct(summClose.mixed, areaClose) + '</td>' + 
+                    '<td>' + pct(summOpen.mixed, areaOpen) + '</td>' + 
+                    '<td>' + pct(calcNet(summClose.mixed, summOpen.mixed), areaNet) + '</td></tr>' +
+                '<tr><td>Soft</td>' + '<td>' + pct(summClose.soft, areaClose) + '</td>' + 
+                    '<td>' + pct(summOpen.soft, areaOpen) + '</td>' + 
+                    '<td>' + pct(calcNet(summClose.soft, summOpen.soft), areaNet) + '</td></tr>' +
+                '<tr><td>Unknown</td>'  + '<td>' + pct(summClose.unknown, areaClose) + '</td>' + 
+                    '<td>' + pct(summOpen.unknown, areaOpen) + '</td>' + 
+                    '<td>' + pct(calcNet(summClose.unknown, summOpen.unknown), areaNet) + '</td></tr>' +
+                '<tr><th>Priority Habitats</th><td></td><td></td><td></td></tr>' +
+                '<tr><td>Hard Substrate</td>' + '<td>' + pct(summClose.hard, areaClose) + '</td>' + 
+                    '<td>' + pct(summOpen.hard, areaOpen) + '</td>' + 
+                    '<td>' + pct(calcNet(summClose.hard, summOpen.hard), areaNet) + '</td></tr>' +
+                '<tr><td>Canyons & Gullies</td>' + '<td>' + pct(summClose.CynAreaM2, areaClose) + '</td>' + 
+                    '<td>' + pct(summOpen.CynAreaM2, areaOpen) + '</td>' + 
+                    '<td>' + pct(calcNet(summClose.CynAreaM2, summOpen.CynAreaM2), areaNet) + '</td></tr>' +
+                '<tr><td>Seamounts</td>' + '<td>' + pct(summClose.SmtAreaM2, areaClose) + '</td>' + 
+                    '<td>' + pct(summOpen.SmtAreaM2, areaOpen) + '</td>' + 
+                    '<td>' + pct(calcNet(summClose.SmtAreaM2, summOpen.SmtAreaM2), areaNet) + '</td></tr>' +
                 '<tr><td>Invertebrates (1 km blocks)</td>'  + '<td>' + summClose.CntCorSpg + '</td>' + 
                     '<td>' + summOpen.CntCorSpg + '</td>' + 
-                    '<td></td></tr>' +
+                    '<td>' + calcNet(summClose.CntCorSpg, summOpen.CntCorSpg) + '</td></tr>' +
                 '<tr><td>Highest 20% Predicted Spp Occurrence</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td></td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><th>Trawl Activity</th>' + '<th>Displaced</th>' + '<th>Restored</th>' + '<th>Net</th></tr>' +
+                '<tr><th>Trawl Activity</th><th>Displaced</th><th>Restored</th><th>Net</th></tr>' +
                 '<tr><td>Total Tow Length (mi)</td>'  + '<td>' + m2mi(summClose.TowLenMLB) + '</td>' + 
                     '<td>' + m2mi(summOpen.TowLenMLB) + '</td>' + 
                     '<td></td></tr>' +
@@ -820,11 +824,13 @@
             
         } // end updatedSummary()
         
-        function calcNet(open, close){
+        function calcNet(close, open){
             
             // Calculate Net value from summary data values
-            
-        }
+            // Most values are just difference, but some, like Coral/Sponge block count will need additional logic
+            return close - open;
+                  
+        } // end calcNet
         
         function buildPolyTable(){
             // shortcut to our table element
