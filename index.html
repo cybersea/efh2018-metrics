@@ -65,6 +65,11 @@
             text-align: right;
         }
         
+        h3 {
+            padding: 0px 25px 0px 15px;
+            text-align: right;
+        }
+        
         #side-panel p {
             margin: 8px 0 4px;
             padding: 0 25px 0 15px;
@@ -188,7 +193,7 @@
             <button value = 'polygons-panel'>Polygons</button>
         </div>
         <div id='summary-panel'>
-            <h3 id='poly-count'>No Proposal Areas Selected</h3>
+            <h3 id='poly-count'></h3>
             <table id="summary-metrics"></table>
         </div>
         <div id='polygons-panel'>
@@ -491,7 +496,9 @@
             
             selectedSet = [];  // remove all layers from selected set
             
-            buildSummary() // create the summary table contents
+            buildSummary() // create empty summary table
+            
+            buildPolyTable() // create empty polygon table
         }
 
         // Runs on mouseover of a feature - updates style and grabs data for info box
@@ -658,11 +665,15 @@
         }
         
         function buildSummary(){
+            
+            // Header for Polygon count
+            $('#poly-count').text("No Areas Selected")
+            
             // shortcut to our table element
             var $table = $('#summary-metrics'),
                 rows = '';
             
-            // empty table structure
+            // Create empty table structure
             rows += '<tr><th></th>' + '<th>Closed</th>' + '<th>Reopened</th>' + '<th>Net</th></tr>' +
                 '<tr><td>Area (sq mi)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +   
                 '<tr><th>Physical Habitat</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +  
@@ -764,7 +775,11 @@
             
             // Update area count text
             var polyCount = selectedSet.length;
-            $('#poly-count').text(polyCount + " Proposal Areas Selected")
+            if (polyCount == 1){
+                $('#poly-count').text(polyCount + " Area Selected")
+            } else{
+                $('#poly-count').text(polyCount + " Areas Selected")    
+            }
                         
             // shortcut to our table element
             var $table = $('#summary-metrics'),
@@ -811,7 +826,7 @@
                 '<tr><th>Trawl Activity</th><th>Displaced</th><th>Restored</th><th>Net</th></tr>' +
                 '<tr><td>Total Tow Length (mi)</td>'  + '<td>' + m2mi(summClose.TowLenMLB) + '</td>' + 
                     '<td>' + m2mi(summOpen.TowLenMLB) + '</td>' + 
-                    '<td>' + calcNet(summClose.TowLenMLB, summOpen.TowLenMLB) + '</td></tr>' +
+                    '<td>' + m2mi(calcNet(summClose.TowLenMLB, summOpen.TowLenMLB)) + '</td></tr>' +
                 '<tr><td>Catch</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Ex-Vessel Value</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>';
             
