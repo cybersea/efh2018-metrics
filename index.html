@@ -811,7 +811,7 @@
                 '<tr><th>Trawl Activity</th><th>Displaced</th><th>Restored</th><th>Net</th></tr>' +
                 '<tr><td>Total Tow Length (mi)</td>'  + '<td>' + m2mi(summClose.TowLenMLB) + '</td>' + 
                     '<td>' + m2mi(summOpen.TowLenMLB) + '</td>' + 
-                    '<td></td></tr>' +
+                    '<td>' + calcNet(summClose.TowLenMLB, summOpen.TowLenMLB) + '</td></tr>' +
                 '<tr><td>Catch</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Ex-Vessel Value</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>';
             
