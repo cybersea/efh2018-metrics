@@ -20,6 +20,7 @@
     <script src="js/jquery-1.11.2.min.js"></script>
     <script src="js/leaflet.js"></script>
     <script src="js/turf.min.js"></script>
+    <script src="js/jquery.tabletoCSV.js"></script>
     <link rel="stylesheet" href="css/leaflet.css" />
 
     <style>
@@ -188,6 +189,7 @@
     <div id='side-panel'>
         <h1>West Coast Groundfish<br> Essential Fish Habitat</h1>
         <h2>Alternatives Analysis Metrics</h2>
+        <button id='download-csv'>download CSV</button>
         <div id='panel-tabs'>
             <button class='selected' value='summary-panel'>Summary</button>
             <button value = 'polygons-panel'>Polygons</button>
@@ -199,8 +201,8 @@
         <div id='polygons-panel'>
             <table id ="polygon-metrics" class="data">
             </table>
-
         </div>
+        
     </div>
     
 
@@ -947,6 +949,17 @@
             $table.html(rows);  
          
         } // end of updatePolyTable()
+        
+        (function () {
+            
+            $("#download-csv").click(function(){
+2               
+                console.log('hi');
+                $('#polygon-metrics').tableToCSV();
+3
+            });
+
+        })();
         
     </script>
 
