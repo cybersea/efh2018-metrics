@@ -13,35 +13,25 @@
     <script src="http://api.tiles.mapbox.com/mapbox.js/plugins/turf/v2.0.0/turf.min.js"></script>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
     -->
-    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Work+Sans:400,500,600' rel='stylesheet' type='text/css'>
-
+    <link href='css/normalize.css' rel="stylesheet">
     <!--Local -->
     <script src="js/jquery-1.11.2.min.js"></script>
     <script src="js/leaflet.js"></script>
     <script src="js/turf.min.js"></script>
     <script src="js/jquery.tabletoCSV.js"></script>
     <link rel="stylesheet" href="css/leaflet.css" />
+    
+    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Work+Sans:400,500,600' rel='stylesheet' type='text/css'>
 
     <style>
         body {
             margin: 0;
             padding: 0;
             background: whitesmoke;
-            font-family: "Work Sans", sans-serif;
+            font-family: "Work Sans", Lato, sans-serif;
         }
-        
-        #side-panel {
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 33%;
-            background: whitesmoke;
-            border-right: 2px solid #494f99;
-            overflow-y: scroll;
-        }
-        
+         
         h1 {
             padding: 8px 25px 8px 15px;
             margin: 0;
@@ -52,10 +42,31 @@
 */
             background: #597DAB;
             color: whitesmoke;
-            font-weight: 500;
+            font-weight: 400;
             font-size: 1.5em;
-            text-align: right;
         }
+        
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            width: 64%;
+        }
+        
+/*        LEFT SIDE PANEL*/
+        
+        #side-panel {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 36%;
+            background: whitesmoke;
+            border-right: 2px solid #494f99;
+            overflow-y: scroll;
+        }
+       
         
         h2 {
             margin: 0;
@@ -63,12 +74,12 @@
             color: #494f99;
             font-weight: 500;
             font-size: 1.2em;
-            text-align: right;
+           
         }
         
         h3 {
             padding: 0px 25px 0px 15px;
-            text-align: right;
+
         }
         
         #side-panel p {
@@ -85,22 +96,26 @@
             clear: both;
         }
         
-        #map {
+        
+/*        RIGHT SIDE PANEL*/
+        
+        #right-panel {
             position: absolute;
+            right: 0;
             top: 0;
             bottom: 0;
-            right: 0;
-            width: 67%;
+            width: 220px;
+            background: rgba(240, 240, 240, .6);
+            border-left: 2px solid #597DAB;
+            z-index: 10;
         }
+
         
         .info {
             padding: 6px 8px;
             font-size: 1em;
             color: #3d3d3d;
-            background: whitesmoke;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-            border-radius: 5px;
-            text-align: right;
+            width: 180px;
         }
         
         .info h3 {
@@ -108,35 +123,54 @@
             color: #3d3d3d;
         }
         #layer-controls {
-            position: absolute;
-            top: 20px;
-            right: 15px;
-            z-index: 100;
-            padding: 6px 10px 6px 6px;
-            background: #fff;
-            box-shadow: 0 1px 5px rgba(0,0,0,0.4);
-            border-radius: 5px;
+            width: 100%;
+            border-top: 1px solid #597DAB;
+        }
+        #layer-controls input {
+            display: none;
+        }
+        #layer-controls label {
+            display: block;
+            margin: 0 0 1px 0;
+            padding: 2px 0 3px 15px;
+            background: rgba(255,255,255,1);
+            border-bottom: 1px solid #597DAB;
+            opacity: .3;
+        }
+        #layer-controls label:hover {
+            background: rgba(255,255,255,.6);
+        }
+        #layer-controls input:checked + label {
+            opacity: 1
         }
         #ui-controls {
-            position: absolute;
-            left: 37%;
-            top: 10px;
-            z-index: 100;
-        }
-        
-        #ui-controls label {
-            font-size: 1em;
-            margin-right: 5px;
+            width: 100%;
+            margin-top: 25px;
         }
         #ui-controls button {
-            font-size: 1.1em;
-            max-width: 150px;
-/*            height: 80px;*/
+            background: #597DAB;
+            color: white;
+            display: block;
+            width: 100%;
+            margin-bottom: 4px;
+            text-align: left;
+            padding-left: 15px;
+            opacity: .2;
+            transition: opacity .25s ease-in-out;
+                -moz-transition: opacity .25s ease-in-out;
+                -webkit-transition: opacity .25s ease-in-out;
+        }
+        #ui-controls button.available {
+            opacity: 1;
+            transition: opacity .25s ease-in-out;
+                -moz-transition: opacity .25s ease-in-out;
+                -webkit-transition: opacity .25s ease-in-out;
+            cursor: pointer;
         }
         table#summary-metrics {
             width: 100%;
             padding: 15px;
-            text-align: right; 
+            text-align: left; 
         }
         table#summary-metrics tr {
             margin-bottom: 20px;
@@ -153,6 +187,7 @@
         }
         #panel-tabs button.selected {
             color: #597DAB;
+            border-bottom: ;
         }
         #summary-panel, polygons-panel {
             position: absolute;
@@ -161,6 +196,10 @@
         #polygons-panel {
             display: none;
         }
+        #download-csv {
+            position: absolute;
+            bottom: 15px;
+        }
     </style>
 </head>
 
@@ -168,20 +207,30 @@
         <!-- HTML form for user to select vacancy attribute to map -->
     <!-- Note that values correspond exactly to attribute names in source GeoJSON data file -->
 
-    <div id='ui-controls'>
-        <button value="Zoom">Zoom to Selection</button>
-        <button value="Clear">Clear all Selections</button>
-    </div>
-    <!-- end ui-controls -->
-    
-    <div id="layer-controls">
-        <label style='color:#E5571D'><input type="checkbox" value="collabLayer" checked>Collaborative</label><br>
-        <label style='color:#6F067B'><input type="checkbox" value="onoLayer" checked>Oceana-NRDC-OC</label><br>
-        <label style='color:#377EB8'><input type="checkbox" value="fmaLayer" checked>FMA</label><br>
-        <label style='color:#E2007F'><input type="checkbox" value="gfnmsLayer" checked>GFNMS</label><br>
-        <label style='color:#0F6001'><input type="checkbox" value="greenpeaceLayer" checked>Greenpeace</label><br>
-        <label  style='color:#650B0B'><input type="checkbox" value="mciLayer" checked>MCI</label><br>
-    </div>
+    <div id="right-panel">
+        <h2>Available Layers</h2>
+        <div id="layer-controls">
+            <input id="collabLayer" class="cmn-toggle cmn-toggle-round" type="checkbox" value="collabLayer" checked>
+            <label for="collabLayer" style='color:#E5571D'>Collaborative</label>
+            <input id="onoLayer" type="checkbox" value="onoLayer" checked>
+            <label for="onoLayer" style='color:#6F067B'>Oceana-NRDC-OC</label>
+            <input id="fmaLayer" type="checkbox" value="fmaLayer" checked>
+            <label for="fmaLayer" id="fmaLayer" style='color:#377EB8'>FMA</label>
+            <input id="gfnmsLayer" type="checkbox" value="gfnmsLayer" checked>
+            <label for="gfnmsLayer" style='color:#E2007F'>GFNMS</label>
+            <input id="greenpeaceLayer" type="checkbox" value="greenpeaceLayer" checked>
+            <label for="greenpeaceLayer"style='color:#0F6001'>Greenpeace</label>
+            <input id="mciLayer" type="checkbox" value="mciLayer" checked>
+            <label for="mciLayer"style='color:#650B0B'>MCI</label>
+        </div>
+        
+        <div id='ui-controls'>
+            <button value="Zoom" id="zoom">Zoom to Selection</button>
+            <button value="Clear" id="clear">Clear all Selections</button>
+        </div>
+      
+        
+    </div><!-- end right-panel -->
     
     <div id='map'></div>
 
@@ -494,6 +543,9 @@
                 layer.setStyle({
                     color: strokeColor,
                 });
+                
+                $('#zoom').removeClass('available');
+                $('#clear').removeClass('available');
             }
             
             selectedSet = [];  // remove all layers from selected set
@@ -777,6 +829,17 @@
             
             // Update area count text
             var polyCount = selectedSet.length;
+           
+            if(polyCount == 0) {
+                $('#zoom').removeClass('available');
+                $('#clear').removeClass('available');
+            } else {
+
+                 $('#zoom').addClass('available');
+                 $('#clear').addClass('available');
+            }
+            
+            
             if (polyCount == 1){
                 $('#poly-count').text(polyCount + " Area Selected")
             } else{
