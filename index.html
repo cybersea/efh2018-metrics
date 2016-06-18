@@ -193,7 +193,11 @@
         }
         
         td, th {
-            border: 1px solid #ddd;           
+            border: 1px solid #ddd; 
+        }
+        
+        th {
+            background-color: rgba(220, 220, 220, 1);
         }
         
         tr:hover {background-color: #ddd;}
@@ -310,16 +314,18 @@
         <div id='info-panel'>
             <h2>Background</h2>
         <p>The <a href="http://www.pcouncil.org/" target="_blank">Pacific Fishery Managment Council</a> (Council) is currently reviewing <a href="http://www.pcouncil.org/groundfish/groundfish-essential-fish-habitat/" target="_blank">Groundfish Essential Fish Habitat</a> Conservation Areas (EFHCA) off the West Coast of the United States.  The Council is evaluating proposals that include areas to be closed to commercial trawl fishing, as well as closed areas to be reopened.</p>
-        <p>During this review, the Council will consider the importance of the habitat to groundfish (i.e., rockfish, flatfish) and other environmental considerations, as well as the economic impact or benefit to the fishing and associated businesses and communities. </p>
+        <p>During this review, the Council will consider the importance of the habitat to groundfish (i.e., rockfish, flatfish) and other environmental considerations, as well as the economic impacts and benefits to the fishing and associated businesses and communities. </p>
 
         <h2>How to Use this Tool</h2>
         <p>This tool allows a user, such as a Council Member, to select a custom set of EFH proposal polygons and see a summary of the metrics for their set. </p>
+        <p>
             <li>Click a polygon to add or remove it from the selection</li>
             <li>Hover over a polygon to view its metrics</li>
             <li>Toggle a proposal name in the right panel to draw or remove its polygons from the map</li>
             <li>View summary metrics for all selected polygons in the Summary Tab</li>
             <li>View and download a table of individual metrics for selected polygons in the Polygons Tab</li>
-            </p>
+        </p>
+        <p>Note: To avoid double-counting in the summary metrics, if you select a polygon that overlaps a current selection, the overlapping polygon will be removed from the selection.</p>
             
         <h2>Credits</h2>
         <p>NOAA, National Marine Fisheries Service (NMFS) scientists and colleagues laid the analytical groundwork for this review through  a multi-year synthesis of new data sets and analyses.  Results of the Groundfish Essential Fish Habitat (EFH) Synthesis are available through the <a href="http://efh-catalog.coas.oregonstate.edu/synthesis/" target="_blank">EFH Catalog</a>. </p>
@@ -335,7 +341,7 @@
     <script>
         // instantiate the Leaflet map
         var options = {
-            center: [41, -124],
+            center: [41, -123.5],
             zoom: 6,
             dragging: true,
             zoomControl: true
@@ -819,7 +825,7 @@
                 rows = '';
 
             // Create empty table structure
-            rows += '<tr><th></th>' + '<th>Closed</th>' + '<th>Reopened</th>' + '<th>Net</th></tr>' +
+            rows += '<tr><th>Environmental Metrics</th>' + '<th>Closed</th>' + '<th>Reopened</th>' + '<th>Net</th></tr>' +
                 '<tr><td>Area (sq mi)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><th>Physical Habitat</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Hard</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
@@ -833,7 +839,7 @@
                 '<tr><td>Invertebrates (1 km blocks)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Highest 20% Predicted Spp Occurrence</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td></td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><th>Trawl Activity</th>' + '<th>Displaced</th>' + '<th>Restored</th>' + '<th>Net</th></tr>' +
+                '<tr><th>Socioeconomic Metrics</th>' + '<th>Displaced</th>' + '<th>Restored</th>' + '<th>Net</th></tr>' +
                 '<tr><td>Total Tow Length (mi)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Catch</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Ex-Vessel Value</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>';
@@ -950,7 +956,7 @@
             var areaNet = areaClose - areaOpen;
 
             // Populate the table
-            rows += '<tr><th></th>' + '<th>Closed</th>' + '<th>Reopened</th>' + '<th>Net</th></tr>' +
+            rows += '<tr><th>Environmental Metrics</th>' + '<th>Closed</th>' + '<th>Reopened</th>' + '<th>Net</th></tr>' +
                 '<tr><td>Area (sq mi)</td>' + '<td>' + sqm2sqmi(areaClose) + '</td>' +
                 '<td>' + sqm2sqmi(areaOpen) + '</td>' +
                 '<td>' + sqm2sqmi(areaNet) + '</td></tr>' +
@@ -982,7 +988,7 @@
                 '<td>' + calcNet(summClose.CntCorSpg, summOpen.CntCorSpg) + '</td></tr>' +
                 '<tr><td>Highest 20% Predicted Spp Occurrence</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td></td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><th>Trawl Activity</th><th>Displaced</th><th>Restored</th><th>Net</th></tr>' +
+                '<tr><th>Socioeconomic Metrics</th><th>Displaced</th><th>Restored</th><th>Net</th></tr>' +
                 '<tr><td>Total Tow Length (mi)</td>' + '<td>' + m2mi(summClose.TowLenMLB) + '</td>' +
                 '<td>' + m2mi(summOpen.TowLenMLB) + '</td>' +
                 '<td>' + m2mi(calcNet(summClose.TowLenMLB, summOpen.TowLenMLB)) + '</td></tr>' +
@@ -1012,15 +1018,15 @@
                 rows = '';
 
             // empty table structure
-            rows += '<tr>' +
-                '<th colspan="3">Site</th>' +
-                '<th colspan="5">Physical Habitat </th>' +
-                '<th colspan="4">Priority Habitats</th>' +
-                '<th>Trawl Activity</th>' +
-                '</tr>'
+//            rows += '<tr>' +
+//                '<th colspan="3">Site</th>' +
+//                '<th colspan="5">Physical Habitat </th>' +
+//                '<th colspan="4">Priority Habitats</th>' +
+//                '<th>Trawl Activity</th>' +
+//                '</tr>'
             rows += '<tr>' +
                 '<th>Action</th>' +
-                '<th>Name</th>' +
+                '<th>Site Name</th>' +
                 '<th>Proposer</th>' +
                 '<th>Area (sq mi)</th>' +
                 '<th>Hard</th>' +
@@ -1049,13 +1055,13 @@
                 rows = '';
 
             // Table Headers
-            rows += '<tr>' +
-                '<th colspan="3">Site</th>' +
-                '<th colspan="5">Physical Habitat </th>' +
-                '<th colspan="4">Priority Habitats</th>' +
-                '<th>Trawl Activity</th>' +
-                '</tr>'
-            rows += '<tr>' +
+//            rows += '<tr>' +
+//                '<th colspan="3">Site</th>' +
+//                '<th colspan="5">Physical Habitat </th>' +
+//                '<th colspan="4">Priority Habitats</th>' +
+//                '<th>Trawl Activity</th>' +
+//                '</tr>'
+           rows += '<tr>' +
                 '<th>Action</th>' +
                 '<th>Name</th>' +
                 '<th>Proposer</th>' +
