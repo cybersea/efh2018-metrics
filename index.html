@@ -35,11 +35,6 @@
         h1 {
             padding: 8px 25px 8px 15px;
             margin: 0;
-            /*
-            background: #494f99; 
-            background: #709dd6;
-            background: #648dc0;
-*/
             background: #597DAB;
             color: whitesmoke;
             font-weight: 400;
@@ -104,14 +99,14 @@
             z-index: 10;
         }
         
-        .info {
+        .poly-info {
             padding: 6px 8px;
             font-size: 1em;
             color: #3d3d3d;
             width: 180px;
         }
         
-        .info h3 {
+        .poly-info h3 {
             margin: 0;
             color: #3d3d3d;
         }
@@ -218,6 +213,7 @@
         }
         
         #download-csv {
+            display: none;
             position: absolute;
             bottom: 15px;
         }
@@ -267,17 +263,24 @@
         </div>
         <div id='summary-panel'>
             <h3 id='poly-count'></h3>
-            <table id="summary-metrics"></table>
+            <table id="summary-metrics"></table>      
+            <span class = 'start-text'>
+                <p>Click on individual proposal polygons to add or remove them from the selection</p>
+                <p>A summary of metrics for all selected polygons will display here.</p>
+            </span>
         </div>
         <div id='polygons-panel'>
             <table id="polygon-metrics" class="data">
             </table>
+            <span class = 'start-text'>
+                <p>Click on individual proposal polygons to add or remove them from the selection</p>
+                <p>A table listing all the selected polygons and their metrics will display here.</p>
+            </span>
             <button id='download-csv'>download CSV</button>
         </div>
         <div id='info-panel'>
             <p>Background Information and Credits go here.</p>
         </div>
-
     </div>
 
 
@@ -311,10 +314,10 @@
         buildUI();
 
         // Create a blank table for summary metrics
-        buildSummary();
+//        buildSummary();
 
         // Create blank table for individual polygon metrics
-        buildPolyTable();
+//        buildPolyTable();
 
         // Style info for individual proposal layers
         var layerInfo = {
@@ -603,7 +606,7 @@
             // Update the info box               
             updateInfo(layer)
 
-            $(".info").show(); // Show the info box
+            $(".poly-info").show(); // Show the info box
 
         } // end highlightFeature()
 
@@ -617,7 +620,7 @@
                 weight: 2
             })
 
-            $(".info").hide(); // Hide the info box
+            $(".poly-info").hide(); // Hide the info box
 
         } // end resetHighlight()
 
@@ -629,13 +632,13 @@
             });
             info.onAdd = function (map) { // when info control is added to map
                     // Create a div to hold the info box with a class name of "info"
-                    var div = L.DomUtil.create('div', 'info');
+                    var div = L.DomUtil.create('div', 'poly-info');
                     // return empty div to be added to map
                     return div;
                 }
                 // Add empty info div to map
             info.addTo(map);
-            $(".info").hide(); // hide empty info box until populated
+            $(".poly-info").hide(); // hide empty info box until populated
 
         } // end drawInfo()
 
@@ -696,7 +699,7 @@
             }
 
             // Assign the html content to the info box using JQuery selector
-            $(".info").html(html);
+            $(".poly-info").html(html);
 
         } // end updateInfo()
 
@@ -773,6 +776,9 @@
 
         function buildSummary() {
 
+            // Remove starter text
+            $('.start-text').hide();
+            
             // Header for Polygon count
             $('#poly-count').text("No Areas Selected")
 
@@ -899,6 +905,9 @@
                 $('#poly-count').text(polyCount + " Areas Selected")
             }
 
+            // Remove starter text
+            $('.start-text').hide();
+            
             // shortcut to our table element
             var $table = $('#summary-metrics'),
                 rows = '';
@@ -996,6 +1005,9 @@
 
             // update the html of the table
             $table.html(rows);
+            
+            //  Hide the csv download button
+            $('#download-csv').hide();
 
         }
 
@@ -1063,6 +1075,8 @@
 
             // update the html of the table
             $table.html(rows);
+            
+            $('#download-csv').show();
 
         } // end of updatePolyTable()
 
