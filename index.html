@@ -20,7 +20,7 @@
     <script src="js/turf.min.js"></script>
     <script src="js/jquery.tabletoCSV.js"></script>
     <link rel="stylesheet" href="css/leaflet.css" />
-    
+
     <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Work+Sans:400,500,600' rel='stylesheet' type='text/css'>
 
@@ -31,7 +31,7 @@
             background: whitesmoke;
             font-family: "Work Sans", Lato, sans-serif;
         }
-         
+        
         h1 {
             padding: 8px 25px 8px 15px;
             margin: 0;
@@ -53,8 +53,7 @@
             right: 0;
             width: 64%;
         }
-        
-/*        LEFT SIDE PANEL*/
+        /*        LEFT SIDE PANEL*/
         
         #side-panel {
             position: absolute;
@@ -66,7 +65,6 @@
             border-right: 2px solid #494f99;
             overflow-y: scroll;
         }
-       
         
         h2 {
             margin: 0;
@@ -74,12 +72,10 @@
             color: #494f99;
             font-weight: 500;
             font-size: 1.2em;
-           
         }
         
         h3 {
             padding: 0px 25px 0px 15px;
-
         }
         
         #side-panel p {
@@ -95,9 +91,7 @@
             display: block;
             clear: both;
         }
-        
-        
-/*        RIGHT SIDE PANEL*/
+        /*        RIGHT SIDE PANEL*/
         
         #right-panel {
             position: absolute;
@@ -109,7 +103,6 @@
             border-left: 2px solid #597DAB;
             z-index: 10;
         }
-
         
         .info {
             padding: 6px 8px;
@@ -122,31 +115,38 @@
             margin: 0;
             color: #3d3d3d;
         }
+        
         #layer-controls {
             width: 100%;
             border-top: 1px solid #597DAB;
         }
+        
         #layer-controls input {
             display: none;
         }
+        
         #layer-controls label {
             display: block;
             margin: 0 0 1px 0;
             padding: 2px 0 3px 15px;
-            background: rgba(255,255,255,1);
+            background: rgba(255, 255, 255, 1);
             border-bottom: 1px solid #597DAB;
             opacity: .3;
         }
+        
         #layer-controls label:hover {
-            background: rgba(255,255,255,.6);
+            background: rgba(255, 255, 255, .6);
         }
+        
         #layer-controls input:checked + label {
             opacity: 1
         }
+        
         #ui-controls {
             width: 100%;
             margin-top: 25px;
         }
+        
         #ui-controls button {
             background: #597DAB;
             color: white;
@@ -157,45 +157,66 @@
             padding-left: 15px;
             opacity: .2;
             transition: opacity .25s ease-in-out;
-                -moz-transition: opacity .25s ease-in-out;
-                -webkit-transition: opacity .25s ease-in-out;
+            -moz-transition: opacity .25s ease-in-out;
+            -webkit-transition: opacity .25s ease-in-out;
         }
+        
         #ui-controls button.available {
             opacity: 1;
             transition: opacity .25s ease-in-out;
-                -moz-transition: opacity .25s ease-in-out;
-                -webkit-transition: opacity .25s ease-in-out;
+            -moz-transition: opacity .25s ease-in-out;
+            -webkit-transition: opacity .25s ease-in-out;
             cursor: pointer;
         }
+        
         table#summary-metrics {
             width: 100%;
             padding: 15px;
-            text-align: left; 
+            text-align: left;
         }
+        
         table#summary-metrics tr {
             margin-bottom: 20px;
         }
+        
+        #panel-tabs {
+            background: rgba(220, 220, 220, 1);
+            border-bottom: 1px solid #597DAB;
+
+        }
+        
         #panel-tabs button {
-            width: 45%;
-            border-radius: 0;
-            font-size: 1.3em;
-            margin-top: 5px;
-            color: #3d3d3d;
+            display: inline-block;
+            width: 25%;
+            background: white;
+            color: rgba(200, 200, 200, 1);
+            font-size: 1.2em;
+            padding: 10;
+            border: 1px solid #597DAB;
+            border: none;
+            cursor: pointer;
         }
+        
         #panel-tabs button:first-child {
-            margin-left: 5%;
+            margin-left: 0;
         }
+        
         #panel-tabs button.selected {
-            color: #597DAB;
-            border-bottom: ;
+            color: white;
+            background: #597DAB;
         }
-        #summary-panel, polygons-panel {
+        
+        #summary-panel,
+        #polygons-panel,
+        #info-panel {
             position: absolute;
-            
         }
-        #polygons-panel {
+        
+        #polygons-panel,
+        #info-panel {
             display: none;
         }
+        
         #download-csv {
             position: absolute;
             bottom: 15px;
@@ -204,11 +225,11 @@
 </head>
 
 <body>
-        <!-- HTML form for user to select vacancy attribute to map -->
+    <!-- HTML form for user to select vacancy attribute to map -->
     <!-- Note that values correspond exactly to attribute names in source GeoJSON data file -->
 
     <div id="right-panel">
-        <h2>Available Layers</h2>
+        <h2>EFH Proposals</h2>
         <div id="layer-controls">
             <input id="collabLayer" class="cmn-toggle cmn-toggle-round" type="checkbox" value="collabLayer" checked>
             <label for="collabLayer" style='color:#E5571D'>Collaborative</label>
@@ -219,41 +240,46 @@
             <input id="gfnmsLayer" type="checkbox" value="gfnmsLayer" checked>
             <label for="gfnmsLayer" style='color:#E2007F'>GFNMS</label>
             <input id="greenpeaceLayer" type="checkbox" value="greenpeaceLayer" checked>
-            <label for="greenpeaceLayer"style='color:#0F6001'>Greenpeace</label>
+            <label for="greenpeaceLayer" style='color:#0F6001'>Greenpeace</label>
             <input id="mciLayer" type="checkbox" value="mciLayer" checked>
-            <label for="mciLayer"style='color:#650B0B'>MCI</label>
+            <label for="mciLayer" style='color:#650B0B'>MCI</label>
         </div>
-        
+
         <div id='ui-controls'>
             <button value="Zoom" id="zoom">Zoom to Selection</button>
             <button value="Clear" id="clear">Clear all Selections</button>
         </div>
-      
-        
-    </div><!-- end right-panel -->
-    
+
+
+    </div>
+    <!-- end right-panel -->
+
     <div id='map'></div>
 
     <!-- Side panel Div   -->
     <div id='side-panel'>
         <h1>West Coast Groundfish<br> Essential Fish Habitat</h1>
         <h2>Alternatives Analysis Metrics</h2>
-        <button id='download-csv'>download CSV</button>
         <div id='panel-tabs'>
             <button class='selected' value='summary-panel'>Summary</button>
-            <button value = 'polygons-panel'>Polygons</button>
+            <button value='polygons-panel'>Polygons</button>
+            <button value='info-panel'>Info</button>
         </div>
         <div id='summary-panel'>
             <h3 id='poly-count'></h3>
             <table id="summary-metrics"></table>
         </div>
         <div id='polygons-panel'>
-            <table id ="polygon-metrics" class="data">
+            <table id="polygon-metrics" class="data">
             </table>
+            <button id='download-csv'>download CSV</button>
         </div>
-        
+        <div id='info-panel'>
+            <p>Background Information and Credits go here.</p>
+        </div>
+
     </div>
-    
+
 
     <!--  GeoJSON source data (var proposals_metrics)   -->
     <script src="data/efh_proposals_metrics.js"></script>
@@ -280,13 +306,13 @@
 
         // Create Info Box for display of feature data on hover
         drawInfo();
-        
+
         // Call function to create user interface for interacting with selected set
         buildUI();
-        
+
         // Create a blank table for summary metrics
         buildSummary();
-        
+
         // Create blank table for individual polygon metrics
         buildPolyTable();
 
@@ -383,50 +409,50 @@
                     color: "yellow",
                 });
                 layer.bringToFront();
-                
+
                 // Test if it overlaps any current selections
                 for (var i = 0; i < selectedSet.length; i++) {
                     var feat2compare = selectedSet[i]
-                    if ( isOverlapped(layer,feat2compare) ) {
+                    if (isOverlapped(layer, feat2compare)) {
                         // if a current feature is overlapped by selection
                         //  add to list 
                         overlapping.push(feat2compare);
                     }
                 }
-                
+
                 // Add selected feature to the selected set
                 selectedSet.push(layer);
-                
+
                 // Add the feature's stats to the summary statistics
                 updateSummmary();
-                
+
                 // Add the feature's metrics to the polygon table
                 updatePolyTable(data);
-                
+
                 // Unselect any overlapping features
-                overlapping.forEach(function(layer) {
+                overlapping.forEach(function (layer) {
                     unselected(layer);
                 });
-             
+
             } else { // If already selected
-                
+
                 // Unselect it
                 unselected(layer);
-                
+
             }
-                 
+
             // Logging for debug
-//            console.log("Number of selected Sites: " + selectedSet.length);
-//            for (i = 0; i < selectedSet.length; i++) {
-//                console.log(selectedSet[i].feature.properties.concat_id)
-//            }
+            //            console.log("Number of selected Sites: " + selectedSet.length);
+            //            for (i = 0; i < selectedSet.length; i++) {
+            //                console.log(selectedSet[i].feature.properties.concat_id)
+            //            }
 
         } // end selected()
 
         // Runs when a feature is removed from selection 
         //  currently passed through from single click
         function unselected(layer) {
-           
+
             // var layer = e.target;
             var data = layer.feature.properties;
             var id = layer.feature.properties.concat_id;
@@ -447,7 +473,7 @@
                         var strokeColor = layerInfo[lyr].color
                     }
                 }
-                
+
                 // Change color back to original 
                 layer.setStyle({
                     color: strokeColor,
@@ -457,12 +483,12 @@
 
             // Remove the feature's stats from the summary statistics
             updateSummmary();
-            
+
             // Logging for debug
-//            console.log("Number of selected Sites: " + selectedSet.length);
-//            for (var i = 0; i < selectedSet.length; i++) {
-//                console.log(selectedSet[i].feature.properties.concat_id)
-//            }
+            //            console.log("Number of selected Sites: " + selectedSet.length);
+            //            for (var i = 0; i < selectedSet.length; i++) {
+            //                console.log(selectedSet[i].feature.properties.concat_id)
+            //            }
 
         } // end unselected()
 
@@ -478,25 +504,29 @@
             }
             return idx
         } // end isSelected()
-        
+
         // Determine if two polygons overlap
-        function isOverlapped(feature1, feature2){
-            
+        function isOverlapped(feature1, feature2) {
+
             // Input is two Leaflet layer polygons 
             // Convert polys GeoJSON
             var poly1 = feature1.toGeoJSON();
             var poly2 = feature2.toGeoJSON();
-            
+
             // Turf Intersection function
             var intersection = turf.intersect(poly1, poly2);
-            
+
             // Only want poly overlaps, not shared boundary intersections
             if (intersection) {
-                if (intersection.geometry.type === "Polygon"){
+                if (intersection.geometry.type === "Polygon") {
                     return feature2;
-                } else {return false}
-            } else {return false}
-            
+                } else {
+                    return false
+                }
+            } else {
+                return false
+            }
+
         } // end isOverlapped()
 
         // Create an array of Leaflet Bounds for each feature
@@ -510,25 +540,25 @@
             }
 
             return selectedBounds;
-            
+
         } // end getSelectedBounds()
 
         function zoomToSelected() {
 
             // Get the bounds of currently selected features
             var bounds = getSelectedBounds();
-            
+
             // Zooms to currently selected polygons
             map.fitBounds(getSelectedBounds());
-            
+
         } // end zoomToSelected()
-        
+
 
         // Clear all selected polygons
         function clearSelected() {
-            
+
             for (var i = 0; i < selectedSet.length; i++) {
-                
+
                 var layer = selectedSet[i];
                 var proposer = layer.feature.properties.Proposer;
 
@@ -538,21 +568,21 @@
                         var strokeColor = layerInfo[lyr].color
                     }
                 }
-                
+
                 // Change color back to original 
                 layer.setStyle({
                     color: strokeColor,
                 });
-                
+
                 $('#zoom').removeClass('available');
                 $('#clear').removeClass('available');
             }
-            
-            selectedSet = [];  // remove all layers from selected set
-            
-            buildSummary() // create empty summary table
-            
-            buildPolyTable() // create empty polygon table
+
+            selectedSet = []; // remove all layers from selected set
+
+            buildSummary() // re-create empty summary table
+
+            buildPolyTable() // re-create empty polygon table
         }
 
         // Runs on mouseover of a feature - updates style and grabs data for info box
@@ -584,8 +614,8 @@
             var layer = e.target;
 
             layer.setStyle({
-                    weight: 2
-                })
+                weight: 2
+            })
 
             $(".info").hide(); // Hide the info box
 
@@ -622,30 +652,42 @@
             html += "<br>" + "<b>Action: </b>" + data.RegAction;
             html += "<br>" + "<b>Proposer: </b>" + data.Proposer;
             html += "<br>" + "<b>Area (sq mi): </b>" + sqm2sqmi(data.SiteAreaM2);
-            html += "<br>" + "<b>Hard Substrate: </b>" + 
-                (data.hard / data.SiteAreaM2).toLocaleString(undefined, {style: 'percent'});
-            html += "<br>" + "<b>Mixed Substrate: </b>" + 
-                (data.mixed / data.SiteAreaM2).toLocaleString(undefined, {style: 'percent'});
-            html += "<br>" + "<b>Soft Substrate: </b>" + 
-                (data.soft / data.SiteAreaM2).toLocaleString(undefined, {style: 'percent'});
-            html += "<br>" + "<b>Unknown Substrate: </b>" + 
-                (data.unknown / data.SiteAreaM2).toLocaleString(undefined, {style: 'percent'});
+            html += "<br>" + "<b>Hard Substrate: </b>" +
+                (data.hard / data.SiteAreaM2).toLocaleString(undefined, {
+                    style: 'percent'
+                });
+            html += "<br>" + "<b>Mixed Substrate: </b>" +
+                (data.mixed / data.SiteAreaM2).toLocaleString(undefined, {
+                    style: 'percent'
+                });
+            html += "<br>" + "<b>Soft Substrate: </b>" +
+                (data.soft / data.SiteAreaM2).toLocaleString(undefined, {
+                    style: 'percent'
+                });
+            html += "<br>" + "<b>Unknown Substrate: </b>" +
+                (data.unknown / data.SiteAreaM2).toLocaleString(undefined, {
+                    style: 'percent'
+                });
 
             if (data.CynAreaM2) {
-                html += "<br>" + "<b>Canyons and Gullys: </b>" + 
-                    (data.CynAreaM2 / data.SiteAreaM2).toLocaleString(undefined, {style: 'percent'});
+                html += "<br>" + "<b>Canyons and Gullys: </b>" +
+                    (data.CynAreaM2 / data.SiteAreaM2).toLocaleString(undefined, {
+                        style: 'percent'
+                    });
             } else {
                 html += "<br>" + "<b>Canyons and Gullys: </b>  0%";
             }
 
             if (data.SmtAreaM2) {
-                html += "<br>" + "<b>Seamounts: </b>" + 
-                    (data.SmtAreaM2 / data.SiteAreaM2).toLocaleString(undefined, {style: 'percent'});
+                html += "<br>" + "<b>Seamounts: </b>" +
+                    (data.SmtAreaM2 / data.SiteAreaM2).toLocaleString(undefined, {
+                        style: 'percent'
+                    });
             } else {
                 html += "<br>" + "<b>Seamounts: </b> 0%";
             }
 
-            html += "<br>" + "<b>Corals & Sponges</b> (1x1 km blocks): " + data.CntCorSpg;
+            html += "<br>" + "<b>Invertebrates</b> (1x1 km blocks): " + data.CntCorSpg;
 
             if (data.VesCountLB >= 3) {
                 html += "<br>" + "<b>Trawl Tow Length (mi): </b>" + m2mi(data.TowLenMLB);
@@ -657,7 +699,7 @@
             $(".info").html(html);
 
         } // end updateInfo()
-        
+
         function buildUI() {
             // Perform following actions When the DOM object with id of "selPolys" is changed
             // i.e., the user selects an option from the HTML form
@@ -665,34 +707,43 @@
                 // Set attribute to user selection from pull-down menu
                 attribute = $(this).val();
                 // Re-draw map with new attribute
-                if (attribute === "Zoom" && selectedSet.length > 0){
+                if (attribute === "Zoom" && selectedSet.length > 0) {
                     zoomToSelected();
                 }
-                if (attribute === "Clear"){
+                if (attribute === "Clear") {
                     clearSelected();
                 }
-                
+
             });
-            
-             $('#layer-controls input').change(function () {
-                 
-                 var targetLayer = $(this).val();
-                 if(this.checked) {
-                     map.addLayer(geoJsonLayers[targetLayer]);
-                 } else {
-                     map.removeLayer(geoJsonLayers[targetLayer]);
-                 }
-                 
-             });
-            
-            $('#panel-tabs button').on('click', function() {
-                
-                 $('#panel-tabs button').toggleClass('selected');
-                 $('#summary-panel').toggle();
-                 $('#polygons-panel').toggle();
-            
+
+            $('#layer-controls input').change(function () {
+
+                var targetLayer = $(this).val();
+                if (this.checked) {
+                    map.addLayer(geoJsonLayers[targetLayer]);
+                } else {
+                    map.removeLayer(geoJsonLayers[targetLayer]);
+                }
+
             });
-            
+
+            $('#panel-tabs button').on('click', function () {
+                
+                // Updates when one of the tabs on the left panel is clicked
+                var elem = $(this); // the button that was clicked
+                var id = $(this).val(); // the button value  = the id of for the panel content
+                // Change clicked item to selected
+                elem.addClass('selected');
+                // Unselect other buttons
+                elem.siblings().removeClass('selected');
+                // Hide content from unselected tabs
+                elem.siblings().each(function () {
+                        var sib_id = $(this).val()
+                        $('#'.concat(sib_id)).hide();
+                    })
+                    // Show content from selected tab
+                $('#'.concat(id)).show();
+            });
         }
 
         // Convert sq meters to square miles and format nicely
@@ -708,35 +759,37 @@
                 maximumFractionDigits: 0
             })
         }
-        
+
         // Calculate percentage or return zero if denominator is zero
-        function pct(num, denom){
+        function pct(num, denom) {
             if (denom == 0 || !(num)) {
                 return "0%";
             } else {
-                return (num / denom).toLocaleString(undefined, {style: 'percent'});
-            }         
+                return (num / denom).toLocaleString(undefined, {
+                    style: 'percent'
+                });
+            }
         }
-        
-        function buildSummary(){
-            
+
+        function buildSummary() {
+
             // Header for Polygon count
             $('#poly-count').text("No Areas Selected")
-            
+
             // shortcut to our table element
             var $table = $('#summary-metrics'),
                 rows = '';
-            
+
             // Create empty table structure
             rows += '<tr><th></th>' + '<th>Closed</th>' + '<th>Reopened</th>' + '<th>Net</th></tr>' +
-                '<tr><td>Area (sq mi)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +   
-                '<tr><th>Physical Habitat</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +  
+                '<tr><td>Area (sq mi)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><th>Physical Habitat</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Hard</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Mixed</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Soft</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Unknown</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><th>Priority Habitats</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><td>Hard Substrate</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +   
+                '<tr><td>Hard Substrate</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Canyons & Gullies</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Seamounts</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Invertebrates (1 km blocks)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
@@ -748,13 +801,13 @@
                 '<tr><td>Ex-Vessel Value</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>';
 
             // update the html of the table
-            $table.html(rows);          
-    
+            $table.html(rows);
+
         }
 
         function updateSummmary() {
             // use selectedSet to summarize Data
-            
+
             // List of metric attributes
             var metric_attributes = [
                 "SiteAreaM2",
@@ -765,12 +818,12 @@
                 "CynAreaM2",
                 "SmtAreaM2",
                 "CntCorSpg",
-                "TowLenMLB",          
+                "TowLenMLB",
             ]
-            
+
 
             var polyData = []; // individual polygon attributes
-            
+
             // Initialize Summary Data objects with zeros for all metrics
             var summOpen = {
                 SiteAreaM2: 0,
@@ -781,7 +834,7 @@
                 CynAreaM2: 0,
                 SmtAreaM2: 0,
                 CntCorSpg: 0,
-                TowLenMLB: 0      
+                TowLenMLB: 0
             };
             var summClose = {
                 SiteAreaM2: 0,
@@ -792,27 +845,27 @@
                 CynAreaM2: 0,
                 SmtAreaM2: 0,
                 CntCorSpg: 0,
-                TowLenMLB: 0      
+                TowLenMLB: 0
             };
-            
+
             // loop through all the selected features
-            selectedSet.forEach(function(selection) {
-                
+            selectedSet.forEach(function (selection) {
+
                 var props = selection.feature.properties;
-                
+
                 // Add individual polygon metrics to polyData list
                 polyData.push(props);
-                                
+
                 // loop through the properties
-                for(var att in props) {
-                    
+                for (var att in props) {
+
                     // Only use metrics of interest
-                    if (metric_attributes.indexOf(att) >= 0){
-                    // if it's a number
-                        if(Number(props[att])) {
-                            
+                    if (metric_attributes.indexOf(att) >= 0) {
+                        // if it's a number
+                        if (Number(props[att])) {
+
                             // Areas to be closed
-                            if (props.RegAction === "close"){
+                            if (props.RegAction === "close") {
                                 summClose[att] += props[att];
                             } else { // areas to be reopened
                                 summOpen[att] += props[att];
@@ -821,114 +874,114 @@
                         }
                     }
                 }
-                
-            });  // end of forEach loop through selectedSet            
-            
+
+            }); // end of forEach loop through selectedSet            
+
             // create Net value object
             summNet = calcNet(summClose, summOpen);
-            
+
             // Update area count text
             var polyCount = selectedSet.length;
-           
-            if(polyCount == 0) {
+
+            if (polyCount == 0) {
                 $('#zoom').removeClass('available');
                 $('#clear').removeClass('available');
             } else {
 
-                 $('#zoom').addClass('available');
-                 $('#clear').addClass('available');
+                $('#zoom').addClass('available');
+                $('#clear').addClass('available');
             }
-            
-            
-            if (polyCount == 1){
+
+
+            if (polyCount == 1) {
                 $('#poly-count').text(polyCount + " Area Selected")
-            } else{
-                $('#poly-count').text(polyCount + " Areas Selected")    
+            } else {
+                $('#poly-count').text(polyCount + " Areas Selected")
             }
-                        
+
             // shortcut to our table element
             var $table = $('#summary-metrics'),
                 rows = '';
-            
+
             // Variables for frequently used metrics
             var areaClose = summClose.SiteAreaM2;
             var areaOpen = summOpen.SiteAreaM2;
             var areaNet = areaClose - areaOpen;
-            
+
             // Populate the table
             rows += '<tr><th></th>' + '<th>Closed</th>' + '<th>Reopened</th>' + '<th>Net</th></tr>' +
-                '<tr><td>Area (sq mi)</td>' + '<td>' + sqm2sqmi(areaClose) + '</td>' + 
-                    '<td>' + sqm2sqmi(areaOpen) + '</td>' + 
-                    '<td>' + sqm2sqmi(areaNet) + '</td></tr>' +   
-                '<tr><th>Physical Habitat</th><td></td><td></td><td></td></tr>' +  
-                '<tr><td>Hard</td>' + '<td>' + pct(summClose.hard, areaClose) + '</td>' + 
-                    '<td>' + pct(summOpen.hard, areaOpen) + '</td>' + 
-                    '<td>' + pct(calcNet(summClose.hard, summOpen.hard), areaNet) + '</td></tr>' +
-                '<tr><td>Mixed</td>'+ '<td>' + pct(summClose.mixed, areaClose) + '</td>' + 
-                    '<td>' + pct(summOpen.mixed, areaOpen) + '</td>' + 
-                    '<td>' + pct(calcNet(summClose.mixed, summOpen.mixed), areaNet) + '</td></tr>' +
-                '<tr><td>Soft</td>' + '<td>' + pct(summClose.soft, areaClose) + '</td>' + 
-                    '<td>' + pct(summOpen.soft, areaOpen) + '</td>' + 
-                    '<td>' + pct(calcNet(summClose.soft, summOpen.soft), areaNet) + '</td></tr>' +
-                '<tr><td>Unknown</td>'  + '<td>' + pct(summClose.unknown, areaClose) + '</td>' + 
-                    '<td>' + pct(summOpen.unknown, areaOpen) + '</td>' + 
-                    '<td>' + pct(calcNet(summClose.unknown, summOpen.unknown), areaNet) + '</td></tr>' +
+                '<tr><td>Area (sq mi)</td>' + '<td>' + sqm2sqmi(areaClose) + '</td>' +
+                '<td>' + sqm2sqmi(areaOpen) + '</td>' +
+                '<td>' + sqm2sqmi(areaNet) + '</td></tr>' +
+                '<tr><th>Physical Habitat</th><td></td><td></td><td></td></tr>' +
+                '<tr><td>Hard</td>' + '<td>' + pct(summClose.hard, areaClose) + '</td>' +
+                '<td>' + pct(summOpen.hard, areaOpen) + '</td>' +
+                '<td>' + pct(calcNet(summClose.hard, summOpen.hard), areaNet) + '</td></tr>' +
+                '<tr><td>Mixed</td>' + '<td>' + pct(summClose.mixed, areaClose) + '</td>' +
+                '<td>' + pct(summOpen.mixed, areaOpen) + '</td>' +
+                '<td>' + pct(calcNet(summClose.mixed, summOpen.mixed), areaNet) + '</td></tr>' +
+                '<tr><td>Soft</td>' + '<td>' + pct(summClose.soft, areaClose) + '</td>' +
+                '<td>' + pct(summOpen.soft, areaOpen) + '</td>' +
+                '<td>' + pct(calcNet(summClose.soft, summOpen.soft), areaNet) + '</td></tr>' +
+                '<tr><td>Unknown</td>' + '<td>' + pct(summClose.unknown, areaClose) + '</td>' +
+                '<td>' + pct(summOpen.unknown, areaOpen) + '</td>' +
+                '<td>' + pct(calcNet(summClose.unknown, summOpen.unknown), areaNet) + '</td></tr>' +
                 '<tr><th>Priority Habitats</th><td></td><td></td><td></td></tr>' +
-                '<tr><td>Hard Substrate</td>' + '<td>' + pct(summClose.hard, areaClose) + '</td>' + 
-                    '<td>' + pct(summOpen.hard, areaOpen) + '</td>' + 
-                    '<td>' + pct(calcNet(summClose.hard, summOpen.hard), areaNet) + '</td></tr>' +
-                '<tr><td>Canyons & Gullies</td>' + '<td>' + pct(summClose.CynAreaM2, areaClose) + '</td>' + 
-                    '<td>' + pct(summOpen.CynAreaM2, areaOpen) + '</td>' + 
-                    '<td>' + pct(calcNet(summClose.CynAreaM2, summOpen.CynAreaM2), areaNet) + '</td></tr>' +
-                '<tr><td>Seamounts</td>' + '<td>' + pct(summClose.SmtAreaM2, areaClose) + '</td>' + 
-                    '<td>' + pct(summOpen.SmtAreaM2, areaOpen) + '</td>' + 
-                    '<td>' + pct(calcNet(summClose.SmtAreaM2, summOpen.SmtAreaM2), areaNet) + '</td></tr>' +
-                '<tr><td>Invertebrates (1 km blocks)</td>'  + '<td>' + summClose.CntCorSpg + '</td>' + 
-                    '<td>' + summOpen.CntCorSpg + '</td>' + 
-                    '<td>' + calcNet(summClose.CntCorSpg, summOpen.CntCorSpg) + '</td></tr>' +
+                '<tr><td>Hard Substrate</td>' + '<td>' + pct(summClose.hard, areaClose) + '</td>' +
+                '<td>' + pct(summOpen.hard, areaOpen) + '</td>' +
+                '<td>' + pct(calcNet(summClose.hard, summOpen.hard), areaNet) + '</td></tr>' +
+                '<tr><td>Canyons & Gullies</td>' + '<td>' + pct(summClose.CynAreaM2, areaClose) + '</td>' +
+                '<td>' + pct(summOpen.CynAreaM2, areaOpen) + '</td>' +
+                '<td>' + pct(calcNet(summClose.CynAreaM2, summOpen.CynAreaM2), areaNet) + '</td></tr>' +
+                '<tr><td>Seamounts</td>' + '<td>' + pct(summClose.SmtAreaM2, areaClose) + '</td>' +
+                '<td>' + pct(summOpen.SmtAreaM2, areaOpen) + '</td>' +
+                '<td>' + pct(calcNet(summClose.SmtAreaM2, summOpen.SmtAreaM2), areaNet) + '</td></tr>' +
+                '<tr><td>Invertebrates (1 km blocks)</td>' + '<td>' + summClose.CntCorSpg + '</td>' +
+                '<td>' + summOpen.CntCorSpg + '</td>' +
+                '<td>' + calcNet(summClose.CntCorSpg, summOpen.CntCorSpg) + '</td></tr>' +
                 '<tr><td>Highest 20% Predicted Spp Occurrence</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td></td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><th>Trawl Activity</th><th>Displaced</th><th>Restored</th><th>Net</th></tr>' +
-                '<tr><td>Total Tow Length (mi)</td>'  + '<td>' + m2mi(summClose.TowLenMLB) + '</td>' + 
-                    '<td>' + m2mi(summOpen.TowLenMLB) + '</td>' + 
-                    '<td>' + m2mi(calcNet(summClose.TowLenMLB, summOpen.TowLenMLB)) + '</td></tr>' +
+                '<tr><td>Total Tow Length (mi)</td>' + '<td>' + m2mi(summClose.TowLenMLB) + '</td>' +
+                '<td>' + m2mi(summOpen.TowLenMLB) + '</td>' +
+                '<td>' + m2mi(calcNet(summClose.TowLenMLB, summOpen.TowLenMLB)) + '</td></tr>' +
                 '<tr><td>Catch</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Ex-Vessel Value</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>';
-            
+
             // update the html of the table
             $table.html(rows);
-            
+
             // update individual poly table with the selected set
             updatePolyTable();
 
-            
+
         } // end updatedSummary()
-        
-        function calcNet(close, open){
-            
+
+        function calcNet(close, open) {
+
             // Calculate Net value from summary data values
             // Most values are just difference, but some, like Coral/Sponge block count will need additional logic
             return close - open;
-                  
+
         } // end calcNet
-        
-        function buildPolyTable(){
+
+        function buildPolyTable() {
             // shortcut to our table element
             var $table = $('#polygon-metrics'),
                 rows = '';
 
             // empty table structure
-            rows += '<tr>' + 
-                '<th colspan="3">Site</th>' + 
-                '<th></th>' + 
+            rows += '<tr>' +
+                '<th colspan="3">Site</th>' +
+                '<th></th>' +
                 '<th colspan="4">Physical Habitat </th>' +
                 '<th colspan="4">Priority Habitats</th>' +
-                '<th>Trawl Activity</th>' +            
+                '<th>Trawl Activity</th>' +
                 '</tr>'
-            rows += '<tr>' + 
-                '<th>Action</th>' + 
-                '<th>Name</th>' + 
-                '<th>Proposer</th>' + 
+            rows += '<tr>' +
+                '<th>Action</th>' +
+                '<th>Name</th>' +
+                '<th>Proposer</th>' +
                 '<th>Area (sq mi)</th>' +
                 '<th>Hard</th>' +
                 '<th>Mixed</th>' +
@@ -938,32 +991,32 @@
                 '<th>Seamounts</th>' +
                 '<th>Corals & Sponges (1 km blocks)</th>' +
                 '<th>Highest 20% Predicted Spp</th>' +
-                '<th>Trawl Tow Length (mi)</th>' +            
+                '<th>Trawl Tow Length (mi)</th>' +
                 '</tr>'
 
             // update the html of the table
-            $table.html(rows);          
-    
+            $table.html(rows);
+
         }
-        
-        function updatePolyTable(){
+
+        function updatePolyTable() {
             // Build content of Poly Table with selectedSet
-            
+
             var $table = $('#polygon-metrics'),
                 rows = '';
 
             // Table Headers
-            rows += '<tr>' + 
-                '<th colspan="3">Site</th>' + 
-                '<th></th>' + 
+            rows += '<tr>' +
+                '<th colspan="3">Site</th>' +
+                '<th></th>' +
                 '<th colspan="4">Physical Habitat </th>' +
                 '<th colspan="4">Priority Habitats</th>' +
-                '<th>Trawl Activity</th>' +            
+                '<th>Trawl Activity</th>' +
                 '</tr>'
-            rows += '<tr>' + 
-                '<th>Action</th>' + 
-                '<th>Name</th>' + 
-                '<th>Proposer</th>' + 
+            rows += '<tr>' +
+                '<th>Action</th>' +
+                '<th>Name</th>' +
+                '<th>Proposer</th>' +
                 '<th>Area (sq mi)</th>' +
                 '<th>Hard</th>' +
                 '<th>Mixed</th>' +
@@ -973,14 +1026,14 @@
                 '<th>Seamounts</th>' +
                 '<th>Corals & Sponges (1 km blocks)</th>' +
                 '<th>Highest 20% Predicted Spp</th>' +
-                '<th>Trawl Tow Length (mi)</th>' +            
+                '<th>Trawl Tow Length (mi)</th>' +
                 '</tr>'
-            
+
             // loop through all the selected features
-            selectedSet.forEach(function(selection) {
-                
+            selectedSet.forEach(function (selection) {
+
                 var data = selection.feature.properties;
-                
+
                 // Tow Length filter (< 3 vessels in an area)
                 var towLen;
                 if (data.VesCountLB >= 3) {
@@ -988,12 +1041,12 @@
                 } else {
                     towLen = "unavailable";
                 }
-                
-                            
-                rows += '<tr>' + 
-                    '<td>' + data.RegAction + '</td>' + 
-                    '<td>' + data.SiteName + '</td>' + 
-                    '<td>' + data.Proposer + '</td>' + 
+
+
+                rows += '<tr>' +
+                    '<td>' + data.RegAction + '</td>' +
+                    '<td>' + data.SiteName + '</td>' +
+                    '<td>' + data.Proposer + '</td>' +
                     '<td>' + sqm2sqmi(data.SiteAreaM2) + '</td>' +
                     '<td>' + pct(data.hard, data.SiteAreaM2) + '</td>' +
                     '<td>' + pct(data.mixed, data.SiteAreaM2) + '</td>' +
@@ -1003,27 +1056,26 @@
                     '<td>' + pct(data.SmtAreaM2, data.SiteAreaM2) + '</td>' +
                     '<td>' + data.CntCorSpg + '</td>' +
                     '<td> X% </td>' +
-                    '<td>' + towLen + '</td>' +            
-                    '</tr>'              
-                });
+                    '<td>' + towLen + '</td>' +
+                    '</tr>'
+            });
 
-          
+
             // update the html of the table
-            $table.html(rows);  
-         
+            $table.html(rows);
+
         } // end of updatePolyTable()
-        
+
         (function () {
-            
-            $("#download-csv").click(function(){
-2               
+
+            $("#download-csv").click(function () {
+                2
                 console.log('hi');
                 $('#polygon-metrics').tableToCSV();
-3
+                3
             });
 
         })();
-        
     </script>
 
 </body>
