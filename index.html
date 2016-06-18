@@ -23,7 +23,6 @@
 
     <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Work+Sans:400,500,600' rel='stylesheet' type='text/css'>
-    <link href="https://fonts.googleapis.com/css?family=News+Cycle" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
 
@@ -81,9 +80,16 @@
         #side-panel p {
             margin: 8px 0 4px;
             padding: 0 25px 0 15px;
-            color: #3d3d3d;
             color: rgba(4, 33, 61, 1);
-            text-align: right;
+            text-align: left;
+            font-size: 1em;
+        }
+        
+        #side-panel li {
+            margin: 0;
+            padding: 0 25px 0 15px;
+            color: rgba(4, 33, 61, 1);
+            text-align: left;
             font-size: 1em;
         }
         
@@ -302,7 +308,22 @@
             </span>
         </div>
         <div id='info-panel'>
-            <p>Background Information and Credits go here.</p>
+            <h2>Background</h2>
+        <p>The <a href="http://www.pcouncil.org/" target="_blank">Pacific Fishery Managment Council</a> (Council) is currently reviewing <a href="http://www.pcouncil.org/groundfish/groundfish-essential-fish-habitat/" target="_blank">Groundfish Essential Fish Habitat</a> Conservation Areas (EFHCA) off the West Coast of the United States.  The Council is evaluating proposals that include areas to be closed to commercial trawl fishing, as well as closed areas to be reopened.</p>
+        <p>During this review, the Council will consider the importance of the habitat to groundfish (i.e., rockfish, flatfish) and other environmental considerations, as well as the economic impact or benefit to the fishing and associated businesses and communities. </p>
+
+        <h2>How to Use this Tool</h2>
+        <p>This tool allows a user, such as a Council Member, to select a custom set of EFH proposal polygons and see a summary of the metrics for their set. </p>
+            <li>Click a polygon to add or remove it from the selection</li>
+            <li>Hover over a polygon to view its metrics</li>
+            <li>Toggle a proposal name in the right panel to draw or remove its polygons from the map</li>
+            <li>View summary metrics for all selected polygons in the Summary Tab</li>
+            <li>View and download a table of individual metrics for selected polygons in the Polygons Tab</li>
+            </p>
+            
+        <h2>Credits</h2>
+        <p>NOAA, National Marine Fisheries Service (NMFS) scientists and colleagues laid the analytical groundwork for this review through  a multi-year synthesis of new data sets and analyses.  Results of the Groundfish Essential Fish Habitat (EFH) Synthesis are available through the <a href="http://efh-catalog.coas.oregonstate.edu/synthesis/" target="_blank">EFH Catalog</a>. </p>
+        <p>Web Development by Allison Bailey, <a href="http://www.soundgis.com" target="_blank">Sound GIS</a></p>
         </div>
     </div>
 
@@ -467,12 +488,6 @@
 
             }
 
-            // Logging for debug
-            //            console.log("Number of selected Sites: " + selectedSet.length);
-            //            for (i = 0; i < selectedSet.length; i++) {
-            //                console.log(selectedSet[i].feature.properties.concat_id)
-            //            }
-
         } // end selected()
 
         // Runs when a feature is removed from selection 
@@ -509,12 +524,6 @@
 
             // Remove the feature's stats from the summary statistics
             updateSummmary();
-
-            // Logging for debug
-            //            console.log("Number of selected Sites: " + selectedSet.length);
-            //            for (var i = 0; i < selectedSet.length; i++) {
-            //                console.log(selectedSet[i].feature.properties.concat_id)
-            //            }
 
         } // end unselected()
 
@@ -1005,8 +1014,7 @@
             // empty table structure
             rows += '<tr>' +
                 '<th colspan="3">Site</th>' +
-                '<th></th>' +
-                '<th colspan="4">Physical Habitat </th>' +
+                '<th colspan="5">Physical Habitat </th>' +
                 '<th colspan="4">Priority Habitats</th>' +
                 '<th>Trawl Activity</th>' +
                 '</tr>'
@@ -1043,8 +1051,7 @@
             // Table Headers
             rows += '<tr>' +
                 '<th colspan="3">Site</th>' +
-                '<th></th>' +
-                '<th colspan="4">Physical Habitat </th>' +
+                '<th colspan="5">Physical Habitat </th>' +
                 '<th colspan="4">Priority Habitats</th>' +
                 '<th>Trawl Activity</th>' +
                 '</tr>'
