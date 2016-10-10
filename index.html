@@ -738,12 +738,12 @@
                 html += "<br>" + "<b>Seamounts: </b> 0%";
             }
 
-            html += "<br>" + "<b>Invertebrates</b> (1x1 km blocks): " + data.CntCorSpg;
+            html += "<br>" + "<b>Corals & Sponges</b> (1x1 km blocks): " + data.corspg_cnt;
 
-            if (data.VesCountLB >= 3) {
-                html += "<br>" + "<b>Trawl Tow Length (mi): </b>" + m2mi(data.TowLenMLB);
+            if (data.VesCount >= 3 || data.VesCount == 0) {
+                html += "<br>" + "<b>Trawl Tow Length (mi): </b>" + m2mi(data.TowLenM);
             } else {
-                html += "<br>" + "<b>Trawl Tow Length:</b> Unavailable";
+                html += "<br>" + "<b>Trawl Tow Length:</b> **";
             }
 
             // Assign the html content to the info box using JQuery selector
@@ -835,7 +835,7 @@
                 rows = '';
 
             // Create empty table structure
-            rows += '<tr><th>Environmental Metrics</th>' + '<th>Closed</th>' + '<th>Reopened</th>' + '<th>Net</th></tr>' +
+            rows += '<tr><th>Environmental Metrics</th>' + '<th>Close</th>' + '<th>Open</th>' + '<th>Net</th></tr>' +
                 '<tr><td>Area (sq mi)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><th>Physical Habitat</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Hard</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
@@ -849,7 +849,7 @@
                 '<tr><td>Invertebrates (1 km blocks)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Highest 20% Predicted Spp Occurrence</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td></td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><th>Socioeconomic Metrics</th>' + '<th>Displaced</th>' + '<th>Restored</th>' + '<th>Net</th></tr>' +
+                '<tr><th>Socioeconomic Metrics</th>' + '<th>Displace</th>' + '<th>Restore</th>' + '<th>Net</th></tr>' +
                 '<tr><td>Total Tow Length (mi)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Catch</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Ex-Vessel Value</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>';
@@ -871,8 +871,8 @@
                 "unknown",
                 "CynAreaM2",
                 "SmtAreaM2",
-                "CntCorSpg",
-                "TowLenMLB",
+                "corspg_cnt",
+                "TowLenM",
             ]
 
 
@@ -887,8 +887,8 @@
                 unknown: 0,
                 CynAreaM2: 0,
                 SmtAreaM2: 0,
-                CntCorSpg: 0,
-                TowLenMLB: 0
+                corspg_cnt: 0,
+                TowLenM: 0
             };
             var summClose = {
                 SiteAreaM2: 0,
@@ -898,8 +898,8 @@
                 unknown: 0,
                 CynAreaM2: 0,
                 SmtAreaM2: 0,
-                CntCorSpg: 0,
-                TowLenMLB: 0
+                corspg_cnt: 0,
+                TowLenM: 0
             };
 
             // loop through all the selected features
@@ -966,7 +966,7 @@
             var areaNet = areaClose - areaOpen;
 
             // Populate the table
-            rows += '<tr><th>Environmental Metrics</th>' + '<th>Closed</th>' + '<th>Reopened</th>' + '<th>Net</th></tr>' +
+            rows += '<tr><th>Environmental Metrics</th>' + '<th>Close</th>' + '<th>Open</th>' + '<th>Net</th></tr>' +
                 '<tr><td>Area (sq mi)</td>' + '<td>' + sqm2sqmi(areaClose) + '</td>' +
                 '<td>' + sqm2sqmi(areaOpen) + '</td>' +
                 '<td>' + sqm2sqmi(areaNet) + '</td></tr>' +
@@ -993,15 +993,15 @@
                 '<tr><td>Seamounts</td>' + '<td>' + pct(summClose.SmtAreaM2, areaClose) + '</td>' +
                 '<td>' + pct(summOpen.SmtAreaM2, areaOpen) + '</td>' +
                 '<td>' + pct(calcNet(summClose.SmtAreaM2, summOpen.SmtAreaM2), areaNet) + '</td></tr>' +
-                '<tr><td>Invertebrates (1 km blocks)</td>' + '<td>' + summClose.CntCorSpg + '</td>' +
-                '<td>' + summOpen.CntCorSpg + '</td>' +
-                '<td>' + calcNet(summClose.CntCorSpg, summOpen.CntCorSpg) + '</td></tr>' +
+                '<tr><td>Corals & Sponges (1 km blocks)</td>' + '<td>' + summClose.corspg_cnt + '</td>' +
+                '<td>' + summOpen.corspg_cnt + '</td>' +
+                '<td>' + calcNet(summClose.corspg_cnt, summOpen.corspg_cnt) + '</td></tr>' +
                 '<tr><td>Highest 20% Predicted Spp Occurrence</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td></td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><th>Socioeconomic Metrics</th><th>Displaced</th><th>Restored</th><th>Net</th></tr>' +
-                '<tr><td>Total Tow Length (mi)</td>' + '<td>' + m2mi(summClose.TowLenMLB) + '</td>' +
-                '<td>' + m2mi(summOpen.TowLenMLB) + '</td>' +
-                '<td>' + m2mi(calcNet(summClose.TowLenMLB, summOpen.TowLenMLB)) + '</td></tr>' +
+                '<tr><th>Socioeconomic Metrics</th><th>Displace</th><th>Restore</th><th>Net</th></tr>' +
+                '<tr><td>Total Tow Length (mi)</td>' + '<td>' + m2mi(summClose.TowLenM) + '</td>' +
+                '<td>' + m2mi(summOpen.TowLenM) + '</td>' +
+                '<td>' + m2mi(calcNet(summClose.TowLenM, summOpen.TowLenM)) + '</td></tr>' +
                 '<tr><td>Catch</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Ex-Vessel Value</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>';
 
@@ -1094,10 +1094,10 @@
 
                 // Tow Length filter (< 3 vessels in an area)
                 var towLen;
-                if (data.VesCountLB >= 3) {
-                    towLen = m2mi(data.TowLenMLB);
+                if (data.VesCount >= 3 || data.VesCount == 0) {
+                    towLen = m2mi(data.TowLenM);
                 } else {
-                    towLen = "unavailable";
+                    towLen = "**";
                 }
 
 
@@ -1112,7 +1112,7 @@
                     '<td>' + pct(data.unknown, data.SiteAreaM2) + '</td>' +
                     '<td>' + pct(data.CynAreaM2, data.SiteAreaM2) + '</td>' +
                     '<td>' + pct(data.SmtAreaM2, data.SiteAreaM2) + '</td>' +
-                    '<td>' + data.CntCorSpg + '</td>' +
+                    '<td>' + data.corspg_cnt + '</td>' +
                     '<td> X% </td>' +
                     '<td>' + towLen + '</td>' +
                     '</tr>'
