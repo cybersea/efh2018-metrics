@@ -271,9 +271,12 @@
             <label for="gfnmsLayer" style='color:#E2007F'>GFNMS</label>
             <input id="greenpeaceLayer" type="checkbox" value="greenpeaceLayer" checked>
             <label for="greenpeaceLayer" style='color:#0F6001'>Greenpeace</label>
+            <input id="mbnmsLayer" type="checkbox" value="mbnmsLayer" checked>
+            <label for="mbnmsLayer" style='color:#E9BD02'>MBNMS</label>
             <input id="mciLayer" type="checkbox" value="mciLayer" checked>
             <label for="mciLayer" style='color:#650B0B'>MCI</label>
-        </div>
+            <input id="noneLayer" type="checkbox" value="noneLayer" checked>
+            <label for="noneLayer" style='color:#0F97A3'>None</label>        </div>
 
         <div id='ui-controls'>
             <button value="Zoom" id="zoom">Zoom to Selection</button>
@@ -392,14 +395,21 @@
                     proposer: "Greenpeace",
                     color: "#0F6001"
                 },
-                //                mbnmsLayer: {
-                //                    proposer: "MBNMS",
-                //                    color: "#E9BD02"
-                //                },
+                mbnmsLayer: {
+                    proposer: "MBNMS",
+                    color: "#E9BD02"
+                },
                 mciLayer: {
                     proposer: "MCI",
                     color: "#650B0B"
                 },
+                noneLayer: {
+                    proposer: "None",
+                    color: "#0F97A3",
+                    //color: "#0D8792",
+                    //color: "#228E9C",
+                    //color: "#0B7983",
+                },            
             }
             //
 
