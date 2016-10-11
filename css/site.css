@@ -150,8 +150,7 @@ h3 {
 
 /*   TABLES */
 table {
-    font-family: 'Open Sans', sans-serif;
-    /* font-family: 'News Cycle', sans-serif;*/
+    font-family: 'Open Sans', Lato, sans-serif;
     width: 100%;
     padding: 15px;
     text-align: left;
@@ -165,13 +164,58 @@ tr {
 
 td, th {
     border: 1px solid #ddd; 
+    padding: 3px;
+    background: white;
+    min-width: 70px;
+}
+
+td { 
+    font-family: monospace;
+    font-size: 1.1em;
+    text-align: right;
+}
+
+td:first-child { 
+    font-family: 'Open Sans', Lato, sans-serif;
+    font-size: 0.9em;
+    text-align: left;
+}
+
+td:first-child,
+th:first-child {
+    max-width: 260px;
 }
 
 th {
-    background-color: rgba(220, 220, 220, 1);
+    font-weight: 900;
 }
 
-tr:hover {background-color: #ddd;}
+.table-row-header td,
+.table-row-header th {
+    background: transparent;
+    height: 50px;
+    vertical-align: bottom;
+    border: none;
+    text-align: center;
+}
+.table-row-header th {
+    font-size: 0.9em;
+}
+.table-row-header th:first-child {
+    font-size: 1.3em;
+    font-weight: 100;
+    text-align: left;
+}
+
+tr:hover td,
+tr:hover th {
+    background: #ffffcc;
+}
+.table-row-header:hover td, 
+.table-row-header:hover th {
+    background: transparent;
+}
+
              
 /*        This does not work */
 /*        table#summary-metrics tr:nth-child(even){background-color: "green"}*/

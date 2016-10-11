@@ -23,7 +23,7 @@
 
     <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Work+Sans:400,500,600' rel='stylesheet' type='text/css'>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:900" rel="stylesheet">
 
     <!-- custom css -->
     <link href="css/site.css" rel="stylesheet">
@@ -604,7 +604,7 @@
                 rows = '';
 
             // Create empty table structure
-            rows += '<tr><th>Environmental Metrics</th>' + '<th>Close</th>' + '<th>Open</th>' + '<th>Net</th></tr>' +
+            rows += '<tr class="table-row-header"><th>Environmental Metrics</th>' + '<th>Close</th>' + '<th>Open</th>' + '<th>Net</th></tr>' +
                 '<tr><td>Area (sq mi)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><th>Physical Habitat</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Hard</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
@@ -618,7 +618,7 @@
                 '<tr><td>Invertebrates (1 km blocks)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Highest 20% Predicted Spp Occurrence</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td></td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><th>Socioeconomic Metrics</th>' + '<th>Displace</th>' + '<th>Restore</th>' + '<th>Net</th></tr>' +
+                '<tr class="table-row-header"><th>Socioeconomic Metrics</th>' + '<th>Displace</th>' + '<th>Restore</th>' + '<th>Net</th></tr>' +
                 '<tr><td>Total Tow Length (mi)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><th>Total Catch (Metric Tons)</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Flatfish (MT)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
@@ -785,7 +785,7 @@
             var areaNet = areaClose - areaOpen;
 
             // Populate the table
-            rows += '<tr><th>Environmental Metrics</th>' + '<th>Close</th>' + '<th>Open</th>' + '<th>Net</th></tr>' +
+            rows += '<tr class="table-row-header"><th>Environmental Metrics</th>' + '<th>Close</th>' + '<th>Open</th>' + '<th>Net</th></tr>' +
                 '<tr><td>Area (sq mi)</td>' + '<td>' + sqm2sqmi(areaClose) + '</td>' +
                 '<td>' + sqm2sqmi(areaOpen) + '</td>' +
                 '<td>' + sqm2sqmi(areaNet) + '</td></tr>' +
@@ -818,7 +818,7 @@
                 '<tr><td>Highest 20% Predicted Spp Occurrence</td>' + '<td>' + pct(summClose.OF20AreaM2, areaClose) + '</td>' +
                 '<td>' + pct(summOpen.OF20AreaM2, areaOpen) + '</td>' +
                 '<td>' + pct(calcNet(summClose.OF20AreaM2, summOpen.OF20AreaM2), areaNet) + '</td></tr>' +
-                '<tr><th>Socioeconomic Metrics</th><th>Displace</th><th>Restore</th><th>Net</th></tr>' +
+                '<tr class="table-row-header"><th>Socioeconomic Metrics</th><th>Displace</th><th>Restore</th><th>Net</th></tr>' +
                 '<tr><td>Total Tow Length (mi)</td>' + '<td>' + m2mi(summClose.TowLenM) + '</td>' +
                 '<td>' + m2mi(summOpen.TowLenM) + '</td>' +
                 '<td>' + m2mi(calcNet(summClose.TowLenM, summOpen.TowLenM)) + '</td></tr>' +
