@@ -1,3 +1,9 @@
+* {
+    box-sizing:border-box;  
+    -moz-box-sizing:border-box; 
+    -webkit-box-sizing:border-box;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -152,6 +158,11 @@ h3 {
 }
 
 /*   TABLES */
+.table-wrapper {
+    width: 100%;
+    overflow-x: scroll;
+}
+
 table {
     font-family: 'Open Sans', Lato, sans-serif;
     width: 100%;
@@ -255,6 +266,10 @@ tr:hover th {
 }
 
 .side-panel {
+    box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    max-width: 100%;
     padding: 1em;
 }
 
@@ -273,6 +288,10 @@ tr:hover th {
     background: #597DAB;
     color: white;
     display: none;
-    position: absolute;
-    bottom: 15px;
+    visibility: none;
+    margin-top: 10px;
+}
+#download-csv.show {
+    display: block;
+    visibility: visible;
 }

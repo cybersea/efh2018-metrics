@@ -76,14 +76,14 @@
         </div>
         <div class='side-panel' id='summary-panel'>
             <!-- <h3 id='poly-count'></h3> -->
-            <table id="summary-metrics"></table>      
+            <div class="table-wrapper"><table id="summary-metrics"></table></div>
             <span class='start-text'>
                 <p>Click on individual proposal polygons to add or remove them from the selection</p>
                 <p>A summary of metrics for all selected polygons will display here.</p>
             </span>
         </div>
         <div class='side-panel' id='polygons-panel'>
-            <table id="polygon-metrics" class="data"></table>
+            <div class="table-wrapper"><table id="polygon-metrics" class="data"></table></div>
             <button id='download-csv'>Download CSV File</button>
             <span class='start-text'>
                 <p>Click on individual proposal polygons to add or remove them from the selection</p>
@@ -920,7 +920,7 @@
             $table.html(rows);
             
             //  Hide the csv download button
-            $('#download-csv').hide();
+            $('#download-csv').removeClass('show');
 
         }
 
@@ -1032,7 +1032,7 @@
             // update the html of the table
             $table.html(rows);
             
-            $('#download-csv').show();
+            $('#download-csv').addClass('show');
 //            $('#download-csv').css('visibility','visible');
 
 
