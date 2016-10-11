@@ -23,235 +23,11 @@
 
     <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Work+Sans:400,500,600' rel='stylesheet' type='text/css'>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:900" rel="stylesheet">
 
+    <!-- custom css -->
+    <link href="css/site.css" rel="stylesheet">
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: whitesmoke;
-            font-family: "Work Sans", Lato, sans-serif;
-        }
-        
-        h1 {
-            padding: 8px 25px 8px 15px;
-            margin: 0;
-            background: #597DAB;
-            color: whitesmoke;
-            font-weight: 400;
-            font-size: 1.5em;
-        }
-        
-        h2 {
-            margin: 0;
-            padding: 8px 25px 8px 15px;
-            color: #494f99;
-            font-weight: 500;
-            font-size: 1.2em;
-        }
-        
-        h3 {
-            padding: 0px 25px 0px 15px;
-            color: rgba(4, 33, 61, 1);
-        }
-        
-        #map {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            right: 0;
-            width: 64%;
-        }
-        
-        /*  LEFT SIDE PANEL*/
-        
-        #side-panel {
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 36%;
-            background: whitesmoke;
-            border-right: 2px solid #494f99;
-            overflow-y: scroll;
-        }
-        
-        #side-panel p {
-            margin: 8px 0 4px;
-            padding: 0 25px 0 15px;
-            color: rgba(4, 33, 61, 1);
-            text-align: left;
-            font-size: 1em;
-        }
-        
-        #side-panel li {
-            margin: 0;
-            padding: 0 25px 0 15px;
-            color: rgba(4, 33, 61, 1);
-            text-align: left;
-            font-size: 1em;
-        }
-        
-        #side-panel p:after {
-            content: '';
-            display: block;
-            clear: both;
-        }
-        
-        /*   RIGHT SIDE PANEL*/
-        
-        #right-panel {
-            position: absolute;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            width: 220px;
-            background: rgba(240, 240, 240, .6);
-            border-left: 2px solid #597DAB;
-            z-index: 10;
-        }
-        
-        .poly-info {
-            padding: 6px 8px;
-            font-size: 1.1em;
-            width: 180px;
-            color: rgba(4, 33, 61, 1);
-        }
-        
-        .poly-info h3 {
-            padding: 0 0 0 0;
-            margin: 0;
-        }
-        
-        #layer-controls {
-            width: 100%;
-            border-top: 1px solid #597DAB;
-        }
-        
-        #layer-controls input {
-            display: none;
-        }
-        
-        #layer-controls label {
-            display: block;
-            margin: 0 0 1px 0;
-            padding: 2px 0 3px 15px;
-            background: rgba(255, 255, 255, 1);
-            border-bottom: 1px solid #597DAB;
-            opacity: .3;
-        }
-        
-        #layer-controls label:hover {
-            background: rgba(255, 255, 255, .6);
-        }
-        
-        #layer-controls input:checked + label {
-            opacity: 1
-        }
-        
-        #ui-controls {
-            width: 100%;
-            margin-top: 25px;
-        }
-        
-        #ui-controls button {
-            background: #597DAB;
-            color: white;
-            display: block;
-            width: 100%;
-            margin-bottom: 4px;
-            text-align: left;
-            padding-left: 15px;
-            opacity: .2;
-            transition: opacity .25s ease-in-out;
-            -moz-transition: opacity .25s ease-in-out;
-            -webkit-transition: opacity .25s ease-in-out;
-        }
-        
-        #ui-controls button.available {
-            opacity: 1;
-            transition: opacity .25s ease-in-out;
-            -moz-transition: opacity .25s ease-in-out;
-            -webkit-transition: opacity .25s ease-in-out;
-            cursor: pointer;
-        }
-        
-        /*   TABLES */
-        table {
-            font-family: 'Open Sans', sans-serif;
-            /* font-family: 'News Cycle', sans-serif;*/
-            width: 100%;
-            padding: 15px;
-            text-align: left;
-            border-collapse: collapse;
-            color: rgba(4, 33, 61, 1);
-        }
-        
-        tr {
-            margin-bottom: 20px;
-        }
-        
-        td, th {
-            border: 1px solid #ddd; 
-        }
-        
-        th {
-            background-color: rgba(220, 220, 220, 1);
-        }
-        
-        tr:hover {background-color: #ddd;}
-                     
-        /*        This does not work */
-/*        table#summary-metrics tr:nth-child(even){background-color: "green"}*/
-        
-        
-        /*  Left Side Tabs and Panels     */
-        #panel-tabs {
-            background: rgba(220, 220, 220, 1);
-            border-bottom: 1px solid #597DAB;
-        }
-        
-        #panel-tabs button {
-            display: inline-block;
-            width: 25%;
-            background: white;
-            color: rgba(200, 200, 200, 1);
-            font-size: 1.2em;
-            padding: 10;
-            border: 1px solid #597DAB;
-            border: none;
-            cursor: pointer;
-        }
-        
-        #panel-tabs button:first-child {
-            margin-left: 0;
-        }
-        
-        #panel-tabs button.selected {
-            color: white;
-            background: #597DAB;
-        }
-        
-        #summary-panel,
-        #polygons-panel,
-        #info-panel {
-            position: absolute;
-        }
-        
-        #polygons-panel,
-        #info-panel {
-            display: none;
-        }
-        
-        #download-csv {
-            background: #597DAB;
-            color: white;
-            display: none;
-            position: absolute;
-            bottom: 15px;
-        }
-    </style>
 </head>
 
 <body>
@@ -292,29 +68,29 @@
     <!-- Side panel Div   -->
     <div id='side-panel'>
         <h1>West Coast Groundfish<br> Essential Fish Habitat</h1>
-        <h2>Alternatives Analysis Metrics</h2>
+        <h2 class='side-panel-header'>Alternatives Analysis Metrics</h2>
         <div id='panel-tabs'>
             <button class='selected' value='summary-panel'>Summary</button>
-            <button value='polygons-panel'>Polygons</button>
+            <button value='polygons-panel'>Polygons <span id="poly-count">(0)</span></button>
             <button value='info-panel'>Info</button>
         </div>
-        <div id='summary-panel'>
-            <h3 id='poly-count'></h3>
-            <table id="summary-metrics"></table>      
-            <span class = 'start-text'>
+        <div class='side-panel' id='summary-panel'>
+            <!-- <h3 id='poly-count'></h3> -->
+            <div class="table-wrapper"><table id="summary-metrics"></table></div>
+            <span class='start-text'>
                 <p>Click on individual proposal polygons to add or remove them from the selection</p>
                 <p>A summary of metrics for all selected polygons will display here.</p>
             </span>
         </div>
-        <div id='polygons-panel'>
-            <table id="polygon-metrics" class="data"></table>
+        <div class='side-panel' id='polygons-panel'>
+            <div class="table-wrapper"><table id="polygon-metrics" class="data"></table></div>
             <button id='download-csv'>Download CSV File</button>
-            <span class = 'start-text'>
+            <span class='start-text'>
                 <p>Click on individual proposal polygons to add or remove them from the selection</p>
                 <p>A table listing all the selected polygons and their metrics will display here.</p>
             </span>
         </div>
-        <div id='info-panel'>
+        <div class='side-panel' id='info-panel'>
             <h2>Background</h2>
         <p>The <a href="http://www.pcouncil.org/" target="_blank">Pacific Fishery Managment Council</a> (Council) is currently reviewing <a href="http://www.pcouncil.org/groundfish/groundfish-essential-fish-habitat/" target="_blank">Groundfish Essential Fish Habitat</a> Conservation Areas (EFHCA) off the West Coast of the United States.  The Council is evaluating proposals that include areas to be closed to commercial trawl fishing, as well as closed areas to be reopened.</p>
         <p>During this review, the Council will consider the importance of the habitat to groundfish (i.e., rockfish, flatfish) and other environmental considerations, as well as the economic impacts and benefits to the fishing and associated businesses and communities. </p>
@@ -821,14 +597,14 @@
             $('.start-text').hide();
             
             // Header for Polygon count
-            $('#poly-count').text("No Areas Selected")
+            $('#poly-count').text("(0)");
 
             // shortcut to our table element
             var $table = $('#summary-metrics'),
                 rows = '';
 
             // Create empty table structure
-            rows += '<tr><th>Environmental Metrics</th>' + '<th>Close</th>' + '<th>Open</th>' + '<th>Net</th></tr>' +
+            rows += '<tr class="table-row-header"><th>Environmental Metrics</th>' + '<th>Close</th>' + '<th>Open</th>' + '<th>Net</th></tr>' +
                 '<tr><td>Area (sq mi)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><th>Physical Habitat</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Hard</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
@@ -842,7 +618,7 @@
                 '<tr><td>Invertebrates (1 km blocks)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Highest 20% Predicted Spp Occurrence</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td></td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><th>Socioeconomic Metrics</th>' + '<th>Displace</th>' + '<th>Restore</th>' + '<th>Net</th></tr>' +
+                '<tr class="table-row-header"><th>Socioeconomic Metrics</th>' + '<th>Displace</th>' + '<th>Restore</th>' + '<th>Net</th></tr>' +
                 '<tr><td>Total Tow Length (mi)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><th>Total Catch (Metric Tons)</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Flatfish (MT)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
@@ -991,9 +767,9 @@
 
 
             if (polyCount == 1) {
-                $('#poly-count').text(polyCount + " Area Selected")
+                $('#poly-count').text("(" + polyCount + ")")
             } else {
-                $('#poly-count').text(polyCount + " Areas Selected")
+                $('#poly-count').text("(" + polyCount + ")")
             }
 
             // Remove starter text
@@ -1009,7 +785,7 @@
             var areaNet = areaClose - areaOpen;
 
             // Populate the table
-            rows += '<tr><th>Environmental Metrics</th>' + '<th>Close</th>' + '<th>Open</th>' + '<th>Net</th></tr>' +
+            rows += '<tr class="table-row-header"><th>Environmental Metrics</th>' + '<th>Close</th>' + '<th>Open</th>' + '<th>Net</th></tr>' +
                 '<tr><td>Area (sq mi)</td>' + '<td>' + sqm2sqmi(areaClose) + '</td>' +
                 '<td>' + sqm2sqmi(areaOpen) + '</td>' +
                 '<td>' + sqm2sqmi(areaNet) + '</td></tr>' +
@@ -1042,7 +818,7 @@
                 '<tr><td>Highest 20% Predicted Spp Occurrence</td>' + '<td>' + pct(summClose.OF20AreaM2, areaClose) + '</td>' +
                 '<td>' + pct(summOpen.OF20AreaM2, areaOpen) + '</td>' +
                 '<td>' + pct(calcNet(summClose.OF20AreaM2, summOpen.OF20AreaM2), areaNet) + '</td></tr>' +
-                '<tr><th>Socioeconomic Metrics</th><th>Displace</th><th>Restore</th><th>Net</th></tr>' +
+                '<tr class="table-row-header"><th>Socioeconomic Metrics</th><th>Displace</th><th>Restore</th><th>Net</th></tr>' +
                 '<tr><td>Total Tow Length (mi)</td>' + '<td>' + m2mi(summClose.TowLenM) + '</td>' +
                 '<td>' + m2mi(summOpen.TowLenM) + '</td>' +
                 '<td>' + m2mi(calcNet(summClose.TowLenM, summOpen.TowLenM)) + '</td></tr>' +
@@ -1144,7 +920,7 @@
             $table.html(rows);
             
             //  Hide the csv download button
-            $('#download-csv').hide();
+            $('#download-csv').removeClass('show');
 
         }
 
@@ -1256,7 +1032,7 @@
             // update the html of the table
             $table.html(rows);
             
-            $('#download-csv').show();
+            $('#download-csv').addClass('show');
 //            $('#download-csv').css('visibility','visible');
 
 
