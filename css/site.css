@@ -23,7 +23,6 @@ h2 {
 }
 
 h3 {
-    padding: 0px 25px 0px 15px;
     color: rgba(4, 33, 61, 1);
 }
 
@@ -46,6 +45,10 @@ h3 {
     background: whitesmoke;
     border-right: 2px solid #494f99;
     overflow-y: scroll;
+}
+
+#side-panel h2 {
+    background: rgba(220, 220, 220, 1);
 }
 
 #side-panel p {
@@ -224,7 +227,6 @@ tr:hover th {
 /*  Left Side Tabs and Panels     */
 #panel-tabs {
     background: rgba(220, 220, 220, 1);
-    border-bottom: 1px solid #597DAB;
 }
 
 #panel-tabs button {
@@ -232,11 +234,15 @@ tr:hover th {
     width: 25%;
     background: white;
     color: rgba(200, 200, 200, 1);
-    font-size: 1.2em;
-    padding: 10;
+    font-size: 1.1em;
     border: 1px solid #597DAB;
     border: none;
     cursor: pointer;
+    padding: 7px 0;
+    outline: none;
+}
+#panel-tabs button:active {
+    outline: none;
 }
 
 #panel-tabs button:first-child {
@@ -244,8 +250,12 @@ tr:hover th {
 }
 
 #panel-tabs button.selected {
-    color: white;
-    background: #597DAB;
+    color: #333;
+    background: whitesmoke;
+}
+
+.side-panel {
+    padding: 1em;
 }
 
 #summary-panel,
