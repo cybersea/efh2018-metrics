@@ -37,8 +37,8 @@
     <div id="right-panel">
         <h2>EFH Proposals</h2>
         <div id="layer-controls">
-            <input id="collabLayer" class="cmn-toggle cmn-toggle-round" type="checkbox" value="collabLayer" checked>
-            <label for="collabLayer" style='color:#E5571D'>Collaborative</label>
+            <input id="collabLayer" type="checkbox" value="collabLayer" checked>
+            <label for="collabLayer" style='color:#E5571D'>Collaborative <button class="layer-select-all">all</button></label>
             <input id="onoLayer" type="checkbox" value="onoLayer" checked>
             <label for="onoLayer" style='color:#6F067B'>Oceana-NRDC-OC</label>
             <input id="fmaLayer" type="checkbox" value="fmaLayer" checked>
@@ -221,7 +221,9 @@
                     layer.on({
                         mouseover: highlightFeature,
                         mouseout: resetHighlight,
-                        click: selected,
+                        click: function(e){
+                            selected(e.target);
+                        },
                     });
                 }
             }).addTo(map);
@@ -232,9 +234,8 @@
 
 
         // Runs when a feature is selected -- Currently from a single-click
-        function selected(e) {
+        function selected(layer) {
 
-            var layer = e.target;
             var data = layer.feature.properties;
             var id = layer.feature.properties.concat_id;
             var overlapping = [];
@@ -529,6 +530,19 @@
                 }
 
             });
+            
+            $('.layer-select-all').on('click', function () {
+                var targetLayer = $(this).parent().attr('for');
+                               
+                geoJsonLayers[targetLayer].eachLayer(function(f){
+                   selected(f); 
+                                                     
+                });
+                
+                
+                
+            });
+            
 
             $('#panel-tabs button').on('click', function () {
                 
