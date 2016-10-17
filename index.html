@@ -13,13 +13,16 @@
     <script src="http://api.tiles.mapbox.com/mapbox.js/plugins/turf/v2.0.0/turf.min.js"></script>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
     -->
+    <!--Local -->  
     <link href='css/normalize.css' rel="stylesheet">
-    <!--Local -->
+    <link href="css/leaflet.css" rel="stylesheet"/>
+    <link href="css/easy-button.css" rel="stylesheet"/>
+    
     <script src="js/jquery-1.11.2.min.js"></script>
     <script src="js/leaflet.js"></script>
     <script src="js/turf.min.js"></script>
     <script src="js/jquery.tabletoCSV.js"></script>
-    <link rel="stylesheet" href="css/leaflet.css" />
+    <script src="js/easy-button.js"></script>
 
     <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Work+Sans:400,500,600' rel='stylesheet' type='text/css'>
@@ -31,7 +34,7 @@
 </head>
 
 <body>
-    <!-- HTML form for user to select vacancy attribute to map -->
+    <!-- HTML form for user to select EFH proposal to draw on map -->
     <!-- Note that values correspond exactly to attribute names in source GeoJSON data file -->
 
     <div id="right-panel">
@@ -136,6 +139,13 @@
         esri_ocean.addTo(map);
 
         L.control.scale().addTo(map); // Add scale bar
+        
+        // Add home button - zooms to full extent when clicked
+        // Button downloaded from Open Iconic  https://useiconic.com/open/
+        L.easyButton('<img src="css/images/home-2x.png">', function(btn, map){
+            map.setView([41, -121.2]);
+            map.setZoom(6);
+        }).addTo(map);
 
         // Create Info Box for display of feature data on hover
         drawInfo();
@@ -143,11 +153,6 @@
         // Call function to create user interface for interacting with selected set
         buildUI();
 
-        // Create a blank table for summary metrics
-//        buildSummary();
-
-        // Create blank table for individual polygon metrics
-//        buildPolyTable();
 
         // Style info for individual proposal layers
         var layerInfo = {
@@ -183,9 +188,6 @@
                 noneLayer: {
                     proposer: "None",
                     color: "#0F97A3",
-                    //color: "#0D8792",
-                    //color: "#228E9C",
-                    //color: "#0B7983",
                 },            
             }
             //
@@ -1075,10 +1077,7 @@
         (function () {
 
             $("#download-csv").click(function () {
-                2
-                console.log('hi');
                 $('#polygon-metrics').tableToCSV();
-                3
             });
 
         })();
