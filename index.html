@@ -236,6 +236,147 @@
             geoJsonLayers[lyr].startStyle = styles
 
         } // end of loop through all geoJSON layers
+        
+        // Supplemental Layer styles
+        var depLineWeight = 2;
+        var depOpacity = 1;
+        
+        var latStyles = {
+            color: "black",
+            weight: 1,
+            opacity: depOpacity
+        }      
+        var dep30Styles = {
+            color: "#006400",
+            weight: depLineWeight,
+            opacity: depOpacity
+        }       
+        var dep100Styles = {
+            color: "#eead0e",
+            weight: depLineWeight,
+            opacity: depOpacity
+        }
+        var dep150Styles = {
+            color: "#8b2500",
+            weight: depLineWeight,
+            opacity: depOpacity
+        }        
+        var dep700Styles = {
+            color: "#104e8b",
+            weight: depLineWeight,
+            opacity: depOpacity
+        }  
+        var tribalUAStyles = {
+            color: "#594600",
+            weight: 2,
+            opacity: 1
+        } 
+        var eezStyles = {
+            fillColor: "#7f7f7f",
+//            stroke: false,
+            fillOpacity: 0.3,
+            color: "black",
+            weight: 1,
+            opacity: 0.8            
+        }
+        
+        sources = {
+            "eez": "data/eez_py.geojson",
+            "lat": "data/strata_lat.geojson",
+            "dep30fm": "data/rca_30fm.geojson",
+            "dep100fm": "data/rca_100fm.geojson",
+            "dep150fm": "data/rca_150fm.geojson",
+            "dep700fm": "data/efh_700fm.geojson", 
+            "tribalUA_ln": "data/tribalUA_ln.geojson"
+        }
+        
+        styles = {
+            "eez": eezStyles,
+            "lat": latStyles,
+            "dep30fm": dep30Styles,
+            "dep100fm": dep100Styles,
+            "dep150fm": dep150Styles,
+            "dep700fm": dep700Styles,
+            "tribalUA_ln": tribalUAStyles
+        }
+       
+        var data = {}; // object to hold JSON data for each layer
+        var layers = {}; // object to hold Leaflet GeoJSON layers
+        
+        // 
+        $.when(
+                $.getJSON(sources["eez"], function(d) {
+                    data["eez"] =  d;
+                }),
+                 $.getJSON(sources["lat"], function(d) {
+                    data["lat"] =  d;
+                }),
+                 $.getJSON(sources["dep30fm"], function(d) {
+                    data["dep30fm"] =  d;
+                }),
+                 $.getJSON(sources["dep100fm"], function(d) {
+                    data["dep100fm"] =  d;
+                }),
+                 $.getJSON(sources["dep150fm"], function(d) {
+                    data["dep150fm"] =  d;
+                }),
+                 $.getJSON(sources["dep700fm"], function(d) {
+                    data["dep700fm"] =  d;
+                }),
+                  $.getJSON(sources["tribalUA_ln"], function(d) {
+                    data["tribalUA_ln"] =  d;
+                })  
+            
+        ).then(function() {
+
+            // send complete data object to another function to create layers, etc.
+            drawMap(data);
+            
+            // Draw legend with Leaflet GeoJSON layers
+            drawSwitcher(layers);
+
+        });
+        
+
+        // Use the GeoJSON input data to draw Leaflet GeoJSON layers on the map
+        function drawMap(data){
+            
+            for (k in data){ // loop through each input source data layer
+                    
+                // Create Leaflet GeoJSON layer with source GeoJSON data
+                var layer = L.geoJson(data[k], {
+                    style: function (feature) {  // style for each GeoJSON feature
+                        return styles[k]
+                    }
+                }). addTo(map);
+                
+                layers[k] = layer;
+            } // end loop for all source data layers
+                        
+        } // end drawMap()
+  
+        
+        function drawSwitcher(layers){
+            
+            // Layer Switcher   
+            // Not sure how the order is determined.  Seems to vary.
+            // Doesn't seem to matter if it is called from $.when/.then, or from drawMap() function
+            
+            var layerLabels = {
+                "<b style='color:#7f7f7f'>EEZ</b>": layers["eez"],
+                "<b style='color:black'>Latitude Breaks</b>": layers["lat"],
+                "<b style='color:#006400'>30 fathoms</b>": layers["dep30fm"],
+                "<b style='color:#eead0e'>100 fathoms</b>": layers["dep100fm"],
+                "<b style='color:#8b2500'>150 fathoms</b>": layers["dep150fm"],
+                "<b style='color:#104e8b'>700 fathoms</b>": layers["dep700fm"],
+                "<b style='color:#594600'>Tribal U&A</b>": layers["tribalUA_ln"],
+            }
+
+            var switcher = L.control.layers(null, layerLabels, {
+                collapsed: true});
+            switcher.addTo(map); 
+ 
+        } // end drawSwitcher()
 
 
         // Select or unselect feature depending on its current state
