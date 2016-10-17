@@ -38,21 +38,21 @@
         <h2>EFH Proposals</h2>
         <div id="layer-controls">
             <input id="collabLayer" type="checkbox" value="collabLayer" checked>
-            <label for="collabLayer" style='color:#E5571D'>Collaborative <button class="layer-select-all">all</button></label>
+            <label for="collabLayer" style='color:#E5571D'>Collaborative <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
             <input id="onoLayer" type="checkbox" value="onoLayer" checked>
-            <label for="onoLayer" style='color:#6F067B'>Oceana-NRDC-OC <button class="layer-select-all">all</button></label>
+            <label for="onoLayer" style='color:#6F067B'>Oceana-NRDC-OC <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
             <input id="fmaLayer" type="checkbox" value="fmaLayer" checked>
-            <label for="fmaLayer" id="fmaLayer" style='color:#377EB8'>FMA <button class="layer-select-all">all</button></label>
+            <label for="fmaLayer" id="fmaLayer" style='color:#377EB8'>FMA <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
             <input id="gfnmsLayer" type="checkbox" value="gfnmsLayer" checked>
-            <label for="gfnmsLayer" style='color:#E2007F'>GFNMS <button class="layer-select-all">all</button></label>
+            <label for="gfnmsLayer" style='color:#E2007F'>GFNMS <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
             <input id="greenpeaceLayer" type="checkbox" value="greenpeaceLayer" checked>
-            <label for="greenpeaceLayer" style='color:#0F6001'>Greenpeace <button class="layer-select-all">all</button></label>
+            <label for="greenpeaceLayer" style='color:#0F6001'>Greenpeace <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
             <input id="mbnmsLayer" type="checkbox" value="mbnmsLayer" checked>
-            <label for="mbnmsLayer" style='color:#E9BD02'>MBNMS <button class="layer-select-all">all</button></label>
+            <label for="mbnmsLayer" style='color:#E9BD02'>MBNMS <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
             <input id="mciLayer" type="checkbox" value="mciLayer" checked>
-            <label for="mciLayer" style='color:#650B0B'>MCI <button class="layer-select-all">all</button></label>
+            <label for="mciLayer" style='color:#650B0B'>MCI <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
             <input id="noneLayer" type="checkbox" value="noneLayer" checked>
-            <label for="noneLayer" style='color:#0F97A3'>None <button class="layer-select-all">all</button></label>
+            <label for="noneLayer" style='color:#0F97A3'>None <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
         </div>
 
         <div id='ui-controls'>
@@ -193,6 +193,7 @@
 
         var geoJsonLayers = {}; // global to store all the geoJSON layers
         var selectedSet = []; // array to store selected features
+        var selectedSetObj = {}; // object for selected features
 
         // Create individual geoJson Layers for each proposal
         for (var lyr in layerInfo) {
@@ -223,7 +224,8 @@
                         mouseover: highlightFeature,
                         mouseout: resetHighlight,
                         click: function(e){
-                            selected(e.target);
+                            toggleSelected(e.target);
+                            //selected(e.target);
                         },
                     });
                 }
@@ -234,7 +236,26 @@
         } // end of loop through all geoJSON layers
 
 
-        // Runs when a feature is selected -- Currently from a single-click
+        // Select or unselect feature depending on its current state
+        function toggleSelected(layer){
+
+            var id = layer.feature.properties.concat_id;
+
+            if (isSelected(layer, id) < 0) {// not in selected set
+                
+                // select it
+                selected(layer);
+                
+            } else { // If already in selected set
+
+                // Unselect it
+                unselected(layer);
+
+            }           
+        } // end toggleSelected()
+        
+ 
+        // Runs when a feature is selected
         function selected(layer) {
 
             var data = layer.feature.properties;
@@ -243,49 +264,40 @@
 
             // If it isn't already selected, add to set and change style
             //  otherwise, unselect it
-            if (isSelected(layer, id) < 0) {
 
-                // Change Styles 
-                layer.setStyle({
-                    color: "yellow",
-                });
-                layer.bringToFront();
+            // Change Styles 
+            layer.setStyle({
+                color: "yellow",
+            });
+            layer.bringToFront();
 
-                // Test if it overlaps any current selections
-                for (var i = 0; i < selectedSet.length; i++) {
-                    var feat2compare = selectedSet[i]
-                    if (isOverlapped(layer, feat2compare)) {
-                        // if a current feature is overlapped by selection
-                        //  add to list 
-                        overlapping.push(feat2compare);
-                    }
+            // Test if it overlaps any current selections
+            for (var i = 0; i < selectedSet.length; i++) {
+                var feat2compare = selectedSet[i]
+                if (isOverlapped(layer, feat2compare)) {
+                    // if a current feature is overlapped by selection
+                    //  add to list 
+                    overlapping.push(feat2compare);
                 }
-
-                // Add selected feature to the selected set
-                selectedSet.push(layer);
-
-                // Add the feature's stats to the summary statistics
-                updateSummmary();
-
-                // Add the feature's metrics to the polygon table
-                updatePolyTable(data);
-
-                // Unselect any overlapping features
-                overlapping.forEach(function (layer) {
-                    unselected(layer);
-                });
-
-            } else { // If already selected
-
-                // Unselect it
-                unselected(layer);
-
             }
 
+            // Add selected feature to the selected set
+            selectedSet.push(layer);
+
+            // Add the feature's stats to the summary statistics
+            updateSummmary();
+
+            // Add the feature's metrics to the polygon table
+            updatePolyTable(data);
+
+            // Unselect any overlapping features
+            overlapping.forEach(function (layer) {
+                unselected(layer);
+            });
+            
         } // end selected()
 
         // Runs when a feature is removed from selection 
-        //  currently passed through from single click
         function unselected(layer) {
 
             // var layer = e.target;
@@ -539,9 +551,17 @@
                    selected(f); 
                                                      
                 });
-                
-                
-                
+                               
+            });
+            
+            $('.layer-unselect-all').on('click', function () {
+                var targetLayer = $(this).parent().attr('for');
+                               
+                geoJsonLayers[targetLayer].eachLayer(function(f){
+                   unselected(f); 
+                                                     
+                });
+                               
             });
             
 
