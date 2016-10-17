@@ -38,21 +38,21 @@
         <h2>EFH Proposals</h2>
         <div id="layer-controls">
             <input id="collabLayer" type="checkbox" value="collabLayer" checked>
-            <label for="collabLayer" style='color:#E5571D'>Collaborative <button class="layer-select-all">all</button></label>
+            <label for="collabLayer" style='color:#E5571D'>Collaborative <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
             <input id="onoLayer" type="checkbox" value="onoLayer" checked>
-            <label for="onoLayer" style='color:#6F067B'>Oceana-NRDC-OC <button class="layer-select-all">all</button></label>
+            <label for="onoLayer" style='color:#6F067B'>Oceana-NRDC-OC <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
             <input id="fmaLayer" type="checkbox" value="fmaLayer" checked>
-            <label for="fmaLayer" id="fmaLayer" style='color:#377EB8'>FMA <button class="layer-select-all">all</button></label>
+            <label for="fmaLayer" id="fmaLayer" style='color:#377EB8'>FMA <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
             <input id="gfnmsLayer" type="checkbox" value="gfnmsLayer" checked>
-            <label for="gfnmsLayer" style='color:#E2007F'>GFNMS <button class="layer-select-all">all</button></label>
+            <label for="gfnmsLayer" style='color:#E2007F'>GFNMS <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
             <input id="greenpeaceLayer" type="checkbox" value="greenpeaceLayer" checked>
-            <label for="greenpeaceLayer" style='color:#0F6001'>Greenpeace <button class="layer-select-all">all</button></label>
+            <label for="greenpeaceLayer" style='color:#0F6001'>Greenpeace <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
             <input id="mbnmsLayer" type="checkbox" value="mbnmsLayer" checked>
-            <label for="mbnmsLayer" style='color:#E9BD02'>MBNMS <button class="layer-select-all">all</button></label>
+            <label for="mbnmsLayer" style='color:#E9BD02'>MBNMS <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
             <input id="mciLayer" type="checkbox" value="mciLayer" checked>
-            <label for="mciLayer" style='color:#650B0B'>MCI <button class="layer-select-all">all</button></label>
+            <label for="mciLayer" style='color:#650B0B'>MCI <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
             <input id="noneLayer" type="checkbox" value="noneLayer" checked>
-            <label for="noneLayer" style='color:#0F97A3'>None <button class="layer-select-all">all</button></label>
+            <label for="noneLayer" style='color:#0F97A3'>None <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
         </div>
 
         <div id='ui-controls'>
@@ -551,9 +551,17 @@
                    selected(f); 
                                                      
                 });
-                
-                
-                
+                               
+            });
+            
+            $('.layer-unselect-all').on('click', function () {
+                var targetLayer = $(this).parent().attr('for');
+                               
+                geoJsonLayers[targetLayer].eachLayer(function(f){
+                   unselected(f); 
+                                                     
+                });
+                               
             });
             
 
