@@ -116,18 +116,18 @@ h3 {
 #layer-controls label {
     display: block;
     margin: 0 0 1px 0;
-    padding: 2px 0 3px 15px;
+    padding: 3px 5px;
     background: rgba(255, 255, 255, 1);
     border-bottom: 1px solid #597DAB;
-    opacity: .3;
 }
 
 #layer-controls label:hover {
     background: rgba(255, 255, 255, .6);
 }
 
-#layer-controls input:checked + label {
-    opacity: 1
+#layer-controls input:checked + label {}
+#layer-controls label .fa {
+    color: #333;
 }
 
 #ui-controls {
