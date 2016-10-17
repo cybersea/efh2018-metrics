@@ -338,7 +338,7 @@
         });
         
 
-        // Use the GeoJSON input data to draw Leaflet GeoJSON layers on the map
+        // Use the GeoJSON input data to create Leaflet GeoJSON layers for map
         function drawMap(data){
             
             for (k in data){ // loop through each input source data layer
@@ -348,10 +348,17 @@
                     style: function (feature) {  // style for each GeoJSON feature
                         return styles[k]
                     }
-                }). addTo(map);
+                })
+                // Initial state of all layers is off. 
+                // layer.addTo(map);
                 
                 layers[k] = layer;
+                
             } // end loop for all source data layers
+            
+            // Add specific layers to draw on initial load here, if desired
+            layers["tribalUA_ln"].addTo(map);
+
                         
         } // end drawMap()
   
