@@ -40,6 +40,9 @@ h3 {
     width: 64%;
 }
 
+
+
+
 /*  LEFT SIDE PANEL*/
 
 #side-panel {
@@ -77,6 +80,12 @@ h3 {
     content: '';
     display: block;
     clear: both;
+}
+
+/*  Leaflet Control Mods*/
+.leaflet-control-layers {
+    position: relative;
+    right: 220px
 }
 
 /*   RIGHT SIDE PANEL*/
