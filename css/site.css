@@ -116,10 +116,11 @@ h3 {
 #layer-controls label {
     display: block;
     margin: 0 0 1px 0;
-    padding: 2px 0 3px 15px;
+    padding: 3px 5px;
     background: rgba(255, 255, 255, 1);
     border-bottom: 1px solid #597DAB;
     opacity: .3;
+    cursor: pointer;
 }
 
 #layer-controls label:hover {
@@ -128,6 +129,9 @@ h3 {
 
 #layer-controls input:checked + label {
     opacity: 1
+}
+#layer-controls label .fa {
+    color: #333;
 }
 
 #ui-controls {
@@ -292,6 +296,49 @@ tr:hover th {
     margin-top: 10px;
 }
 #download-csv.show {
+    display: block;
+    visibility: visible;
+}
+
+/** tooltips **/
+
+.tooltip {
+    position: relative;
+}
+.tooltip:after {
+    position: absolute;
+    content: attr(data-tooltip);
+    white-space: nowrap;
+    right: 0;
+    bottom: 0;
+    margin-bottom: 120%;
+    display: none;
+    visibility: hidden;
+    background: #333;
+    color: white;
+    padding: 3px 7px;
+    font-size: 0.73em;
+    font-weight: 100;
+    border-radius: 3px;
+}
+.tooltip:before {
+    content: " ";
+    display: none;
+    visibility: hidden;
+    position:absolute;
+    border-left: 5px solid transparent;
+    border-top: 5px solid #333;
+    border-right: 5px solid transparent;
+    top: 0;
+    right: 0;
+    margin-top: -20%;
+    margin-right: 3px;
+}
+.tooltip:hover:after {
+    display: block;
+    visibility: visible;
+}
+.tooltip:hover:before {
     display: block;
     visibility: visible;
 }
