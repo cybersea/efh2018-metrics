@@ -27,7 +27,8 @@
     <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Work+Sans:400,500,600' rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-    <script src="https://use.fontawesome.com/dbb89f5a68.js"></script>
+<!--    <script src="https://use.fontawesome.com/dbb89f5a68.js"></script>-->
+    <link rel="stylesheet" href="fonts/font-awesome-4.6.3/css/font-awesome.min.css">
 
     <!-- custom css -->
     <link href="css/site.css" rel="stylesheet">
@@ -42,21 +43,21 @@
         <h2>EFH Proposals</h2>
         <div id="layer-controls">
             <input id="collabLayer" type="checkbox" value="collabLayer" checked>
-            <label for="collabLayer" style='color:#E5571D'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-toggle-on"></i></span> Collaborative <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
+            <label for="collabLayer" style='color:#E5571D'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> Collaborative <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
             <input id="onoLayer" type="checkbox" value="onoLayer" checked>
-            <label for="onoLayer" style='color:#6F067B'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-toggle-on"></i></span> Oceana-NRDC-OC <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
+            <label for="onoLayer" style='color:#6F067B'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> Oceana-NRDC-OC <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
             <input id="fmaLayer" type="checkbox" value="fmaLayer" checked>
-            <label for="fmaLayer" id="fmaLayer" style='color:#377EB8'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-toggle-on"></i></span> FMA <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
+            <label for="fmaLayer" id="fmaLayer" style='color:#377EB8'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> FMA <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
             <input id="gfnmsLayer" type="checkbox" value="gfnmsLayer" checked>
-            <label for="gfnmsLayer" style='color:#E2007F'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-toggle-on"></i></span> GFNMS <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
+            <label for="gfnmsLayer" style='color:#E2007F'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> GFNMS <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
             <input id="greenpeaceLayer" type="checkbox" value="greenpeaceLayer" checked>
-            <label for="greenpeaceLayer" style='color:#0F6001'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-toggle-on"></i></span> Greenpeace <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
+            <label for="greenpeaceLayer" style='color:#0F6001'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> Greenpeace <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
             <input id="mbnmsLayer" type="checkbox" value="mbnmsLayer" checked>
-            <label for="mbnmsLayer" style='color:#E9BD02'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-toggle-on"></i></span> MBNMS <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
+            <label for="mbnmsLayer" style='color:#E9BD02'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> MBNMS <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
             <input id="mciLayer" type="checkbox" value="mciLayer" checked>
-            <label for="mciLayer" style='color:#650B0B'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-toggle-on"></i></span> MCI <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
+            <label for="mciLayer" style='color:#650B0B'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> MCI <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
             <input id="noneLayer" type="checkbox" value="noneLayer" checked>
-            <label for="noneLayer" style='color:#0F97A3'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-toggle-on"></i></span> None <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
+            <label for="noneLayer" style='color:#0F97A3'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> None <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
         </div>
 
         <div id='ui-controls'>
@@ -690,10 +691,10 @@
                 var icon = $('label[for='+targetLayer+']').find('.fa');
                 console.log(icon);
                 if (this.checked) {
-                    icon.removeClass('fa-toggle-off').addClass('fa-toggle-on');
+                    icon.removeClass('fa-square-o').addClass('fa-check-square-o');
                     map.addLayer(geoJsonLayers[targetLayer]);
                 } else {
-                    icon.removeClass('fa-toggle-on').addClass('fa-toggle-off');
+                    icon.removeClass('fa-check-square-o').addClass('fa-square-o');
                     map.removeLayer(geoJsonLayers[targetLayer]);
                 }
 
