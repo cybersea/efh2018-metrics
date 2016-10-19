@@ -45,7 +45,7 @@
             <input id="collabLayer" type="checkbox" value="collabLayer" checked>
             <label for="collabLayer" style='color:#E5571D'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> Collaborative <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
             <input id="onoLayer" type="checkbox" value="onoLayer" checked>
-            <label for="onoLayer" style='color:#6F067B'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> Oceana-NRDC-OC <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
+            <label for="onoLayer" style='color:#6F067B'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> Oceana et al. <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
             <input id="fmaLayer" type="checkbox" value="fmaLayer" checked>
             <label for="fmaLayer" id="fmaLayer" style='color:#377EB8'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> FMA <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
             <input id="gfnmsLayer" type="checkbox" value="gfnmsLayer" checked>
@@ -144,7 +144,7 @@
         
         // Add home button - zooms to full extent when clicked
         // Button downloaded from Open Iconic  https://useiconic.com/open/
-        L.easyButton('<img src="css/images/home-2x.png">', function(btn, map){
+        L.easyButton('fa-home', function(btn, map){
             map.setView([41, -121.2]);
             map.setZoom(6);
         }).addTo(map);
