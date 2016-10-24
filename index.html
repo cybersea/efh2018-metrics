@@ -282,24 +282,40 @@
             opacity: 0.8            
         }
         
+        var eezLnStyles = {
+            color: "#7f7f7f",
+            weight: 1,
+            opacity: 1
+        }
+        
+        var stateStyles = {
+            color: "#7f7f7f",
+            weight: 1,
+            opacity: 1
+        }
+        
         sources = {
             "eez": "data/eez_py.geojson",
+            "eez_ln": "data/eez_ln.geojson",
             "lat": "data/strata_lat.geojson",
             "dep30fm": "data/rca_30fm.geojson",
             "dep100fm": "data/rca_100fm.geojson",
             "dep150fm": "data/rca_150fm.geojson",
             "dep700fm": "data/efh_700fm.geojson", 
-            "tribalUA_ln": "data/tribalUA_ln.geojson"
+            "tribalUA_ln": "data/tribalUA_ln.geojson",
+            "state_ln": "data/state_ln.geojson"
         }
         
         styles = {
             "eez": eezStyles,
+            "eez_ln": eezLnStyles,
             "lat": latStyles,
             "dep30fm": dep30Styles,
             "dep100fm": dep100Styles,
             "dep150fm": dep150Styles,
             "dep700fm": dep700Styles,
-            "tribalUA_ln": tribalUAStyles
+            "tribalUA_ln": tribalUAStyles,
+            "state_ln": stateStyles,
         }
        
         var data = {}; // object to hold JSON data for each layer
@@ -307,10 +323,13 @@
         
         // 
         $.when(
-                $.getJSON(sources["eez"], function(d) {
-                    data["eez"] =  d;
+                $.getJSON(sources["eez_ln"], function(d) {
+                    data["eez_ln"] =  d;
                 }),
-                 $.getJSON(sources["lat"], function(d) {
+                $.getJSON(sources["state_ln"], function(d) {
+                    data["state_ln"] =  d;
+                }),
+                $.getJSON(sources["lat"], function(d) {
                     data["lat"] =  d;
                 }),
                  $.getJSON(sources["dep30fm"], function(d) {
@@ -372,7 +391,8 @@
             // Doesn't seem to matter if it is called from $.when/.then, or from drawMap() function
             
             var layerLabels = {
-                "<b style='color:#7f7f7f'>EEZ</b>": layers["eez"],
+                "<b style='color:#7f7f7f'>EEZ</b>": layers["eez_ln"],
+                "<b style='color:#7f7f7f'>State Waters</b>": layers["state_ln"],
                 "<b style='color:black'>Latitude Breaks</b>": layers["lat"],
                 "<b style='color:#006400'>30 fathoms</b>": layers["dep30fm"],
                 "<b style='color:#eead0e'>100 fathoms</b>": layers["dep100fm"],
@@ -689,7 +709,6 @@
 
                 var targetLayer = $(this).val();
                 var icon = $('label[for='+targetLayer+']').find('.fa');
-                console.log(icon);
                 if (this.checked) {
                     icon.removeClass('fa-square-o').addClass('fa-check-square-o');
                     map.addLayer(geoJsonLayers[targetLayer]);
