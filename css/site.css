@@ -313,6 +313,7 @@ tr:hover th {
 .layer-select-all {
     background: transparent;
     border: none;
+    outline: none;
     float: right;
 }
 
