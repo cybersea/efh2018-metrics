@@ -36,28 +36,109 @@
 </head>
 
 <body>
-    <!-- HTML form for user to select EFH proposal to draw on map -->
-    <!-- Note that values correspond exactly to attribute names in source GeoJSON data file -->
 
     <div id="right-panel">
+        
+        <!-- HTML form for user to select EFH proposal to draw on map -->
+        <!-- Note that values correspond exactly to attribute names in source GeoJSON data file -->
         <h2>EFH Proposals</h2>
         <div id="layer-controls">
+            <!-- Collaborative -->
             <input id="collabLayer" type="checkbox" value="collabLayer" checked>
-            <label for="collabLayer" style='color:#E5571D'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> Collaborative <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
+            <label for="collabLayer" style='color:#E5571D'>
+                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
+                Collaborative 
+                <button class="layer-unselect-all">
+                    <span class="tooltip" data-tooltip="Remove Proposal from Selection"><i class="fa fa-minus-square-o"></i></span>
+                </button>
+                <button class="layer-select-all">
+                    <span class="tooltip" data-tooltip="Add Proposal to Selection"><i class="fa fa-plus-square-o"></i></span>
+                </button>
+            </label>
+            <!-- Oceana -->
             <input id="onoLayer" type="checkbox" value="onoLayer" checked>
-            <label for="onoLayer" style='color:#6F067B'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> Oceana et al. <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
+            <label for="onoLayer" style='color:#6F067B'>
+                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
+                Oceana et al. 
+                <button class="layer-unselect-all">
+                    <span class="tooltip" data-tooltip="Remove Proposal from Selection"><i class="fa fa-minus-square-o"></i></span>
+                </button>
+                <button class="layer-select-all">
+                    <span class="tooltip" data-tooltip="Add Proposal to Selection"><i class="fa fa-plus-square-o"></i></span>
+                </button>
+            </label>
+            <!-- Fishermans Marketing Association -->
             <input id="fmaLayer" type="checkbox" value="fmaLayer" checked>
-            <label for="fmaLayer" id="fmaLayer" style='color:#377EB8'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> FMA <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
+            <label for="fmaLayer" id="fmaLayer" style='color:#377EB8'>
+                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
+                FMA 
+                <button class="layer-unselect-all">
+                    <span class="tooltip" data-tooltip="Remove Proposal from Selection"><i class="fa fa-minus-square-o"></i></span>
+                </button>
+                <button class="layer-select-all">
+                    <span class="tooltip" data-tooltip="Add Proposal to Selection"><i class="fa fa-plus-square-o"></i></span>
+                </button>
+            </label>
+            <!-- Farallones National Marine Sanctuary -->
             <input id="gfnmsLayer" type="checkbox" value="gfnmsLayer" checked>
-            <label for="gfnmsLayer" style='color:#E2007F'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> GFNMS <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
+            <label for="gfnmsLayer" style='color:#E2007F'>
+                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
+                GFNMS 
+                <button class="layer-unselect-all">
+                    <span class="tooltip" data-tooltip="Remove Proposal from Selection"><i class="fa fa-minus-square-o"></i></span>
+                </button>
+                <button class="layer-select-all">
+                    <span class="tooltip" data-tooltip="Add Proposal to Selection"><i class="fa fa-plus-square-o"></i></span>
+                </button>
+            </label>
+            <!-- Greenpeace -->
             <input id="greenpeaceLayer" type="checkbox" value="greenpeaceLayer" checked>
-            <label for="greenpeaceLayer" style='color:#0F6001'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> Greenpeace <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
+            <label for="greenpeaceLayer" style='color:#0F6001'>
+                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
+                Greenpeace 
+                <button class="layer-unselect-all">
+                    <span class="tooltip" data-tooltip="Remove Proposal from Selection"><i class="fa fa-minus-square-o"></i></span>
+                </button>
+                <button class="layer-select-all">
+                    <span class="tooltip" data-tooltip="Add Proposal to Selection"><i class="fa fa-plus-square-o"></i></span>
+                </button>
+            </label>
+            <!-- Monterey Bay National Marine Sanctuary -->
             <input id="mbnmsLayer" type="checkbox" value="mbnmsLayer" checked>
-            <label for="mbnmsLayer" style='color:#E9BD02'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> MBNMS <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
+            <label for="mbnmsLayer" style='color:#E9BD02'>
+                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
+                MBNMS 
+                <button class="layer-unselect-all">
+                    <span class="tooltip" data-tooltip="Remove Proposal from Selection"><i class="fa fa-minus-square-o"></i></span>
+                </button>
+                <button class="layer-select-all">
+                    <span class="tooltip" data-tooltip="Add Proposal to Selection"><i class="fa fa-plus-square-o"></i></span>
+                </button>
+            </label>
+            <!-- Marine Conservation Institute -->
             <input id="mciLayer" type="checkbox" value="mciLayer" checked>
-            <label for="mciLayer" style='color:#650B0B'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> MCI <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
+            <label for="mciLayer" style='color:#650B0B'>
+                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
+                MCI 
+                <button class="layer-unselect-all">
+                    <span class="tooltip" data-tooltip="Remove Proposal from Selection"><i class="fa fa-minus-square-o"></i></span>
+                </button>
+                <button class="layer-select-all">
+                    <span class="tooltip" data-tooltip="Add Proposal to Selection"><i class="fa fa-plus-square-o"></i></span>
+                </button>
+            </label>
+            <!-- Extra Polygons (Proposer = None) -->
             <input id="noneLayer" type="checkbox" value="noneLayer" checked>
-            <label for="noneLayer" style='color:#0F97A3'><span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> None <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
+            <label for="noneLayer" style='color:#0F97A3'>
+                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
+                None 
+                <button class="layer-unselect-all">
+                    <span class="tooltip" data-tooltip="Remove Proposal from Selection"><i class="fa fa-minus-square-o"></i></span>
+                </button>
+                <button class="layer-select-all">
+                    <span class="tooltip" data-tooltip="Add Proposal to Selection"><i class="fa fa-plus-square-o"></i></span>
+                </button>
+            </label>
         </div>
 
         <div id='ui-controls'>

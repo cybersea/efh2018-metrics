@@ -104,7 +104,7 @@ h3 {
 .poly-info {
     padding: 6px 8px;
     font-size: 1.1em;
-    width: 180px;
+    width: 200px;
     color: rgba(4, 33, 61, 1);
 }
 
@@ -307,6 +307,13 @@ tr:hover th {
 #download-csv.show {
     display: block;
     visibility: visible;
+}
+
+.layer-unselect-all,
+.layer-select-all {
+    background: transparent;
+    border: none;
+    float: right;
 }
 
 /** tooltips **/
