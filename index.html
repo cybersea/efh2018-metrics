@@ -13,17 +13,22 @@
     <script src="http://api.tiles.mapbox.com/mapbox.js/plugins/turf/v2.0.0/turf.min.js"></script>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
     -->
+    <!--Local -->  
     <link href='css/normalize.css' rel="stylesheet">
-    <!--Local -->
+    <link href="css/leaflet.css" rel="stylesheet"/>
+    <link href="css/easy-button.css" rel="stylesheet"/>
+    
     <script src="js/jquery-1.11.2.min.js"></script>
     <script src="js/leaflet.js"></script>
     <script src="js/turf.min.js"></script>
     <script src="js/jquery.tabletoCSV.js"></script>
-    <link rel="stylesheet" href="css/leaflet.css" />
+    <script src="js/easy-button.js"></script>
 
     <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Work+Sans:400,500,600' rel='stylesheet' type='text/css'>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+<!--    <script src="https://use.fontawesome.com/dbb89f5a68.js"></script>-->
+    <link rel="stylesheet" href="fonts/font-awesome-4.6.3/css/font-awesome.min.css">
 
     <!-- custom css -->
     <link href="css/site.css" rel="stylesheet">
@@ -31,28 +36,109 @@
 </head>
 
 <body>
-    <!-- HTML form for user to select vacancy attribute to map -->
-    <!-- Note that values correspond exactly to attribute names in source GeoJSON data file -->
 
     <div id="right-panel">
+        
+        <!-- HTML form for user to select EFH proposal to draw on map -->
+        <!-- Note that values correspond exactly to attribute names in source GeoJSON data file -->
         <h2>EFH Proposals</h2>
         <div id="layer-controls">
+            <!-- Collaborative -->
             <input id="collabLayer" type="checkbox" value="collabLayer" checked>
-            <label for="collabLayer" style='color:#E5571D'>Collaborative <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
+            <label for="collabLayer" style='color:#E5571D'>
+                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
+                Collaborative 
+                <button class="layer-unselect-all">
+                    <span class="tooltip" data-tooltip="Remove Proposal from Selection"><i class="fa fa-minus-square-o"></i></span>
+                </button>
+                <button class="layer-select-all">
+                    <span class="tooltip" data-tooltip="Add Proposal to Selection"><i class="fa fa-plus-square-o"></i></span>
+                </button>
+            </label>
+            <!-- Oceana -->
             <input id="onoLayer" type="checkbox" value="onoLayer" checked>
-            <label for="onoLayer" style='color:#6F067B'>Oceana-NRDC-OC <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
+            <label for="onoLayer" style='color:#6F067B'>
+                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
+                Oceana et al. 
+                <button class="layer-unselect-all">
+                    <span class="tooltip" data-tooltip="Remove Proposal from Selection"><i class="fa fa-minus-square-o"></i></span>
+                </button>
+                <button class="layer-select-all">
+                    <span class="tooltip" data-tooltip="Add Proposal to Selection"><i class="fa fa-plus-square-o"></i></span>
+                </button>
+            </label>
+            <!-- Fishermans Marketing Association -->
             <input id="fmaLayer" type="checkbox" value="fmaLayer" checked>
-            <label for="fmaLayer" id="fmaLayer" style='color:#377EB8'>FMA <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
+            <label for="fmaLayer" id="fmaLayer" style='color:#377EB8'>
+                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
+                FMA 
+                <button class="layer-unselect-all">
+                    <span class="tooltip" data-tooltip="Remove Proposal from Selection"><i class="fa fa-minus-square-o"></i></span>
+                </button>
+                <button class="layer-select-all">
+                    <span class="tooltip" data-tooltip="Add Proposal to Selection"><i class="fa fa-plus-square-o"></i></span>
+                </button>
+            </label>
+            <!-- Farallones National Marine Sanctuary -->
             <input id="gfnmsLayer" type="checkbox" value="gfnmsLayer" checked>
-            <label for="gfnmsLayer" style='color:#E2007F'>GFNMS <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
+            <label for="gfnmsLayer" style='color:#E2007F'>
+                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
+                GFNMS 
+                <button class="layer-unselect-all">
+                    <span class="tooltip" data-tooltip="Remove Proposal from Selection"><i class="fa fa-minus-square-o"></i></span>
+                </button>
+                <button class="layer-select-all">
+                    <span class="tooltip" data-tooltip="Add Proposal to Selection"><i class="fa fa-plus-square-o"></i></span>
+                </button>
+            </label>
+            <!-- Greenpeace -->
             <input id="greenpeaceLayer" type="checkbox" value="greenpeaceLayer" checked>
-            <label for="greenpeaceLayer" style='color:#0F6001'>Greenpeace <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
+            <label for="greenpeaceLayer" style='color:#0F6001'>
+                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
+                Greenpeace 
+                <button class="layer-unselect-all">
+                    <span class="tooltip" data-tooltip="Remove Proposal from Selection"><i class="fa fa-minus-square-o"></i></span>
+                </button>
+                <button class="layer-select-all">
+                    <span class="tooltip" data-tooltip="Add Proposal to Selection"><i class="fa fa-plus-square-o"></i></span>
+                </button>
+            </label>
+            <!-- Monterey Bay National Marine Sanctuary -->
             <input id="mbnmsLayer" type="checkbox" value="mbnmsLayer" checked>
-            <label for="mbnmsLayer" style='color:#E9BD02'>MBNMS <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
+            <label for="mbnmsLayer" style='color:#E9BD02'>
+                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
+                MBNMS 
+                <button class="layer-unselect-all">
+                    <span class="tooltip" data-tooltip="Remove Proposal from Selection"><i class="fa fa-minus-square-o"></i></span>
+                </button>
+                <button class="layer-select-all">
+                    <span class="tooltip" data-tooltip="Add Proposal to Selection"><i class="fa fa-plus-square-o"></i></span>
+                </button>
+            </label>
+            <!-- Marine Conservation Institute -->
             <input id="mciLayer" type="checkbox" value="mciLayer" checked>
-            <label for="mciLayer" style='color:#650B0B'>MCI <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
+            <label for="mciLayer" style='color:#650B0B'>
+                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
+                MCI 
+                <button class="layer-unselect-all">
+                    <span class="tooltip" data-tooltip="Remove Proposal from Selection"><i class="fa fa-minus-square-o"></i></span>
+                </button>
+                <button class="layer-select-all">
+                    <span class="tooltip" data-tooltip="Add Proposal to Selection"><i class="fa fa-plus-square-o"></i></span>
+                </button>
+            </label>
+            <!-- Extra Polygons (Proposer = None) -->
             <input id="noneLayer" type="checkbox" value="noneLayer" checked>
-            <label for="noneLayer" style='color:#0F97A3'>None <button class="layer-select-all">all</button><button class="layer-unselect-all">unsel</button></label>
+            <label for="noneLayer" style='color:#0F97A3'>
+                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
+                None 
+                <button class="layer-unselect-all">
+                    <span class="tooltip" data-tooltip="Remove Proposal from Selection"><i class="fa fa-minus-square-o"></i></span>
+                </button>
+                <button class="layer-select-all">
+                    <span class="tooltip" data-tooltip="Add Proposal to Selection"><i class="fa fa-plus-square-o"></i></span>
+                </button>
+            </label>
         </div>
 
         <div id='ui-controls'>
@@ -136,6 +222,13 @@
         esri_ocean.addTo(map);
 
         L.control.scale().addTo(map); // Add scale bar
+        
+        // Add home button - zooms to full extent when clicked
+        // Button downloaded from Open Iconic  https://useiconic.com/open/
+        L.easyButton('fa-home', function(btn, map){
+            map.setView([41, -121.2]);
+            map.setZoom(6);
+        }).addTo(map);
 
         // Create Info Box for display of feature data on hover
         drawInfo();
@@ -143,11 +236,6 @@
         // Call function to create user interface for interacting with selected set
         buildUI();
 
-        // Create a blank table for summary metrics
-//        buildSummary();
-
-        // Create blank table for individual polygon metrics
-//        buildPolyTable();
 
         // Style info for individual proposal layers
         var layerInfo = {
@@ -183,9 +271,6 @@
                 noneLayer: {
                     proposer: "None",
                     color: "#0F97A3",
-                    //color: "#0D8792",
-                    //color: "#228E9C",
-                    //color: "#0B7983",
                 },            
             }
             //
@@ -234,6 +319,174 @@
             geoJsonLayers[lyr].startStyle = styles
 
         } // end of loop through all geoJSON layers
+        
+        // Supplemental Layer styles
+        var depLineWeight = 2;
+        var depOpacity = 1;
+        
+        var latStyles = {
+            color: "black",
+            weight: 1,
+            opacity: depOpacity
+        }      
+        var dep30Styles = {
+            color: "#006400",
+            weight: depLineWeight,
+            opacity: depOpacity
+        }       
+        var dep100Styles = {
+            color: "#eead0e",
+            weight: depLineWeight,
+            opacity: depOpacity
+        }
+        var dep150Styles = {
+            color: "#8b2500",
+            weight: depLineWeight,
+            opacity: depOpacity
+        }        
+        var dep700Styles = {
+            color: "#104e8b",
+            weight: depLineWeight,
+            opacity: depOpacity
+        }  
+        var tribalUAStyles = {
+            color: "#594600",
+            weight: 2,
+            opacity: 1
+        } 
+        var eezStyles = {
+            fillColor: "#7f7f7f",
+//            stroke: false,
+            fillOpacity: 0.3,
+            color: "black",
+            weight: 1,
+            opacity: 0.8            
+        }
+        
+        var eezLnStyles = {
+            color: "#7f7f7f",
+            weight: 1,
+            opacity: 1
+        }
+        
+        var stateStyles = {
+            color: "#7f7f7f",
+            weight: 1,
+            opacity: 1
+        }
+        
+        sources = {
+            "eez": "data/eez_py.geojson",
+            "eez_ln": "data/eez_ln.geojson",
+            "lat": "data/strata_lat.geojson",
+            "dep30fm": "data/rca_30fm.geojson",
+            "dep100fm": "data/rca_100fm.geojson",
+            "dep150fm": "data/rca_150fm.geojson",
+            "dep700fm": "data/efh_700fm.geojson", 
+            "tribalUA_ln": "data/tribalUA_ln.geojson",
+            "state_ln": "data/state_ln.geojson"
+        }
+        
+        styles = {
+            "eez": eezStyles,
+            "eez_ln": eezLnStyles,
+            "lat": latStyles,
+            "dep30fm": dep30Styles,
+            "dep100fm": dep100Styles,
+            "dep150fm": dep150Styles,
+            "dep700fm": dep700Styles,
+            "tribalUA_ln": tribalUAStyles,
+            "state_ln": stateStyles,
+        }
+       
+        var data = {}; // object to hold JSON data for each layer
+        var layers = {}; // object to hold Leaflet GeoJSON layers
+        
+        // 
+        $.when(
+                $.getJSON(sources["eez_ln"], function(d) {
+                    data["eez_ln"] =  d;
+                }),
+                $.getJSON(sources["state_ln"], function(d) {
+                    data["state_ln"] =  d;
+                }),
+                $.getJSON(sources["lat"], function(d) {
+                    data["lat"] =  d;
+                }),
+                 $.getJSON(sources["dep30fm"], function(d) {
+                    data["dep30fm"] =  d;
+                }),
+                 $.getJSON(sources["dep100fm"], function(d) {
+                    data["dep100fm"] =  d;
+                }),
+                 $.getJSON(sources["dep150fm"], function(d) {
+                    data["dep150fm"] =  d;
+                }),
+                 $.getJSON(sources["dep700fm"], function(d) {
+                    data["dep700fm"] =  d;
+                }),
+                  $.getJSON(sources["tribalUA_ln"], function(d) {
+                    data["tribalUA_ln"] =  d;
+                })  
+            
+        ).then(function() {
+
+            // send complete data object to another function to create layers, etc.
+            drawMap(data);
+            
+            // Draw legend with Leaflet GeoJSON layers
+            drawSwitcher(layers);
+
+        });
+        
+
+        // Use the GeoJSON input data to create Leaflet GeoJSON layers for map
+        function drawMap(data){
+            
+            for (k in data){ // loop through each input source data layer
+                    
+                // Create Leaflet GeoJSON layer with source GeoJSON data
+                var layer = L.geoJson(data[k], {
+                    style: function (feature) {  // style for each GeoJSON feature
+                        return styles[k]
+                    }
+                })
+                // Initial state of all layers is off. 
+                // layer.addTo(map);
+                
+                layers[k] = layer;
+                
+            } // end loop for all source data layers
+            
+            // Add specific layers to draw on initial load here, if desired
+            layers["tribalUA_ln"].addTo(map);
+
+                        
+        } // end drawMap()
+  
+        
+        function drawSwitcher(layers){
+            
+            // Layer Switcher   
+            // Not sure how the order is determined.  Seems to vary.
+            // Doesn't seem to matter if it is called from $.when/.then, or from drawMap() function
+            
+            var layerLabels = {
+                "<b style='color:#7f7f7f'>EEZ</b>": layers["eez_ln"],
+                "<b style='color:#7f7f7f'>State Waters</b>": layers["state_ln"],
+                "<b style='color:black'>Latitude Breaks</b>": layers["lat"],
+                "<b style='color:#006400'>30 fathoms</b>": layers["dep30fm"],
+                "<b style='color:#eead0e'>100 fathoms</b>": layers["dep100fm"],
+                "<b style='color:#8b2500'>150 fathoms</b>": layers["dep150fm"],
+                "<b style='color:#104e8b'>700 fathoms</b>": layers["dep700fm"],
+                "<b style='color:#594600'>Tribal U&A</b>": layers["tribalUA_ln"],
+            }
+
+            var switcher = L.control.layers(null, layerLabels, {
+                collapsed: true});
+            switcher.addTo(map); 
+ 
+        } // end drawSwitcher()
 
 
         // Select or unselect feature depending on its current state
@@ -497,19 +750,19 @@
             html += "<br>" + "<b>Mixed Substrate: </b>" + pct(data.mixed, data.SiteAreaM2);
             html += "<br>" + "<b>Soft Substrate: </b>" + pct(data.soft, data.SiteAreaM2);
             html += "<br>" + "<b>Unknown Substrate: </b>" + pct(data.unknown, data.SiteAreaM2);
-            html += "<br>" + "<b>Canyons & Gullys: </b>" + pct(data.CynAreaM2, data.SiteAreaM2);
+            html += "<br>" + "<b>Canyons & Gullies: </b>" + pct(data.CynAreaM2, data.SiteAreaM2);
             html += "<br>" + "<b>Seamounts: </b>" + pct(data.SmtAreaM2, data.SiteAreaM2);
-            html += "<br>" + "<b>Corals & Sponges</b> (1x1 km blocks): " + data.corspg_cnt;
-            html += "<br>" + "<b>Highest 20% Overfished Predicted Spp: </b> " + pct(data.OF20AreaM2, data.SiteAreaM2);
+            html += "<br>" + "<b>Corals & Sponges</b> (1 km blocks): " + data.corspg_cnt;
+            html += "<br>" + "<b>OFS 20% HSP: </b> " + pct(data.OF20AreaM2, data.SiteAreaM2);
 
             if (data.VesCount >= 3 || data.VesCount == 0) {
                 html += "<br>" + "<b>Trawl Tow Length (mi): </b>" + m2mi(data.TowLenM);
-                html += "<br>" + "<b>Total Catch (MT): </b> " + rnd(data.Total_MT,1);
-                html += "<br>" + "<b>Total Ex-Vessel Value: </b> " + dollars(data.Total_Rev);
+//                html += "<br>" + "<b>Total Catch (MT): </b> " + rnd(data.Total_MT,1);
+//                html += "<br>" + "<b>Total Ex-Vessel Value: </b> " + dollars(data.Total_Rev);
             } else {
                 html += "<br>" + "<b>Trawl Tow Length: </b> **";
-                html += "<br>" + "<b>Total Catch (MT): </b> **";
-                html += "<br>" + "<b>Total Ex-Vessel Value: </b> **";
+//                html += "<br>" + "<b>Total Catch (MT): </b> **";
+//                html += "<br>" + "<b>Total Ex-Vessel Value: </b> **";
             }     
 
             // Assign the html content to the info box using JQuery selector
@@ -536,9 +789,12 @@
             $('#layer-controls input').change(function () {
 
                 var targetLayer = $(this).val();
+                var icon = $('label[for='+targetLayer+']').find('.fa');
                 if (this.checked) {
+                    icon.removeClass('fa-square-o').addClass('fa-check-square-o');
                     map.addLayer(geoJsonLayers[targetLayer]);
                 } else {
+                    icon.removeClass('fa-check-square-o').addClass('fa-square-o');
                     map.removeLayer(geoJsonLayers[targetLayer]);
                 }
 
@@ -609,6 +865,13 @@
             }
         }
         
+        // Format proportion as percent
+        function prop2pct(val){
+            return val.toLocaleString(undefined, {
+                style: 'percent'
+            });
+        }
+        
         // Round and Format to specified number of decimals
         function rnd(val, digits){
             return val.toLocaleString(undefined, {
@@ -641,7 +904,7 @@
             // Create empty table structure
             rows += '<tr class="table-row-header"><th>Environmental Metrics</th>' + '<th>Close</th>' + '<th>Open</th>' + '<th>Net</th></tr>' +
                 '<tr><td>Area (sq mi)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><th>Physical Habitat</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><th>Substrate Type</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Hard</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Mixed</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Soft</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
@@ -651,21 +914,23 @@
                 '<tr><td>Canyons & Gullies</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Seamounts</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Corals & Sponges (1 km blocks)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><td>Highest 20% Predicted Spp Occurrence</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><td>OFS 20% HSP (sq mi) </td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr class="table-row-header"><th>Socioeconomic Metrics</th>' + '<th>Displace</th>' + '<th>Restore</th>' + '<th>Net</th></tr>' +
+                '<tr><th>Trawl Effort</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Total Tow Length (mi)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><th>Total Catch (Metric Tons)</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><td>Flatfish (MT)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><td>Rockfish (MT)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><td>Roundfish (MT)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><td>Sharks & Skates (MT)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><td>Other (MT)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><th>Total Ex-Vessel Value (Thousands of $)</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><td>Flatfish ($1K)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><td>Rockfish ($1K)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><td>Roundfish ($1K)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><td>Sharks & Skates ($1K)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><td>Other ($1K)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>';
+                '<tr><td>Percent of Coastwide Tow Length</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>';
+//                '<tr><th>Total Catch (Metric Tons)</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+//                '<tr><td>Flatfish (MT)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+//                '<tr><td>Rockfish (MT)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+//                '<tr><td>Roundfish (MT)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+//                '<tr><td>Sharks & Skates (MT)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+//                '<tr><td>Other (MT)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+//                '<tr><th>Total Ex-Vessel Value (Thousands of $)</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+//                '<tr><td>Flatfish ($1K)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+//                '<tr><td>Rockfish ($1K)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+//                '<tr><td>Roundfish ($1K)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+//                '<tr><td>Sharks & Skates ($1K)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+//                '<tr><td>Other ($1K)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>';
                     
             // update the html of the table
             $table.html(rows);
@@ -687,6 +952,7 @@
                 "corspg_cnt",
                 "OF20AreaM2",
                 "TowLenM",
+                "PropLenTot",
                 "Total_MT",
                 "Flatfish_MT",
                 "Rockfish_MT",
@@ -716,6 +982,7 @@
                 corspg_cnt: 0,
                 OF20AreaM2: 0,
                 TowLenM: 0,
+                PropLenTot: 0,
                 Total_MT: 0,
                 Flatfish_MT: 0,
                 Rockfish_MT: 0,
@@ -738,9 +1005,9 @@
                 CynAreaM2: 0,
                 SmtAreaM2: 0,
                 corspg_cnt: 0,
-                TowLenM: 0,
                 OF20AreaM2: 0,
                 TowLenM: 0,
+                PropLenTot: 0,
                 Total_MT: 0,
                 Flatfish_MT: 0,
                 Rockfish_MT: 0,
@@ -823,75 +1090,79 @@
                 '<tr><td>Area (sq mi)</td>' + '<td>' + sqm2sqmi(areaClose) + '</td>' +
                 '<td>' + sqm2sqmi(areaOpen) + '</td>' +
                 '<td>' + sqm2sqmi(areaNet) + '</td></tr>' +
-                '<tr><th>Physical Habitat</th><td></td><td></td><td></td></tr>' +
-                '<tr><td>Hard</td>' + '<td>' + pct(summClose.hard, areaClose) + '</td>' +
-                '<td>' + pct(summOpen.hard, areaOpen) + '</td>' +
-                '<td>' + pct(calcNet(summClose.hard, summOpen.hard), areaNet) + '</td></tr>' +
-                '<tr><td>Mixed</td>' + '<td>' + pct(summClose.mixed, areaClose) + '</td>' +
-                '<td>' + pct(summOpen.mixed, areaOpen) + '</td>' +
-                '<td>' + pct(calcNet(summClose.mixed, summOpen.mixed), areaNet) + '</td></tr>' +
-                '<tr><td>Soft</td>' + '<td>' + pct(summClose.soft, areaClose) + '</td>' +
-                '<td>' + pct(summOpen.soft, areaOpen) + '</td>' +
-                '<td>' + pct(calcNet(summClose.soft, summOpen.soft), areaNet) + '</td></tr>' +
-                '<tr><td>Unknown</td>' + '<td>' + pct(summClose.unknown, areaClose) + '</td>' +
-                '<td>' + pct(summOpen.unknown, areaOpen) + '</td>' +
-                '<td>' + pct(calcNet(summClose.unknown, summOpen.unknown), areaNet) + '</td></tr>' +
+                '<tr><th>Substrate Type</th><td></td><td></td><td></td></tr>' +
+                '<tr><td>Hard (sq mi) </td>' + '<td>' + sqm2sqmi(summClose.hard) + '</td>' +
+                '<td>' + sqm2sqmi(summOpen.hard) + '</td>' +
+                '<td>' + sqm2sqmi(calcNet(summClose.hard, summOpen.hard)) + '</td></tr>' +
+                '<tr><td>Mixed (sq mi) </td>' + '<td>' + sqm2sqmi(summClose.mixed) + '</td>' +
+                '<td>' + sqm2sqmi(summOpen.mixed) + '</td>' +
+                '<td>' + sqm2sqmi(calcNet(summClose.mixed, summOpen.mixed)) + '</td></tr>' +
+                '<tr><td>Soft (sq mi) </td>' + '<td>' + sqm2sqmi(summClose.soft) + '</td>' +
+                '<td>' + sqm2sqmi(summOpen.soft, areaOpen) + '</td>' +
+                '<td>' + sqm2sqmi(calcNet(summClose.soft, summOpen.soft), areaNet) + '</td></tr>' +
+                '<tr><td>Unknown (sq mi) </td>' + '<td>' + sqm2sqmi(summClose.unknown) + '</td>' +
+                '<td>' + sqm2sqmi(summOpen.unknown, areaOpen) + '</td>' +
+                '<td>' + sqm2sqmi(calcNet(summClose.unknown, summOpen.unknown), areaNet) + '</td></tr>' +
                 '<tr><th>Priority Habitats</th><td></td><td></td><td></td></tr>' +
-                '<tr><td>Hard Substrate</td>' + '<td>' + pct(summClose.hard, areaClose) + '</td>' +
-                '<td>' + pct(summOpen.hard, areaOpen) + '</td>' +
-                '<td>' + pct(calcNet(summClose.hard, summOpen.hard), areaNet) + '</td></tr>' +
-                '<tr><td>Canyons & Gullies</td>' + '<td>' + pct(summClose.CynAreaM2, areaClose) + '</td>' +
-                '<td>' + pct(summOpen.CynAreaM2, areaOpen) + '</td>' +
-                '<td>' + pct(calcNet(summClose.CynAreaM2, summOpen.CynAreaM2), areaNet) + '</td></tr>' +
-                '<tr><td>Seamounts</td>' + '<td>' + pct(summClose.SmtAreaM2, areaClose) + '</td>' +
-                '<td>' + pct(summOpen.SmtAreaM2, areaOpen) + '</td>' +
-                '<td>' + pct(calcNet(summClose.SmtAreaM2, summOpen.SmtAreaM2), areaNet) + '</td></tr>' +
+                '<tr><td>Hard Substrate (sq mi) </td>' + '<td>' + sqm2sqmi(summClose.hard) + '</td>' +
+                '<td>' + sqm2sqmi(summOpen.hard, areaOpen) + '</td>' +
+                '<td>' + sqm2sqmi(calcNet(summClose.hard, summOpen.hard), areaNet) + '</td></tr>' +
+                '<tr><td>Canyons & Gullies  (sq mi) </td>' + '<td>' + sqm2sqmi(summClose.CynAreaM2) + '</td>' +
+                '<td>' + sqm2sqmi(summOpen.CynAreaM2, areaOpen) + '</td>' +
+                '<td>' + sqm2sqmi(calcNet(summClose.CynAreaM2, summOpen.CynAreaM2), areaNet) + '</td></tr>' +
+                '<tr><td>Seamounts  (sq mi) </td>' + '<td>' + sqm2sqmi(summClose.SmtAreaM2) + '</td>' +
+                '<td>' + sqm2sqmi(summOpen.SmtAreaM2, areaOpen) + '</td>' +
+                '<td>' + sqm2sqmi(calcNet(summClose.SmtAreaM2, summOpen.SmtAreaM2), areaNet) + '</td></tr>' +
                 '<tr><td>Corals & Sponges (1 km blocks)</td>' + '<td>' + summClose.corspg_cnt + '</td>' +
                 '<td>' + summOpen.corspg_cnt + '</td>' +
                 '<td>' + calcNet(summClose.corspg_cnt, summOpen.corspg_cnt) + '</td></tr>' +
-                '<tr><td>Highest 20% Predicted Spp Occurrence</td>' + '<td>' + pct(summClose.OF20AreaM2, areaClose) + '</td>' +
-                '<td>' + pct(summOpen.OF20AreaM2, areaOpen) + '</td>' +
-                '<td>' + pct(calcNet(summClose.OF20AreaM2, summOpen.OF20AreaM2), areaNet) + '</td></tr>' +
+                '<tr><td>OFS 20% HSP (sq mi) </td>' + '<td>' + sqm2sqmi(summClose.OF20AreaM2) + '</td>' +
+                '<td>' + sqm2sqmi(summOpen.OF20AreaM2, areaOpen) + '</td>' +
+                '<td>' + sqm2sqmi(calcNet(summClose.OF20AreaM2, summOpen.OF20AreaM2), areaNet) + '</td></tr>' +
                 '<tr class="table-row-header"><th>Socioeconomic Metrics</th><th>Displace</th><th>Restore</th><th>Net</th></tr>' +
+                '<tr><th>Trawl Effort</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Total Tow Length (mi)</td>' + '<td>' + m2mi(summClose.TowLenM) + '</td>' +
                 '<td>' + m2mi(summOpen.TowLenM) + '</td>' +
-                '<td>' + m2mi(calcNet(summClose.TowLenM, summOpen.TowLenM)) + '</td></tr>' +
-                '<tr><th>Total Catch (Metric Tons)</th>' + '<td>' + rnd(summClose.Total_MT, 1) + '</td>' + 
-                '<td>' + rnd(summOpen.Total_MT, 1) + '</td>' + 
-                '<td>' + rnd(calcNet(summClose.Total_MT,summOpen.Total_MT), 1) + '</td></tr>' +
-                '<tr><td>Flatfish (MT)</td>' + '<td>' + rnd(summClose.Flatfish_MT, 1) + '</td>' + 
-                '<td>' + rnd(summOpen.Flatfish_MT, 1) + '</td>' + 
-                '<td>' + rnd(calcNet(summClose.Flatfish_MT,summOpen.Flatfish_MT), 1) + '</td></tr>' +
-                '<tr><td>Rockfish (MT)</td>'  + '<td>' + rnd(summClose.Rockfish_MT, 1) + '</td>' + 
-                '<td>' + rnd(summOpen.Rockfish_MT, 1) + '</td>' + 
-                '<td>' + rnd(calcNet(summClose.Rockfish_MT,summOpen.Rockfish_MT), 1) + '</td></tr>' +
-                '<tr><td>Roundfish (MT)</td>'  + '<td>' + rnd(summClose.Roundfish_MT, 1) + '</td>' + 
-                '<td>' + rnd(summOpen.Roundfish_MT, 1) + '</td>' + 
-                '<td>' + rnd(calcNet(summClose.Roundfish_MT,summOpen.Roundfish_MT), 1) + '</td></tr>' +
-                '<tr><td>Sharks & Skates (MT)</td>'  + '<td>' + rnd(summClose.SharkSkate_MT, 1) + '</td>' + 
-                '<td>' + rnd(summOpen.SharkSkate_MT, 1) + '</td>' + 
-                '<td>' + rnd(calcNet(summClose.SharkSkate_MT,summOpen.SharkSkate_MT), 1) + '</td></tr>' +
-                '<tr><td>Other (MT)</td>' + '<td>' + rnd(summClose.Other_MT, 1) + '</td>' + 
-                '<td>' + rnd(summOpen.Other_MT, 1) + '</td>' + 
-                '<td>' + rnd(calcNet(summClose.Other_MT,summOpen.Other_MT), 1) + '</td></tr>' +
-                '<tr><th>Total Ex-Vessel Value (Thousands of $)</th>' + '<td>' + dollars(summClose.Total_Rev) + '</td>' + 
-                '<td>' + dollars(summOpen.Total_Rev) + '</td>' + 
-                '<td>' + dollars(calcNet(summClose.Total_Rev,summOpen.Total_Rev)) + '</td></tr>' +
-                '<tr><td>Flatfish ($1K)</td>' + '<td>' + dollars(summClose.Flatfish_Rev) + '</td>' + 
-                '<td>' + dollars(summOpen.Flatfish_Rev) + '</td>' + 
-                '<td>' + dollars(calcNet(summClose.Flatfish_Rev,summOpen.Flatfish_Rev)) + '</td></tr>' +
-                '<tr><td>Rockfish ($1K)</td>'  + '<td>' + dollars(summClose.Rockfish_Rev) + '</td>' + 
-                '<td>' + dollars(summOpen.Rockfish_Rev) + '</td>' + 
-                '<td>' + dollars(calcNet(summClose.Rockfish_Rev,summOpen.Rockfish_Rev)) + '</td></tr>' +
-                '<tr><td>Roundfish ($1K)</td>'  + '<td>' + dollars(summClose.Roundfish_Rev) + '</td>' + 
-                '<td>' + dollars(summOpen.Roundfish_Rev) + '</td>' + 
-                '<td>' + dollars(calcNet(summClose.Roundfish_Rev,summOpen.Roundfish_Rev)) + '</td></tr>' +
-                '<tr><td>Sharks & Skates ($1K)</td>'  + '<td>' + dollars(summClose.SharkSkate_Rev) + '</td>' + 
-                '<td>' + dollars(summOpen.SharkSkate_Rev) + '</td>' + 
-                '<td>' + dollars(calcNet(summClose.SharkSkate_Rev,summOpen.SharkSkate_Rev)) + '</td></tr>' +
-                '<tr><td>Other ($1K)</td>' + '<td>' + dollars(summClose.Other_Rev) + '</td>' + 
-                '<td>' + dollars(summOpen.Other_Rev) + '</td>' + 
-                '<td>' + dollars(calcNet(summClose.Other_Rev,summOpen.Other_Rev)) + '</td></tr>';
+                '<td>' + m2mi(calcNet( summOpen.TowLenM, summClose.TowLenM)) + '</td></tr>' +   
+                '<tr><td>Percent of Coastwide Tow Length</td>' + '<td>' + prop2pct(summClose.PropLenTot) + '</td>' +
+                '<td>' + prop2pct(summOpen.PropLenTot) + '</td>' +
+                '<td>' + prop2pct(calcNet(summOpen.PropLenTot, summClose.PropLenTot)) + '</td></tr>';
+//                '<tr><th>Total Catch (Metric Tons)</th>' + '<td>' + rnd(summClose.Total_MT, 1) + '</td>' + 
+//                '<td>' + rnd(summOpen.Total_MT, 1) + '</td>' + 
+//                '<td>' + rnd(calcNet(summClose.Total_MT,summOpen.Total_MT), 1) + '</td></tr>' +
+//                '<tr><td>Flatfish (MT)</td>' + '<td>' + rnd(summClose.Flatfish_MT, 1) + '</td>' + 
+//                '<td>' + rnd(summOpen.Flatfish_MT, 1) + '</td>' + 
+//                '<td>' + rnd(calcNet(summClose.Flatfish_MT,summOpen.Flatfish_MT), 1) + '</td></tr>' +
+//                '<tr><td>Rockfish (MT)</td>'  + '<td>' + rnd(summClose.Rockfish_MT, 1) + '</td>' + 
+//                '<td>' + rnd(summOpen.Rockfish_MT, 1) + '</td>' + 
+//                '<td>' + rnd(calcNet(summClose.Rockfish_MT,summOpen.Rockfish_MT), 1) + '</td></tr>' +
+//                '<tr><td>Roundfish (MT)</td>'  + '<td>' + rnd(summClose.Roundfish_MT, 1) + '</td>' + 
+//                '<td>' + rnd(summOpen.Roundfish_MT, 1) + '</td>' + 
+//                '<td>' + rnd(calcNet(summClose.Roundfish_MT,summOpen.Roundfish_MT), 1) + '</td></tr>' +
+//                '<tr><td>Sharks & Skates (MT)</td>'  + '<td>' + rnd(summClose.SharkSkate_MT, 1) + '</td>' + 
+//                '<td>' + rnd(summOpen.SharkSkate_MT, 1) + '</td>' + 
+//                '<td>' + rnd(calcNet(summClose.SharkSkate_MT,summOpen.SharkSkate_MT), 1) + '</td></tr>' +
+//                '<tr><td>Other (MT)</td>' + '<td>' + rnd(summClose.Other_MT, 1) + '</td>' + 
+//                '<td>' + rnd(summOpen.Other_MT, 1) + '</td>' + 
+//                '<td>' + rnd(calcNet(summClose.Other_MT,summOpen.Other_MT), 1) + '</td></tr>' +
+//                '<tr><th>Total Ex-Vessel Value (Thousands of $)</th>' + '<td>' + dollars(summClose.Total_Rev) + '</td>' + 
+//                '<td>' + dollars(summOpen.Total_Rev) + '</td>' + 
+//                '<td>' + dollars(calcNet(summClose.Total_Rev,summOpen.Total_Rev)) + '</td></tr>' +
+//                '<tr><td>Flatfish ($1K)</td>' + '<td>' + dollars(summClose.Flatfish_Rev) + '</td>' + 
+//                '<td>' + dollars(summOpen.Flatfish_Rev) + '</td>' + 
+//                '<td>' + dollars(calcNet(summClose.Flatfish_Rev,summOpen.Flatfish_Rev)) + '</td></tr>' +
+//                '<tr><td>Rockfish ($1K)</td>'  + '<td>' + dollars(summClose.Rockfish_Rev) + '</td>' + 
+//                '<td>' + dollars(summOpen.Rockfish_Rev) + '</td>' + 
+//                '<td>' + dollars(calcNet(summClose.Rockfish_Rev,summOpen.Rockfish_Rev)) + '</td></tr>' +
+//                '<tr><td>Roundfish ($1K)</td>'  + '<td>' + dollars(summClose.Roundfish_Rev) + '</td>' + 
+//                '<td>' + dollars(summOpen.Roundfish_Rev) + '</td>' + 
+//                '<td>' + dollars(calcNet(summClose.Roundfish_Rev,summOpen.Roundfish_Rev)) + '</td></tr>' +
+//                '<tr><td>Sharks & Skates ($1K)</td>'  + '<td>' + dollars(summClose.SharkSkate_Rev) + '</td>' + 
+//                '<td>' + dollars(summOpen.SharkSkate_Rev) + '</td>' + 
+//                '<td>' + dollars(calcNet(summClose.SharkSkate_Rev,summOpen.SharkSkate_Rev)) + '</td></tr>' +
+//                '<tr><td>Other ($1K)</td>' + '<td>' + dollars(summClose.Other_Rev) + '</td>' + 
+//                '<td>' + dollars(summOpen.Other_Rev) + '</td>' + 
+//                '<td>' + dollars(calcNet(summClose.Other_Rev,summOpen.Other_Rev)) + '</td></tr>';
             
             // update the html of the table
             $table.html(rows);
@@ -916,38 +1187,33 @@
                 rows = '';
 
             // empty table structure
-//            rows += '<tr>' +
-//                '<th colspan="3">Site</th>' +
-//                '<th colspan="5">Physical Habitat </th>' +
-//                '<th colspan="4">Priority Habitats</th>' +
-//                '<th>Trawl Activity</th>' +
-//                '</tr>'
             rows += '<tr>' +
                 '<th>Action</th>' +
                 '<th>Site Name</th>' +
                 '<th>Proposer</th>' +
                 '<th>Area (sq mi)</th>' +
-                '<th>Hard</th>' +
-                '<th>Mixed</th>' +
-                '<th>Soft</th>' +
-                '<th>Unknown</th>' +
-                '<th>Canyons & Gullies</th>' +
-                '<th>Seamounts</th>' +
+                '<th>Hard (sq mi)</th>' +
+                '<th>Mixed (sq mi)</th>' +
+                '<th>Soft (sq mi)</th>' +
+                '<th>Unknown (sq mi)</th>' +
+                '<th>Canyons & Gullies (sq mi)</th>' +
+                '<th>Seamounts (sq mi)</th>' +
                 '<th>Corals & Sponges (1 km blocks)</th>' +
-                '<th>Highest 20% Predicted OF Spp</th>' +
+                '<th>OFS 20% HSP (sq mi)</th>' +
                 '<th>Trawl Tow Length (mi)</th>' +
-                '<th>Total Catch (MT)</th>' +
-                '<th>Flatfish Catch (MT)</th>' +
-                '<th>Rockfish Catch (MT)</th>' +
-                '<th>Roundfish Catch (MT)</th>' +
-                '<th>Sharks & Skates Catch (MT)</th>' +
-                '<th>Other Catch (MT)</th>' +
-                '<th>Total Ex-Vessel Value</th>' +
-                '<th>Flatfish Ex-Vessel Value</th>' +
-                '<th>Rockfish Ex-Vessel Value</th>' +
-                '<th>Roundfish Ex-Vessel Value</th>' +
-                '<th>Sharks & Skates Ex-Vessel Value</th>' +
-                '<th>Other Catch Ex-Vessel Value</th>' +                
+                '<th>Percent Coastwide Tow Length</th>' +
+//                '<th>Total Catch (MT)</th>' +
+//                '<th>Flatfish Catch (MT)</th>' +
+//                '<th>Rockfish Catch (MT)</th>' +
+//                '<th>Roundfish Catch (MT)</th>' +
+//                '<th>Sharks & Skates Catch (MT)</th>' +
+//                '<th>Other Catch (MT)</th>' +
+//                '<th>Total Ex-Vessel Value</th>' +
+//                '<th>Flatfish Ex-Vessel Value</th>' +
+//                '<th>Rockfish Ex-Vessel Value</th>' +
+//                '<th>Roundfish Ex-Vessel Value</th>' +
+//                '<th>Sharks & Skates Ex-Vessel Value</th>' +
+//                '<th>Other Catch Ex-Vessel Value</th>' +                
                 '</tr>'
 
             // update the html of the table
@@ -965,39 +1231,34 @@
                 rows = '';
 
             // Table Headers
-//            rows += '<tr>' +
-//                '<th colspan="3">Site</th>' +
-//                '<th colspan="5">Physical Habitat </th>' +
-//                '<th colspan="4">Priority Habitats</th>' +
-//                '<th>Trawl Activity</th>' +
-//                '</tr>'
            rows += '<tr>' +
                 '<th>Action</th>' +
-                '<th>Name</th>' +
+                '<th>Site Name</th>' +
                 '<th>Proposer</th>' +
                 '<th>Area (sq mi)</th>' +
-                '<th>Hard</th>' +
-                '<th>Mixed</th>' +
-                '<th>Soft</th>' +
-                '<th>Unknown</th>' +
-                '<th>Canyons and Gullies</th>' +
-                '<th>Seamounts</th>' +
+                '<th>Hard (sq mi)</th>' +
+                '<th>Mixed (sq mi)</th>' +
+                '<th>Soft (sq mi)</th>' +
+                '<th>Unknown (sq mi)</th>' +
+                '<th>Canyons & Gullies (sq mi)</th>' +
+                '<th>Seamounts (sq mi)</th>' +
                 '<th>Corals & Sponges (1 km blocks)</th>' +
-                '<th>Highest 20% Predicted OF Spp</th>' +
+                '<th>OFS 20% HSP (sq mi)</th>' +
                 '<th>Trawl Tow Length (mi)</th>' +                
-                '<th>Total Catch (MT)</th>' +
-                '<th>Flatfish Catch (MT)</th>' +
-                '<th>Rockfish Catch (MT)</th>' +
-                '<th>Roundfish Catch (MT)</th>' +
-                '<th>Sharks & Skates Catch (MT)</th>' +
-                '<th>Other Catch (MT)</th>' +
-                '<th>Total Ex-Vessel Value</th>' +
-                '<th>Flatfish Ex-Vessel Value</th>' +
-                '<th>Rockfish Ex-Vessel Value</th>' +
-                '<th>Roundfish Ex-Vessel Value</th>' +
-                '<th>Sharks & Skates Ex-Vessel Value</th>' +
-                '<th>Other Catch Ex-Vessel Value</th>' + 
-                '</tr>'
+                '<th>Percent Coastwide Tow Length</th>' +
+//                '<th>Total Catch (MT)</th>' +
+//                '<th>Flatfish Catch (MT)</th>' +
+//                '<th>Rockfish Catch (MT)</th>' +
+//                '<th>Roundfish Catch (MT)</th>' +
+//                '<th>Sharks & Skates Catch (MT)</th>' +
+//                '<th>Other Catch (MT)</th>' +
+//                '<th>Total Ex-Vessel Value</th>' +
+//                '<th>Flatfish Ex-Vessel Value</th>' +
+//                '<th>Rockfish Ex-Vessel Value</th>' +
+//                '<th>Roundfish Ex-Vessel Value</th>' +
+//                '<th>Sharks & Skates Ex-Vessel Value</th>' +
+//                '<th>Other Catch Ex-Vessel Value</th>' + 
+               '</tr>'
 
             // loop through all the selected features
             selectedSet.forEach(function (selection) {
@@ -1019,44 +1280,46 @@
                     '<td>' + data.SiteName + '</td>' +
                     '<td>' + data.Proposer + '</td>' +
                     '<td>' + sqm2sqmi(data.SiteAreaM2) + '</td>' +
-                    '<td>' + pct(data.hard, data.SiteAreaM2) + '</td>' +
-                    '<td>' + pct(data.mixed, data.SiteAreaM2) + '</td>' +
-                    '<td>' + pct(data.soft, data.SiteAreaM2) + '</td>' +
-                    '<td>' + pct(data.unknown, data.SiteAreaM2) + '</td>' +
-                    '<td>' + pct(data.CynAreaM2, data.SiteAreaM2) + '</td>' +
-                    '<td>' + pct(data.SmtAreaM2, data.SiteAreaM2) + '</td>' +
+                    '<td>' + sqm2sqmi(data.hard) + '</td>' +
+                    '<td>' + sqm2sqmi(data.mixed) + '</td>' +
+                    '<td>' + sqm2sqmi(data.soft) + '</td>' +
+                    '<td>' + sqm2sqmi(data.unknown) + '</td>' +
+                    '<td>' + sqm2sqmi(data.CynAreaM2) + '</td>' +
+                    '<td>' + sqm2sqmi(data.SmtAreaM2) + '</td>' +
                     '<td>' + data.corspg_cnt + '</td>' +
-                    '<td>' + pct(data.OF20AreaM2, data.SiteAreaM2) + '</td>'                
+                    '<td>' + sqm2sqmi(data.OF20AreaM2) + '</td>'                
                 
                 if (data.VesCount >= 3 || data.VesCount == 0) {
                     rows += '<td>' + m2mi(data.TowLenM) + '</td>' +
-                    '<td>' + rnd(data.Total_MT, 1) + '</td>' +
-                    '<td>' + rnd(data.Flatfish_MT, 1) + '</td>' +
-                    '<td>' + rnd(data.Rockfish_MT, 1) + '</td>' +
-                    '<td>' + rnd(data.Roundfish_MT, 1) + '</td>' +
-                    '<td>' + rnd(data.SharkSkate_MT, 1) + '</td>' +
-                    '<td>' + rnd(data.Other_MT, 1) + '</td>' +
-                    '<td>' + dollars(data.Total_Rev) + '</td>' +
-                    '<td>' + dollars(data.Flatfish_Rev) + '</td>' +
-                    '<td>' + dollars(data.Rockfish_Rev) + '</td>' +
-                    '<td>' + dollars(data.Roundfish_Rev) + '</td>' +
-                    '<td>' + dollars(data.SharkSkate_Rev) + '</td>' +
-                    '<td>' + dollars(data.Other_Rev) + '</td>'
+                        '<td>' + prop2pct(data.PropLenTot) + '</td>'
+//                    '<td>' + rnd(data.Total_MT, 1) + '</td>' +
+//                    '<td>' + rnd(data.Flatfish_MT, 1) + '</td>' +
+//                    '<td>' + rnd(data.Rockfish_MT, 1) + '</td>' +
+//                    '<td>' + rnd(data.Roundfish_MT, 1) + '</td>' +
+//                    '<td>' + rnd(data.SharkSkate_MT, 1) + '</td>' +
+//                    '<td>' + rnd(data.Other_MT, 1) + '</td>' +
+//                    '<td>' + dollars(data.Total_Rev) + '</td>' +
+//                    '<td>' + dollars(data.Flatfish_Rev) + '</td>' +
+//                    '<td>' + dollars(data.Rockfish_Rev) + '</td>' +
+//                    '<td>' + dollars(data.Roundfish_Rev) + '</td>' +
+//                    '<td>' + dollars(data.SharkSkate_Rev) + '</td>' +
+//                    '<td>' + dollars(data.Other_Rev) + '</td>'
                 } else {
                     rows += '<td>' + '**' + '</td>' +
-                    '<td>' + '**' + '</td>' +
-                    '<td>' + '**' + '</td>' +
-                    '<td>' + '**' + '</td>' +
-                    '<td>' + '**' + '</td>' +
-                    '<td>' + '**' + '</td>' +
-                    '<td>' + '**' + '</td>' +
-                    '<td>' + '**' + '</td>' +
-                    '<td>' + '**' + '</td>' +
-                    '<td>' + '**' + '</td>' +
-                    '<td>' + '**' + '</td>' +
-                    '<td>' + '**' + '</td>' +
                     '<td>' + '**' + '</td>'
-                }
+//                    '<td>' + '**' + '</td>' +
+//                    '<td>' + '**' + '</td>' +
+//                    '<td>' + '**' + '</td>' +
+//                    '<td>' + '**' + '</td>' +
+//                    '<td>' + '**' + '</td>' +
+//                    '<td>' + '**' + '</td>' +
+//                    '<td>' + '**' + '</td>' +
+//                    '<td>' + '**' + '</td>' +
+//                    '<td>' + '**' + '</td>' +
+//                    '<td>' + '**' + '</td>' +
+//                    '<td>' + '**' + '</td>' +
+//                    '<td>' + '**' + '</td>'
+               }
                 
                 
                 rows += '</tr>'
@@ -1075,10 +1338,7 @@
         (function () {
 
             $("#download-csv").click(function () {
-                2
-                console.log('hi');
                 $('#polygon-metrics').tableToCSV();
-                3
             });
 
         })();
