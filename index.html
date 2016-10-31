@@ -316,7 +316,6 @@
             }).addTo(map);
 
             geoJsonLayers[lyr].startStyle = styles
-            console.log(geoJsonLayers)
 
         } // end of loop through all geoJSON layers
         
@@ -527,8 +526,6 @@
             // Test if it overlaps any current selections
             for ( var i in selectedSet ){
                 var feat2compare = selectedSet[i];
-                console.log(i);
-                console.log(feat2compare);
                 if (isOverlapped(layer, feat2compare)) {
                     // if a current feature is overlapped by selection, add to list
                     overlapping.push(feat2compare);
