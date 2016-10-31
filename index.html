@@ -277,8 +277,7 @@
 
 
         var geoJsonLayers = {}; // global to store all the geoJSON layers
-        var selectedSet = []; // array to store selected features
-        var selectedSetObj = {}; // object for selected features
+        var selectedSet = {}; // global for selected features
 
         // Create individual geoJson Layers for each proposal
         for (var lyr in layerInfo) {
@@ -494,15 +493,15 @@
 
             var id = layer.feature.properties.concat_id;
 
-            if (isSelected(layer, id) < 0) {// not in selected set
+            if ( selectedSet.hasOwnProperty(id) ){ // in selected set
                 
-                // select it
-                selected(layer);
+                // Unselect it
+                unselected(layer);              
                 
             } else { // If already in selected set
 
-                // Unselect it
-                unselected(layer);
+                // Select it
+                selected(layer);
 
             }           
         } // end toggleSelected()
@@ -523,19 +522,18 @@
                 color: "yellow",
             });
             layer.bringToFront();
-
+            
             // Test if it overlaps any current selections
-            for (var i = 0; i < selectedSet.length; i++) {
-                var feat2compare = selectedSet[i]
+            for ( var i in selectedSet ){
+                var feat2compare = selectedSet[i];
                 if (isOverlapped(layer, feat2compare)) {
-                    // if a current feature is overlapped by selection
-                    //  add to list 
+                    // if a current feature is overlapped by selection, add to list
                     overlapping.push(feat2compare);
                 }
-            }
+            }                
 
-            // Add selected feature to the selected set
-            selectedSet.push(layer);
+            // Add selected feature to the selected set - concat_id is object key
+            selectedSet[id]= layer;
 
             // Add the feature's stats to the summary statistics
             updateSummmary();
@@ -558,15 +556,13 @@
             var id = layer.feature.properties.concat_id;
             var proposer = layer.feature.properties.Proposer;
 
-            // If it is selected, remove from selected set array and revert style
-            //  otherwise, do nothing
-            var idx = isSelected(layer, id)
-
-            if (idx >= 0) {
+            // If it is selected, remove from selected set object and revert style      
+            // Object version of above code
+            if (selectedSet.hasOwnProperty(id)){
 
                 // Remove poly from selected set
-                selectedSet.splice(idx, 1);
-
+                delete selectedSet[id];
+                
                 // Get original color of layer based on proposer
                 for (lyr in layerInfo) {
                     if (proposer === layerInfo[lyr].proposer) {
@@ -585,19 +581,6 @@
             updateSummmary();
 
         } // end unselected()
-
-        // Check if a feature is part of the selected set
-        function isSelected(layer, id) {
-            var idx = -1;
-            for (var i = 0; i < selectedSet.length; i++) {
-                if (selectedSet[i].feature.properties.concat_id === id) {
-                    // Get the array index of the object if it exists
-                    idx = i;
-                    break;
-                }
-            }
-            return idx
-        } // end isSelected()
 
         // Determine if two polygons overlap
         function isOverlapped(feature1, feature2) {
@@ -627,9 +610,9 @@
         function getSelectedBounds() {
 
             var selectedBounds = [];
-
+            
             // Get bounds for selected set of layers
-            for (i = 0; i < selectedSet.length; i++) {
+            for ( var i in selectedSet ){
                 selectedBounds.push(selectedSet[i].getBounds())
             }
 
@@ -651,7 +634,7 @@
         // Clear all selected polygons
         function clearSelected() {
 
-            for (var i = 0; i < selectedSet.length; i++) {
+            for ( var i in selectedSet ){
 
                 var layer = selectedSet[i];
                 var proposer = layer.feature.properties.Proposer;
@@ -671,8 +654,8 @@
                 $('#zoom').removeClass('available');
                 $('#clear').removeClass('available');
             }
-
-            selectedSet = []; // remove all layers from selected set
+                        
+            selectedSet = {};  // remove all layers from selected set
 
             buildSummary() // re-create empty summary table
 
@@ -777,7 +760,7 @@
                 // Set attribute to user selection from pull-down menu
                 attribute = $(this).val();
                 // Re-draw map with new attribute
-                if (attribute === "Zoom" && selectedSet.length > 0) {
+                if (attribute === "Zoom" && Object.keys(selectedSet).length > 0) {
                     zoomToSelected();
                 }
                 if (attribute === "Clear") {
@@ -800,16 +783,23 @@
 
             });
             
+            // Select all polygons from a Proposal, regardless of current state
             $('.layer-select-all').on('click', function () {
                 var targetLayer = $(this).parent().attr('for');
-                               
+                
                 geoJsonLayers[targetLayer].eachLayer(function(f){
-                   selected(f); 
+                    var id = f.feature.properties.concat_id;
+                    // Only add features that are not already selected
+                    if (! (selectedSet.hasOwnProperty(id)) ){
+                        selected(f); 
+                    }
                                                      
                 });
                                
             });
             
+            
+            // Remove all polygons from a Proposal
             $('.layer-unselect-all').on('click', function () {
                 var targetLayer = $(this).parent().attr('for');
                                
@@ -1023,8 +1013,9 @@
             };
 
             // loop through all the selected features
-            selectedSet.forEach(function (selection) {
-
+            for ( var i in selectedSet ){
+                
+                var selection = selectedSet[i];
                 var props = selection.feature.properties;
 
                 // Add individual polygon metrics to polyData list
@@ -1049,13 +1040,13 @@
                     }
                 }
 
-            }); // end of forEach loop through selectedSet            
+            } // end of loop through selectedSet
 
             // create Net value object
             summNet = calcNet(summClose, summOpen);
 
             // Update area count text
-            var polyCount = selectedSet.length;
+            var polyCount = Object.keys(selectedSet).length;
 
             // Activate or de-activate zoom and clear buttons depending on presence of selection
             if (polyCount == 0) {
@@ -1260,9 +1251,10 @@
 //                '<th>Other Catch Ex-Vessel Value</th>' + 
                '</tr>'
 
-            // loop through all the selected features
-            selectedSet.forEach(function (selection) {
-
+            // loop through all the selected features                
+            for ( var i in selectedSet ){
+                
+                var selection = selectedSet[i];
                 var data = selection.feature.properties;
 
                 // Tow Length filter (< 3 vessels in an area)
@@ -1323,8 +1315,8 @@
                 
                 
                 rows += '</tr>'
-            });
-
+//            });
+            } // end of loop through selectedSet
 
             // update the html of the table
             $table.html(rows);
