@@ -224,7 +224,6 @@
         L.control.scale().addTo(map); // Add scale bar
         
         // Add home button - zooms to full extent when clicked
-        // Button downloaded from Open Iconic  https://useiconic.com/open/
         L.easyButton('fa-home', function(btn, map){
             map.setView([41, -121.2]);
             map.setZoom(6);
@@ -754,7 +753,8 @@
         } // end updateInfo()
 
         function buildUI() {
-            // Perform following actions When the DOM object with id of "selPolys" is changed
+            
+            // Perform following actions When the DOM object with id of "ui-controls" is changed
             // i.e., the user selects an option from the HTML form
             $('#ui-controls button').click(function () {
                 // Set attribute to user selection from pull-down menu
@@ -769,16 +769,24 @@
 
             });
 
+            // Toggle layers on and off
             $('#layer-controls input').change(function () {
 
                 var targetLayer = $(this).val();
                 var icon = $('label[for='+targetLayer+']').find('.fa');
+                var selBtn = $('label[for='+targetLayer+']').find('.layer-select-all');
+                var unselBtn = $('label[for='+targetLayer+']').find('.layer-unselect-all');
                 if (this.checked) {
                     icon.removeClass('fa-square-o').addClass('fa-check-square-o');
                     map.addLayer(geoJsonLayers[targetLayer]);
+                    // enable select and unselect all buttons
+                    selBtn.prop('disabled', false);
                 } else {
                     icon.removeClass('fa-check-square-o').addClass('fa-square-o');
                     map.removeLayer(geoJsonLayers[targetLayer]);
+                    // disable select and unselect all buttons
+                    selBtn.prop('disabled', true);                      
+                    unselBtn.prop('disabled', true);  
                 }
 
             });
@@ -828,7 +836,7 @@
                     // Show content from selected tab
                 $('#'.concat(id)).show();
             });
-        }
+        }  // end buildUI{}
 
         // Convert sq meters to square miles and format nicely
         function sqm2sqmi(val) {
