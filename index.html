@@ -23,6 +23,8 @@
     <script src="js/turf.min.js"></script>
     <script src="js/jquery.tabletoCSV.js"></script>
     <script src="js/easy-button.js"></script>
+    <script src="js/typeahead.bundle.min.js"></script>
+    
 
     <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Work+Sans:400,500,600' rel='stylesheet' type='text/css'>
@@ -149,7 +151,11 @@
 
     </div>
     <!-- end right-panel -->
-
+    
+    <div id='poly-search'>
+        <input class="typeahead" type="text" placeholder="EFH Proposal Polygon Name">
+    </div>
+    
     <div id='map'></div>
 
     <!-- Side panel Div   -->
@@ -228,7 +234,19 @@
             map.setView([41, -121.2]);
             map.setZoom(6);
         }).addTo(map);
+        
+        // Create a geoJSON layer of all polygons for search function 
+        var allpolys = L.geoJson(proposals_metrics);
+        // Globals to store the polygon names and associate boundaries
+        var poly_names = [];
+        var poly_bounds = {};
+        // Get the polygon names and associated boundaries
+        allpolys.eachLayer(function(layer){
+            poly_names.push(layer.feature.properties.SiteName);
+            poly_bounds[layer.feature.properties.SiteName] =  layer.getBounds()
+        });
 
+        
         // Create Info Box for display of feature data on hover
         drawInfo();
 
@@ -277,6 +295,7 @@
 
         var geoJsonLayers = {}; // global to store all the geoJSON layers
         var selectedSet = {}; // global for selected features
+        
 
         // Create individual geoJson Layers for each proposal
         for (var lyr in layerInfo) {
@@ -836,7 +855,40 @@
                     // Show content from selected tab
                 $('#'.concat(id)).show();
             });
+            
+            
+            // constructs the polygon search suggestion engine
+            var sites = new Bloodhound({
+              datumTokenizer: Bloodhound.tokenizers.whitespace,
+              queryTokenizer: Bloodhound.tokenizers.whitespace,
+              // array of EFH polygon names
+              local: poly_names
+            });
+
+            $('#poly-search .typeahead').typeahead({
+              hint: true,
+              highlight: true,
+              minLength: 1
+            },
+            {
+              name: 'efhpoly',
+              source: sites,
+              limit: 10
+            });
+            
+            // Return the selected value from the polygon search box
+            
+            $('#poly-search .typeahead').bind('typeahead:select', function(ev, suggestion) {
+                zoom2Name(suggestion);
+            });
+            
+            
         }  // end buildUI{}
+        
+        // Zoom to a polygon by name
+        function zoom2Name(sitename) {
+            map.fitBounds(poly_bounds[sitename])
+        }
 
         // Convert sq meters to square miles and format nicely
         function sqm2sqmi(val) {

@@ -40,7 +40,16 @@ h3 {
     width: 64%;
 }
 
+/*  Polygon Search Box */
 
+#poly-search {
+    position: absolute;
+    left: 42%;
+    top: 10px;
+    width: 300px;  /* Doesn't work */
+    color: white;
+    z-index: 10;
+}
 
 
 /*  LEFT SIDE PANEL*/
