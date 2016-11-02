@@ -359,18 +359,37 @@
             color: "black",
             weight: 1,
             opacity: 0.8            
-        }
-        
+        }        
         var eezLnStyles = {
             color: "#7f7f7f",
             weight: 1,
             opacity: 1
-        }
-        
+        }       
         var stateStyles = {
             color: "#7f7f7f",
             weight: 1,
             opacity: 1
+        }
+        var efhcaStyles = {
+            fillColor: "#7f7f7f",
+            fillOpacity: 0.3,
+            color: "black",
+            weight: 1,
+            opacity: 1            
+        }
+        var efh700Styles = {
+            fillColor: "#7f7f7f",
+            fillOpacity: 0.3,
+            color: "black",
+            weight: 1,
+            opacity: 1            
+        }
+        var rcaStyles = {
+            fillColor: "#737300",
+            fillOpacity: 0.3,
+            color: "#343434",
+            weight: 1,
+            opacity: 1            
         }
         
         sources = {
@@ -382,7 +401,10 @@
             "dep150fm": "data/rca_150fm.geojson",
             "dep700fm": "data/efh_700fm.geojson", 
             "tribalUA_ln": "data/tribalUA_ln.geojson",
-            "state_ln": "data/state_ln.geojson"
+            "state_ln": "data/state_ln.geojson",
+            "efhca":"data/efh_consarea_py.geojson",
+            "efh700":"data/efh_700fm_py.geojson",
+            "rca":"data/RCA_TrawlGF_MarAprSepOct.geojson",    
         }
         
         styles = {
@@ -395,6 +417,9 @@
             "dep700fm": dep700Styles,
             "tribalUA_ln": tribalUAStyles,
             "state_ln": stateStyles,
+            "efhca":efhcaStyles,
+            "efh700":efh700Styles,
+            "rca":rcaStyles,
         }
        
         var data = {}; // object to hold JSON data for each layer
@@ -425,8 +450,16 @@
                 }),
                   $.getJSON(sources["tribalUA_ln"], function(d) {
                     data["tribalUA_ln"] =  d;
-                })  
-            
+                }),  
+                $.getJSON(sources["efhca"], function(d) {
+                    data["efhca"] =  d;
+                }),  
+                $.getJSON(sources["efh700"], function(d) {
+                    data["efh700"] =  d;
+                }),
+                $.getJSON(sources["rca"], function(d) {
+                    data["rca"] =  d;
+                })                
         ).then(function() {
 
             // send complete data object to another function to create layers, etc.
@@ -434,6 +467,7 @@
             
             // Draw legend with Leaflet GeoJSON layers
             drawSwitcher(layers);
+            
 
         });
         
@@ -458,6 +492,14 @@
             
             // Add specific layers to draw on initial load here, if desired
             layers["tribalUA_ln"].addTo(map);
+            
+            // Make sure EFH and RCA polygons are always on bottom
+            //  to avoid interference with Proposal selection and hover functions
+            map.on('overlayadd', function(e){
+                if (e.name.indexOf('EFH') >= 0 || e.name.indexOf('RCA') >= 0){
+                    e.layer.bringToBack();
+                } 
+            })
 
                         
         } // end drawMap()
@@ -478,6 +520,9 @@
                 "<b style='color:#8b2500'>150 fathoms</b>": layers["dep150fm"],
                 "<b style='color:#104e8b'>700 fathoms</b>": layers["dep700fm"],
                 "<b style='color:#594600'>Tribal U&A</b>": layers["tribalUA_ln"],
+                "<b style='color:#7f7f7f'>EFH Conservation Areas</b>": layers["efhca"],
+                "<b style='color:#7f7f7f'>EFH 700-fm Closure</b>": layers["efh700"],
+                "<b style='color:#737300'>Trawl RCA</b>": layers["rca"],
             }
 
             var switcher = L.control.layers(null, layerLabels, {
