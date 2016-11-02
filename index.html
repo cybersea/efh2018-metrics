@@ -378,18 +378,37 @@
             color: "black",
             weight: 1,
             opacity: 0.8            
-        }
-        
+        }        
         var eezLnStyles = {
             color: "#7f7f7f",
             weight: 1,
             opacity: 1
-        }
-        
+        }       
         var stateStyles = {
             color: "#7f7f7f",
             weight: 1,
             opacity: 1
+        }
+        var efhcaStyles = {
+            fillColor: "#7f7f7f",
+            fillOpacity: 0.3,
+            color: "black",
+            weight: 1,
+            opacity: 1            
+        }
+        var efh700Styles = {
+            fillColor: "#7f7f7f",
+            fillOpacity: 0.3,
+            color: "black",
+            weight: 1,
+            opacity: 1            
+        }
+        var rcaStyles = {
+            fillColor: "#737300",
+            fillOpacity: 0.3,
+            color: "#343434",
+            weight: 1,
+            opacity: 1            
         }
         
         sources = {
@@ -401,7 +420,10 @@
             "dep150fm": "data/rca_150fm.geojson",
             "dep700fm": "data/efh_700fm.geojson", 
             "tribalUA_ln": "data/tribalUA_ln.geojson",
-            "state_ln": "data/state_ln.geojson"
+            "state_ln": "data/state_ln.geojson",
+            "efhca":"data/efh_consarea_py.geojson",
+            "efh700":"data/efh_700fm_py.geojson",
+            "rca":"data/RCA_TrawlGF_MarAprSepOct.geojson",    
         }
         
         styles = {
@@ -414,6 +436,9 @@
             "dep700fm": dep700Styles,
             "tribalUA_ln": tribalUAStyles,
             "state_ln": stateStyles,
+            "efhca":efhcaStyles,
+            "efh700":efh700Styles,
+            "rca":rcaStyles,
         }
        
         var data = {}; // object to hold JSON data for each layer
@@ -444,8 +469,16 @@
                 }),
                   $.getJSON(sources["tribalUA_ln"], function(d) {
                     data["tribalUA_ln"] =  d;
-                })  
-            
+                }),  
+                $.getJSON(sources["efhca"], function(d) {
+                    data["efhca"] =  d;
+                }),  
+                $.getJSON(sources["efh700"], function(d) {
+                    data["efh700"] =  d;
+                }),
+                $.getJSON(sources["rca"], function(d) {
+                    data["rca"] =  d;
+                })                
         ).then(function() {
 
             // send complete data object to another function to create layers, etc.
@@ -453,6 +486,7 @@
             
             // Draw legend with Leaflet GeoJSON layers
             drawSwitcher(layers);
+            
 
         });
         
@@ -477,6 +511,14 @@
             
             // Add specific layers to draw on initial load here, if desired
             layers["tribalUA_ln"].addTo(map);
+            
+            // Make sure EFH and RCA polygons are always on bottom
+            //  to avoid interference with Proposal selection and hover functions
+            map.on('overlayadd', function(e){
+                if (e.name.indexOf('EFH') >= 0 || e.name.indexOf('RCA') >= 0){
+                    e.layer.bringToBack();
+                } 
+            })
 
                         
         } // end drawMap()
@@ -497,6 +539,9 @@
                 "<b style='color:#8b2500'>150 fathoms</b>": layers["dep150fm"],
                 "<b style='color:#104e8b'>700 fathoms</b>": layers["dep700fm"],
                 "<b style='color:#594600'>Tribal U&A</b>": layers["tribalUA_ln"],
+                "<b style='color:#7f7f7f'>EFH Conservation Areas</b>": layers["efhca"],
+                "<b style='color:#7f7f7f'>EFH 700-fm Closure</b>": layers["efh700"],
+                "<b style='color:#737300'>Trawl RCA</b>": layers["rca"],
             }
 
             var switcher = L.control.layers(null, layerLabels, {
@@ -756,15 +801,16 @@
             html += "<br>" + "<b>Corals & Sponges</b> (1 km blocks): " + data.corspg_cnt;
             html += "<br>" + "<b>OFS 20% HSP: </b> " + pct(data.OF20AreaM2, data.SiteAreaM2);
 
-            if (data.VesCount >= 3 || data.VesCount == 0) {
-                html += "<br>" + "<b>Trawl Tow Length (mi): </b>" + m2mi(data.TowLenM);
+            // Remove all socioeconomic data for now
+//            if (data.VesCount >= 3 || data.VesCount == 0) {
+//                html += "<br>" + "<b>Trawl Tow Length (mi): </b>" + m2mi(data.TowLenM);
 //                html += "<br>" + "<b>Total Catch (MT): </b> " + rnd(data.Total_MT,1);
 //                html += "<br>" + "<b>Total Ex-Vessel Value: </b> " + dollars(data.Total_Rev);
-            } else {
-                html += "<br>" + "<b>Trawl Tow Length: </b> **";
+//            } else {
+//                html += "<br>" + "<b>Trawl Tow Length: </b> **";
 //                html += "<br>" + "<b>Total Catch (MT): </b> **";
 //                html += "<br>" + "<b>Total Ex-Vessel Value: </b> **";
-            }     
+//            }     
 
             // Assign the html content to the info box using JQuery selector
             $(".poly-info").html(html);
@@ -964,11 +1010,11 @@
                 '<tr><td>Canyons & Gullies</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Seamounts</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Corals & Sponges (1 km blocks)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><td>OFS 20% HSP (sq mi) </td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr class="table-row-header"><th>Socioeconomic Metrics</th>' + '<th>Displace</th>' + '<th>Restore</th>' + '<th>Net</th></tr>' +
-                '<tr><th>Trawl Effort</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><td>Total Tow Length (mi)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><td>Percent of Coastwide Tow Length</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>';
+                '<tr><td>OFS 20% HSP (sq mi) </td>' + '<td></td>' + '<td></td>' + '<td></td></tr>';
+//                '<tr class="table-row-header"><th>Socioeconomic Metrics</th>' + '<th>Displace</th>' + '<th>Restore</th>' + '<th>Net</th></tr>' +
+//                '<tr><th>Trawl Effort</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+//                '<tr><td>Total Tow Length (mi)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+//                '<tr><td>Percent of Coastwide Tow Length</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
 //                '<tr><th>Total Catch (Metric Tons)</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
 //                '<tr><td>Flatfish (MT)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
 //                '<tr><td>Rockfish (MT)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
@@ -1001,20 +1047,20 @@
                 "SmtAreaM2",
                 "corspg_cnt",
                 "OF20AreaM2",
-                "TowLenM",
-                "PropLenTot",
-                "Total_MT",
-                "Flatfish_MT",
-                "Rockfish_MT",
-                "Roundfish_MT",
-                "SharkSkate_MT",
-                "Other_MT",
-                "Total_Rev",
-                "Flatfish_Rev",
-                "Rockfish_Rev",
-                "Roundfish_Rev",
-                "SharkSkate_Rev",
-                "Other_Rev",               
+//                "TowLenM",
+//                "PropLenTot",
+//                "Total_MT",
+//                "Flatfish_MT",
+//                "Rockfish_MT",
+//                "Roundfish_MT",
+//                "SharkSkate_MT",
+//                "Other_MT",
+//                "Total_Rev",
+//                "Flatfish_Rev",
+//                "Rockfish_Rev",
+//                "Roundfish_Rev",
+//                "SharkSkate_Rev",
+//                "Other_Rev",               
             ]
 
 
@@ -1031,20 +1077,20 @@
                 SmtAreaM2: 0,
                 corspg_cnt: 0,
                 OF20AreaM2: 0,
-                TowLenM: 0,
-                PropLenTot: 0,
-                Total_MT: 0,
-                Flatfish_MT: 0,
-                Rockfish_MT: 0,
-                Roundfish_MT: 0,
-                SharkSkate_MT: 0,
-                Other_MT: 0,
-                Total_Rev: 0,
-                Flatfish_Rev: 0,
-                Rockfish_Rev: 0,
-                Roundfish_Rev: 0,
-                SharkSkate_Rev: 0,
-                Other_Rev: 0    
+//                TowLenM: 0,
+//                PropLenTot: 0,
+//                Total_MT: 0,
+//                Flatfish_MT: 0,
+//                Rockfish_MT: 0,
+//                Roundfish_MT: 0,
+//                SharkSkate_MT: 0,
+//                Other_MT: 0,
+//                Total_Rev: 0,
+//                Flatfish_Rev: 0,
+//                Rockfish_Rev: 0,
+//                Roundfish_Rev: 0,
+//                SharkSkate_Rev: 0,
+//                Other_Rev: 0    
             };
             var summClose = {
                 SiteAreaM2: 0,
@@ -1056,20 +1102,20 @@
                 SmtAreaM2: 0,
                 corspg_cnt: 0,
                 OF20AreaM2: 0,
-                TowLenM: 0,
-                PropLenTot: 0,
-                Total_MT: 0,
-                Flatfish_MT: 0,
-                Rockfish_MT: 0,
-                Roundfish_MT: 0,
-                SharkSkate_MT: 0,
-                Other_MT: 0,
-                Total_Rev: 0,
-                Flatfish_Rev: 0,
-                Rockfish_Rev: 0,
-                Roundfish_Rev: 0,
-                SharkSkate_Rev: 0,
-                Other_Rev: 0    
+//                TowLenM: 0,
+//                PropLenTot: 0,
+//                Total_MT: 0,
+//                Flatfish_MT: 0,
+//                Rockfish_MT: 0,
+//                Roundfish_MT: 0,
+//                SharkSkate_MT: 0,
+//                Other_MT: 0,
+//                Total_Rev: 0,
+//                Flatfish_Rev: 0,
+//                Rockfish_Rev: 0,
+//                Roundfish_Rev: 0,
+//                SharkSkate_Rev: 0,
+//                Other_Rev: 0    
             };
 
             // loop through all the selected features
@@ -1169,15 +1215,15 @@
                 '<td>' + calcNet(summClose.corspg_cnt, summOpen.corspg_cnt) + '</td></tr>' +
                 '<tr><td>OFS 20% HSP (sq mi) </td>' + '<td>' + sqm2sqmi(summClose.OF20AreaM2) + '</td>' +
                 '<td>' + sqm2sqmi(summOpen.OF20AreaM2, areaOpen) + '</td>' +
-                '<td>' + sqm2sqmi(calcNet(summClose.OF20AreaM2, summOpen.OF20AreaM2), areaNet) + '</td></tr>' +
-                '<tr class="table-row-header"><th>Socioeconomic Metrics</th><th>Displace</th><th>Restore</th><th>Net</th></tr>' +
-                '<tr><th>Trawl Effort</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><td>Total Tow Length (mi)</td>' + '<td>' + m2mi(summClose.TowLenM) + '</td>' +
-                '<td>' + m2mi(summOpen.TowLenM) + '</td>' +
-                '<td>' + m2mi(calcNet( summOpen.TowLenM, summClose.TowLenM)) + '</td></tr>' +   
-                '<tr><td>Percent of Coastwide Tow Length</td>' + '<td>' + prop2pct(summClose.PropLenTot) + '</td>' +
-                '<td>' + prop2pct(summOpen.PropLenTot) + '</td>' +
-                '<td>' + prop2pct(calcNet(summOpen.PropLenTot, summClose.PropLenTot)) + '</td></tr>';
+                '<td>' + sqm2sqmi(calcNet(summClose.OF20AreaM2, summOpen.OF20AreaM2), areaNet) + '</td></tr>';
+//                '<tr class="table-row-header"><th>Socioeconomic Metrics</th><th>Displace</th><th>Restore</th><th>Net</th></tr>' +
+//                '<tr><th>Trawl Effort</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+//                '<tr><td>Total Tow Length (mi)</td>' + '<td>' + m2mi(summClose.TowLenM) + '</td>' +
+//                '<td>' + m2mi(summOpen.TowLenM) + '</td>' +
+//                '<td>' + m2mi(calcNet( summOpen.TowLenM, summClose.TowLenM)) + '</td></tr>' +   
+//                '<tr><td>Percent of Coastwide Tow Length</td>' + '<td>' + prop2pct(summClose.PropLenTot) + '</td>' +
+//                '<td>' + prop2pct(summOpen.PropLenTot) + '</td>' +
+//                '<td>' + prop2pct(calcNet(summOpen.PropLenTot, summClose.PropLenTot)) + '</td></tr>' + 
 //                '<tr><th>Total Catch (Metric Tons)</th>' + '<td>' + rnd(summClose.Total_MT, 1) + '</td>' + 
 //                '<td>' + rnd(summOpen.Total_MT, 1) + '</td>' + 
 //                '<td>' + rnd(calcNet(summClose.Total_MT,summOpen.Total_MT), 1) + '</td></tr>' +
@@ -1251,8 +1297,8 @@
                 '<th>Seamounts (sq mi)</th>' +
                 '<th>Corals & Sponges (1 km blocks)</th>' +
                 '<th>OFS 20% HSP (sq mi)</th>' +
-                '<th>Trawl Tow Length (mi)</th>' +
-                '<th>Percent Coastwide Tow Length</th>' +
+//                '<th>Trawl Tow Length (mi)</th>' +
+//                '<th>Percent Coastwide Tow Length</th>' +
 //                '<th>Total Catch (MT)</th>' +
 //                '<th>Flatfish Catch (MT)</th>' +
 //                '<th>Rockfish Catch (MT)</th>' +
@@ -1295,8 +1341,8 @@
                 '<th>Seamounts (sq mi)</th>' +
                 '<th>Corals & Sponges (1 km blocks)</th>' +
                 '<th>OFS 20% HSP (sq mi)</th>' +
-                '<th>Trawl Tow Length (mi)</th>' +                
-                '<th>Percent Coastwide Tow Length</th>' +
+//                '<th>Trawl Tow Length (mi)</th>' +                
+//                '<th>Percent Coastwide Tow Length</th>' +
 //                '<th>Total Catch (MT)</th>' +
 //                '<th>Flatfish Catch (MT)</th>' +
 //                '<th>Rockfish Catch (MT)</th>' +
@@ -1340,10 +1386,12 @@
                     '<td>' + sqm2sqmi(data.SmtAreaM2) + '</td>' +
                     '<td>' + data.corspg_cnt + '</td>' +
                     '<td>' + sqm2sqmi(data.OF20AreaM2) + '</td>'                
-                
-                if (data.VesCount >= 3 || data.VesCount == 0) {
-                    rows += '<td>' + m2mi(data.TowLenM) + '</td>' +
-                        '<td>' + prop2pct(data.PropLenTot) + '</td>'
+ 
+                // Remove all socioeconomic data for now
+
+//                if (data.VesCount >= 3 || data.VesCount == 0) {
+//                    rows += '<td>' + m2mi(data.TowLenM) + '</td>' +
+//                    '<td>' + prop2pct(data.PropLenTot) + '</td>' +
 //                    '<td>' + rnd(data.Total_MT, 1) + '</td>' +
 //                    '<td>' + rnd(data.Flatfish_MT, 1) + '</td>' +
 //                    '<td>' + rnd(data.Rockfish_MT, 1) + '</td>' +
@@ -1356,9 +1404,9 @@
 //                    '<td>' + dollars(data.Roundfish_Rev) + '</td>' +
 //                    '<td>' + dollars(data.SharkSkate_Rev) + '</td>' +
 //                    '<td>' + dollars(data.Other_Rev) + '</td>'
-                } else {
-                    rows += '<td>' + '**' + '</td>' +
-                    '<td>' + '**' + '</td>'
+//                } else {
+//                    rows += '<td>' + '**' + '</td>' +
+//                    '<td>' + '**' + '</td>' +
 //                    '<td>' + '**' + '</td>' +
 //                    '<td>' + '**' + '</td>' +
 //                    '<td>' + '**' + '</td>' +
@@ -1371,9 +1419,8 @@
 //                    '<td>' + '**' + '</td>' +
 //                    '<td>' + '**' + '</td>' +
 //                    '<td>' + '**' + '</td>'
-               }
-                
-                
+//               }
+                               
                 rows += '</tr>'
 //            });
             } // end of loop through selectedSet
