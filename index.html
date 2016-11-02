@@ -41,6 +41,7 @@
         
         <!-- HTML form for user to select EFH proposal to draw on map -->
         <!-- Note that values correspond exactly to attribute names in source GeoJSON data file -->
+        <!-- Only Collaborative and Ocean proposals initially visible -->
         <h2>EFH Proposals</h2>
         <div id="layer-controls">
             <!-- Collaborative -->
@@ -68,7 +69,7 @@
                 </button>
             </label>
             <!-- Fishermans Marketing Association -->
-            <input id="fmaLayer" type="checkbox" value="fmaLayer" checked>
+            <input id="fmaLayer" type="checkbox" value="fmaLayer" unchecked>
             <label for="fmaLayer" id="fmaLayer" style='color:#377EB8'>
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
                 FMA 
@@ -80,7 +81,7 @@
                 </button>
             </label>
             <!-- Farallones National Marine Sanctuary -->
-            <input id="gfnmsLayer" type="checkbox" value="gfnmsLayer" checked>
+            <input id="gfnmsLayer" type="checkbox" value="gfnmsLayer" unchecked>
             <label for="gfnmsLayer" style='color:#E2007F'>
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
                 GFNMS 
@@ -92,7 +93,7 @@
                 </button>
             </label>
             <!-- Greenpeace -->
-            <input id="greenpeaceLayer" type="checkbox" value="greenpeaceLayer" checked>
+            <input id="greenpeaceLayer" type="checkbox" value="greenpeaceLayer" unchecked>
             <label for="greenpeaceLayer" style='color:#0F6001'>
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
                 Greenpeace 
@@ -104,7 +105,7 @@
                 </button>
             </label>
             <!-- Monterey Bay National Marine Sanctuary -->
-            <input id="mbnmsLayer" type="checkbox" value="mbnmsLayer" checked>
+            <input id="mbnmsLayer" type="checkbox" value="mbnmsLayer" unchecked>
             <label for="mbnmsLayer" style='color:#E9BD02'>
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
                 MBNMS 
@@ -116,7 +117,7 @@
                 </button>
             </label>
             <!-- Marine Conservation Institute -->
-            <input id="mciLayer" type="checkbox" value="mciLayer" checked>
+            <input id="mciLayer" type="checkbox" value="mciLayer" unchecked>
             <label for="mciLayer" style='color:#650B0B'>
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
                 MCI 
@@ -128,7 +129,7 @@
                 </button>
             </label>
             <!-- Extra Polygons (Proposer = None) -->
-            <input id="noneLayer" type="checkbox" value="noneLayer" checked>
+            <input id="noneLayer" type="checkbox" value="noneLayer" unchecked>
             <label for="noneLayer" style='color:#0F97A3'>
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
                 None 
@@ -312,11 +313,15 @@
                         },
                     });
                 }
-            }).addTo(map);
+            })//.addTo(map);
 
             geoJsonLayers[lyr].startStyle = styles
 
         } // end of loop through all geoJSON layers
+        
+        // Add only Collaborative and Oceana layers to map to start
+        geoJsonLayers["onoLayer"].addTo(map);
+        geoJsonLayers["collabLayer"].addTo(map);
         
         // Supplemental Layer styles
         var depLineWeight = 2;
