@@ -782,15 +782,16 @@
             html += "<br>" + "<b>Corals & Sponges</b> (1 km blocks): " + data.corspg_cnt;
             html += "<br>" + "<b>OFS 20% HSP: </b> " + pct(data.OF20AreaM2, data.SiteAreaM2);
 
-            if (data.VesCount >= 3 || data.VesCount == 0) {
-                html += "<br>" + "<b>Trawl Tow Length (mi): </b>" + m2mi(data.TowLenM);
+            // Remove all socioeconomic data for now
+//            if (data.VesCount >= 3 || data.VesCount == 0) {
+//                html += "<br>" + "<b>Trawl Tow Length (mi): </b>" + m2mi(data.TowLenM);
 //                html += "<br>" + "<b>Total Catch (MT): </b> " + rnd(data.Total_MT,1);
 //                html += "<br>" + "<b>Total Ex-Vessel Value: </b> " + dollars(data.Total_Rev);
-            } else {
-                html += "<br>" + "<b>Trawl Tow Length: </b> **";
+//            } else {
+//                html += "<br>" + "<b>Trawl Tow Length: </b> **";
 //                html += "<br>" + "<b>Total Catch (MT): </b> **";
 //                html += "<br>" + "<b>Total Ex-Vessel Value: </b> **";
-            }     
+//            }     
 
             // Assign the html content to the info box using JQuery selector
             $(".poly-info").html(html);
@@ -957,11 +958,11 @@
                 '<tr><td>Canyons & Gullies</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Seamounts</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Corals & Sponges (1 km blocks)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><td>OFS 20% HSP (sq mi) </td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr class="table-row-header"><th>Socioeconomic Metrics</th>' + '<th>Displace</th>' + '<th>Restore</th>' + '<th>Net</th></tr>' +
-                '<tr><th>Trawl Effort</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><td>Total Tow Length (mi)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><td>Percent of Coastwide Tow Length</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>';
+                '<tr><td>OFS 20% HSP (sq mi) </td>' + '<td></td>' + '<td></td>' + '<td></td></tr>';
+//                '<tr class="table-row-header"><th>Socioeconomic Metrics</th>' + '<th>Displace</th>' + '<th>Restore</th>' + '<th>Net</th></tr>' +
+//                '<tr><th>Trawl Effort</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+//                '<tr><td>Total Tow Length (mi)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+//                '<tr><td>Percent of Coastwide Tow Length</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
 //                '<tr><th>Total Catch (Metric Tons)</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
 //                '<tr><td>Flatfish (MT)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
 //                '<tr><td>Rockfish (MT)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
@@ -994,20 +995,20 @@
                 "SmtAreaM2",
                 "corspg_cnt",
                 "OF20AreaM2",
-                "TowLenM",
-                "PropLenTot",
-                "Total_MT",
-                "Flatfish_MT",
-                "Rockfish_MT",
-                "Roundfish_MT",
-                "SharkSkate_MT",
-                "Other_MT",
-                "Total_Rev",
-                "Flatfish_Rev",
-                "Rockfish_Rev",
-                "Roundfish_Rev",
-                "SharkSkate_Rev",
-                "Other_Rev",               
+//                "TowLenM",
+//                "PropLenTot",
+//                "Total_MT",
+//                "Flatfish_MT",
+//                "Rockfish_MT",
+//                "Roundfish_MT",
+//                "SharkSkate_MT",
+//                "Other_MT",
+//                "Total_Rev",
+//                "Flatfish_Rev",
+//                "Rockfish_Rev",
+//                "Roundfish_Rev",
+//                "SharkSkate_Rev",
+//                "Other_Rev",               
             ]
 
 
@@ -1024,20 +1025,20 @@
                 SmtAreaM2: 0,
                 corspg_cnt: 0,
                 OF20AreaM2: 0,
-                TowLenM: 0,
-                PropLenTot: 0,
-                Total_MT: 0,
-                Flatfish_MT: 0,
-                Rockfish_MT: 0,
-                Roundfish_MT: 0,
-                SharkSkate_MT: 0,
-                Other_MT: 0,
-                Total_Rev: 0,
-                Flatfish_Rev: 0,
-                Rockfish_Rev: 0,
-                Roundfish_Rev: 0,
-                SharkSkate_Rev: 0,
-                Other_Rev: 0    
+//                TowLenM: 0,
+//                PropLenTot: 0,
+//                Total_MT: 0,
+//                Flatfish_MT: 0,
+//                Rockfish_MT: 0,
+//                Roundfish_MT: 0,
+//                SharkSkate_MT: 0,
+//                Other_MT: 0,
+//                Total_Rev: 0,
+//                Flatfish_Rev: 0,
+//                Rockfish_Rev: 0,
+//                Roundfish_Rev: 0,
+//                SharkSkate_Rev: 0,
+//                Other_Rev: 0    
             };
             var summClose = {
                 SiteAreaM2: 0,
@@ -1049,20 +1050,20 @@
                 SmtAreaM2: 0,
                 corspg_cnt: 0,
                 OF20AreaM2: 0,
-                TowLenM: 0,
-                PropLenTot: 0,
-                Total_MT: 0,
-                Flatfish_MT: 0,
-                Rockfish_MT: 0,
-                Roundfish_MT: 0,
-                SharkSkate_MT: 0,
-                Other_MT: 0,
-                Total_Rev: 0,
-                Flatfish_Rev: 0,
-                Rockfish_Rev: 0,
-                Roundfish_Rev: 0,
-                SharkSkate_Rev: 0,
-                Other_Rev: 0    
+//                TowLenM: 0,
+//                PropLenTot: 0,
+//                Total_MT: 0,
+//                Flatfish_MT: 0,
+//                Rockfish_MT: 0,
+//                Roundfish_MT: 0,
+//                SharkSkate_MT: 0,
+//                Other_MT: 0,
+//                Total_Rev: 0,
+//                Flatfish_Rev: 0,
+//                Rockfish_Rev: 0,
+//                Roundfish_Rev: 0,
+//                SharkSkate_Rev: 0,
+//                Other_Rev: 0    
             };
 
             // loop through all the selected features
@@ -1162,15 +1163,15 @@
                 '<td>' + calcNet(summClose.corspg_cnt, summOpen.corspg_cnt) + '</td></tr>' +
                 '<tr><td>OFS 20% HSP (sq mi) </td>' + '<td>' + sqm2sqmi(summClose.OF20AreaM2) + '</td>' +
                 '<td>' + sqm2sqmi(summOpen.OF20AreaM2, areaOpen) + '</td>' +
-                '<td>' + sqm2sqmi(calcNet(summClose.OF20AreaM2, summOpen.OF20AreaM2), areaNet) + '</td></tr>' +
-                '<tr class="table-row-header"><th>Socioeconomic Metrics</th><th>Displace</th><th>Restore</th><th>Net</th></tr>' +
-                '<tr><th>Trawl Effort</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><td>Total Tow Length (mi)</td>' + '<td>' + m2mi(summClose.TowLenM) + '</td>' +
-                '<td>' + m2mi(summOpen.TowLenM) + '</td>' +
-                '<td>' + m2mi(calcNet( summOpen.TowLenM, summClose.TowLenM)) + '</td></tr>' +   
-                '<tr><td>Percent of Coastwide Tow Length</td>' + '<td>' + prop2pct(summClose.PropLenTot) + '</td>' +
-                '<td>' + prop2pct(summOpen.PropLenTot) + '</td>' +
-                '<td>' + prop2pct(calcNet(summOpen.PropLenTot, summClose.PropLenTot)) + '</td></tr>';
+                '<td>' + sqm2sqmi(calcNet(summClose.OF20AreaM2, summOpen.OF20AreaM2), areaNet) + '</td></tr>';
+//                '<tr class="table-row-header"><th>Socioeconomic Metrics</th><th>Displace</th><th>Restore</th><th>Net</th></tr>' +
+//                '<tr><th>Trawl Effort</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+//                '<tr><td>Total Tow Length (mi)</td>' + '<td>' + m2mi(summClose.TowLenM) + '</td>' +
+//                '<td>' + m2mi(summOpen.TowLenM) + '</td>' +
+//                '<td>' + m2mi(calcNet( summOpen.TowLenM, summClose.TowLenM)) + '</td></tr>' +   
+//                '<tr><td>Percent of Coastwide Tow Length</td>' + '<td>' + prop2pct(summClose.PropLenTot) + '</td>' +
+//                '<td>' + prop2pct(summOpen.PropLenTot) + '</td>' +
+//                '<td>' + prop2pct(calcNet(summOpen.PropLenTot, summClose.PropLenTot)) + '</td></tr>' + 
 //                '<tr><th>Total Catch (Metric Tons)</th>' + '<td>' + rnd(summClose.Total_MT, 1) + '</td>' + 
 //                '<td>' + rnd(summOpen.Total_MT, 1) + '</td>' + 
 //                '<td>' + rnd(calcNet(summClose.Total_MT,summOpen.Total_MT), 1) + '</td></tr>' +
@@ -1244,8 +1245,8 @@
                 '<th>Seamounts (sq mi)</th>' +
                 '<th>Corals & Sponges (1 km blocks)</th>' +
                 '<th>OFS 20% HSP (sq mi)</th>' +
-                '<th>Trawl Tow Length (mi)</th>' +
-                '<th>Percent Coastwide Tow Length</th>' +
+//                '<th>Trawl Tow Length (mi)</th>' +
+//                '<th>Percent Coastwide Tow Length</th>' +
 //                '<th>Total Catch (MT)</th>' +
 //                '<th>Flatfish Catch (MT)</th>' +
 //                '<th>Rockfish Catch (MT)</th>' +
@@ -1288,8 +1289,8 @@
                 '<th>Seamounts (sq mi)</th>' +
                 '<th>Corals & Sponges (1 km blocks)</th>' +
                 '<th>OFS 20% HSP (sq mi)</th>' +
-                '<th>Trawl Tow Length (mi)</th>' +                
-                '<th>Percent Coastwide Tow Length</th>' +
+//                '<th>Trawl Tow Length (mi)</th>' +                
+//                '<th>Percent Coastwide Tow Length</th>' +
 //                '<th>Total Catch (MT)</th>' +
 //                '<th>Flatfish Catch (MT)</th>' +
 //                '<th>Rockfish Catch (MT)</th>' +
@@ -1333,10 +1334,12 @@
                     '<td>' + sqm2sqmi(data.SmtAreaM2) + '</td>' +
                     '<td>' + data.corspg_cnt + '</td>' +
                     '<td>' + sqm2sqmi(data.OF20AreaM2) + '</td>'                
-                
-                if (data.VesCount >= 3 || data.VesCount == 0) {
-                    rows += '<td>' + m2mi(data.TowLenM) + '</td>' +
-                        '<td>' + prop2pct(data.PropLenTot) + '</td>'
+ 
+                // Remove all socioeconomic data for now
+
+//                if (data.VesCount >= 3 || data.VesCount == 0) {
+//                    rows += '<td>' + m2mi(data.TowLenM) + '</td>' +
+//                    '<td>' + prop2pct(data.PropLenTot) + '</td>' +
 //                    '<td>' + rnd(data.Total_MT, 1) + '</td>' +
 //                    '<td>' + rnd(data.Flatfish_MT, 1) + '</td>' +
 //                    '<td>' + rnd(data.Rockfish_MT, 1) + '</td>' +
@@ -1349,9 +1352,9 @@
 //                    '<td>' + dollars(data.Roundfish_Rev) + '</td>' +
 //                    '<td>' + dollars(data.SharkSkate_Rev) + '</td>' +
 //                    '<td>' + dollars(data.Other_Rev) + '</td>'
-                } else {
-                    rows += '<td>' + '**' + '</td>' +
-                    '<td>' + '**' + '</td>'
+//                } else {
+//                    rows += '<td>' + '**' + '</td>' +
+//                    '<td>' + '**' + '</td>' +
 //                    '<td>' + '**' + '</td>' +
 //                    '<td>' + '**' + '</td>' +
 //                    '<td>' + '**' + '</td>' +
@@ -1364,9 +1367,8 @@
 //                    '<td>' + '**' + '</td>' +
 //                    '<td>' + '**' + '</td>' +
 //                    '<td>' + '**' + '</td>'
-               }
-                
-                
+//               }
+                               
                 rows += '</tr>'
 //            });
             } // end of loop through selectedSet
