@@ -44,14 +44,15 @@
         <!-- HTML form for user to select EFH proposal to draw on map -->
         <!-- Note that values correspond exactly to attribute names in source GeoJSON data file -->
         <!-- Only Collaborative and Ocean proposals initially visible -->
-        <h2>EFH Proposals</h2>
+<!--        <h2>EFH Proposals</h2>-->
 
         <div id='poly-search'>
             <i class="fa fa-search"></i>
-            <input class="typeahead" type="text" placeholder="Search by name ...">
+            <input class="typeahead" type="text" placeholder="Search by polygon name ...">
         </div>
 
         <div id="layer-controls">
+            <p class="efh-type">EFH Alternatives</p>
             <!-- Collaborative -->
             <input id="collabLayer" type="checkbox" value="collabLayer" checked>
             <label for="collabLayer" style='color:#E5571D' data-nice-name="Collaborative">
@@ -76,6 +77,7 @@
                     <i class="fa fa-plus"></i>
                 </button>
             </label>
+            <p class="efh-type">Other EFH Proposals</p>
             <!-- Fishermans Marketing Association -->
             <input id="fmaLayer" type="checkbox" value="fmaLayer" unchecked>
             <label for="fmaLayer" id="fmaLayer" style='color:#377EB8' data-nice-name="FMA">

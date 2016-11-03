@@ -154,6 +154,14 @@ h3 {
     margin: 0;
 }
 
+.efh-type {
+    margin: 0;
+    padding: 8px 25px 8px 15px;
+    color: #494f99;
+    font-weight: 500;
+    font-size: 1.1 em;
+}
+
 #layer-controls {
     width: 100%;
 }
