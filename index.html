@@ -45,6 +45,7 @@
         <!-- Note that values correspond exactly to attribute names in source GeoJSON data file -->
         <!-- Only Collaborative and Ocean proposals initially visible -->
         <h2>EFH Proposals</h2>
+
         <div id="layer-controls">
             <!-- Collaborative -->
             <input id="collabLayer" type="checkbox" value="collabLayer" checked>
@@ -145,17 +146,18 @@
         </div>
 
         <div id='ui-controls'>
-            <button value="Zoom" id="zoom">Zoom to Selection</button>
-            <button value="Clear" id="clear">Clear all Selections</button>
+            <button value="Zoom" class="layer-ui-button" id="zoom">Zoom to selection <i class="fa fa-arrows-alt"></i></button>
+            <button value="Clear" class="layer-ui-button" id="clear">Clear selection <i class="fa fa-ban"></i></button>
+        </div>
+
+        <div id='poly-search'>
+            <h2>Proposal search...</h2>
+            <input class="typeahead" type="text" placeholder="Proposal name">
         </div>
 
 
     </div>
     <!-- end right-panel -->
-    
-    <div id='poly-search'>
-        <input class="typeahead" type="text" placeholder="EFH Proposal Polygon Name">
-    </div>
     
     <div id='map'></div>
 
