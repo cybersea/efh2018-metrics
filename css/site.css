@@ -43,9 +43,20 @@ h3 {
 /*  Polygon Search Box */
 #poly-search {
     display: block;
-    color: white;
+    position: relative;
+    background: white;
+    padding: ;
     z-index: 10;
-    padding: 1em 0;
+    padding: 10px 10px 10px 29px;
+    margin-top: 5px;
+    border-top: 1px solid #597DAB;
+    border-bottom: 1px solid #597DAB;
+}
+#poly-search .fa {
+    position: absolute;
+    left: 8px;
+    top: 11px;
+    color: #d5d5d5;
 }
 .twitter-typeahead {
     display: block !important;
@@ -53,7 +64,10 @@ h3 {
 #poly-search input {
     width: 100%;
     border: none;
-    padding: 10px;
+    padding: 0;
+}
+#poly-search input:focus {
+    outline: none;
 }
 .tt-menu {
     background: white;
@@ -142,7 +156,6 @@ h3 {
 
 #layer-controls {
     width: 100%;
-    border-top: 1px solid #597DAB;
 }
 
 #layer-controls input {
