@@ -853,29 +853,33 @@
             
             // Select all polygons from a Proposal, regardless of current state
             $('.layer-select-all').on('click', function () {
+                loading(true);
                 var targetLayer = $(this).parent().attr('for');
-                
-                geoJsonLayers[targetLayer].eachLayer(function(f){
-                    var id = f.feature.properties.concat_id;
-                    // Only add features that are not already selected
-                    if (! (selectedSet.hasOwnProperty(id)) ){
-                        selected(f); 
-                    }
-                                                     
-                });
-                               
+                setTimeout(function() {
+                    geoJsonLayers[targetLayer].eachLayer(function(f){
+                        var id = f.feature.properties.concat_id;
+                        // Only add features that are not already selected
+                        if (! (selectedSet.hasOwnProperty(id)) ){
+                            selected(f); 
+                        }                      
+                    });
+                    loading(false);
+                }, 1);
             });
             
             
             // Remove all polygons from a Proposal
             $('.layer-unselect-all').on('click', function () {
-                var targetLayer = $(this).parent().attr('for');
-                               
-                geoJsonLayers[targetLayer].eachLayer(function(f){
-                   unselected(f); 
-                                                     
-                });
-                               
+                var $parent = $(this).parent();
+                var targetLayer = $parent.attr('for');
+                loading(true);
+                setTimeout(function() {
+                    geoJsonLayers[targetLayer].eachLayer(function(f){
+                        unselected(f);                     
+                    });
+                    $parent.find('.layer-counter-current').html(0); // hard set the current layer counter to 0
+                    loading(false);
+                }, 1);
             });
             
 
@@ -993,11 +997,6 @@
             // update the html of the table
             $table.html(rows);
 
-        }
-
-        function updateLayerControlCounter(layer, data) {
-            console.log(layer);
-            console.log(data);
         }
 
         function updateSummmary() {
@@ -1400,6 +1399,12 @@
 
 
         } // end of updatePolyTable()
+
+        // adds or removes a loader icon at the top-right of the page
+        function loading(boolean) {
+            if (boolean) $('html').addClass('loading');
+            else $('html').removeClass('loading');
+        }
 
         (function () {
 
