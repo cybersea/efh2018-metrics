@@ -127,7 +127,6 @@ h3 {
     margin: 0 0 1px 0;
     padding: 3px 5px;
     background: rgba(255, 255, 255, 1);
-    border-bottom: 1px solid #597DAB;
     opacity: .3;
     cursor: pointer;
 }
@@ -316,6 +315,24 @@ tr:hover th {
     outline: none;
     float: right;
     cursor: pointer;
+    background: #e5e5e5;
+    color: #333;
+    font-size: 0.6em;
+    padding: 3px 5px;
+    border-radius: 2px;
+    margin-left: 3px;
+}
+.layer-unselect-all:hover,
+.layer-select-all:hover {
+    background: #d5d5d5;
+}
+.layer-unselect-all:active,
+.layer-select-all:active {
+    background-color: #999;
+}
+.layer-unselect-all:after,
+.layer-select-all:after {
+    font-size: 1.2em !important;
 }
 /*.layer-unselect-all:hover .fa,
 .layer-select-all:hover .fa {
@@ -361,7 +378,7 @@ tr:hover th {
     border-right: 5px solid transparent;
     top: 0;
     right: 0;
-    margin-top: -20%;
+    margin-top: -23%;
     margin-right: 3px;
 }
 .tooltip:hover:after {
