@@ -85,7 +85,7 @@ h3 {
 /*  Leaflet Control Mods*/
 .leaflet-control-layers {
     position: relative;
-    right: 220px
+    right: 250px
 }
 
 /*   RIGHT SIDE PANEL*/
@@ -95,7 +95,7 @@ h3 {
     right: 0;
     top: 0;
     bottom: 0;
-    width: 220px;
+    width: 250px;
     background: rgba(240, 240, 240, .6);
     border-left: 2px solid #597DAB;
     z-index: 10;
@@ -127,7 +127,6 @@ h3 {
     margin: 0 0 1px 0;
     padding: 3px 5px;
     background: rgba(255, 255, 255, 1);
-    border-bottom: 1px solid #597DAB;
     opacity: .3;
     cursor: pointer;
 }
@@ -315,6 +314,37 @@ tr:hover th {
     border: none;
     outline: none;
     float: right;
+    cursor: pointer;
+    background: #e5e5e5;
+    color: #333;
+    font-size: 0.6em;
+    padding: 3px 5px;
+    border-radius: 2px;
+    margin-left: 3px;
+}
+.layer-unselect-all:hover,
+.layer-select-all:hover {
+    background: #d5d5d5;
+}
+.layer-unselect-all:active,
+.layer-select-all:active {
+    background-color: #999;
+}
+.layer-unselect-all:after,
+.layer-select-all:after {
+    font-size: 1.2em !important;
+}
+/*.layer-unselect-all:hover .fa,
+.layer-select-all:hover .fa {
+    color: blue;
+}*/
+
+.layer-counter {
+    color: #999;
+    font-size: 0.8em;
+}
+.layer-counter-current {
+    font-weight: 900;
 }
 
 /** tooltips **/
@@ -348,7 +378,7 @@ tr:hover th {
     border-right: 5px solid transparent;
     top: 0;
     right: 0;
-    margin-top: -20%;
+    margin-top: -23%;
     margin-right: 3px;
 }
 .tooltip:hover:after {
@@ -358,4 +388,54 @@ tr:hover th {
 .tooltip:hover:before {
     display: block;
     visibility: visible;
+}
+
+/** loader icon **/
+html.loading {
+    /*opacity: 0.5;*/
+}
+html.loading:after {
+    font-family: "FontAwesome";
+    content:"\f110";
+    color: black;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    -webkit-animation: rotating 0.5s linear infinite;
+    -moz-animation: rotating 0.5s linear infinite;
+    -ms-animation: rotating 0.5s linear infinite;
+    -o-animation: rotating 0.5s linear infinite;
+    animation: rotating 0.5s linear infinite;
+}
+@-webkit-keyframes rotating /* Safari and Chrome */ {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
