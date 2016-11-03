@@ -200,10 +200,11 @@
         </div>
     </div>
 
-
     <!--  GeoJSON source data (var proposals_metrics)   -->
     <script src="data/efh_proposals_metrics.js"></script>
-
+    <!--  JSON with concat_id and list of unique 1km cells with corspg presence (var corspg1km_proposals)   -->
+    <script src="data/corspg1km_proposals.js"></script>
+    
     <!--  Main mapping script   -->
     <script>
         // instantiate the Leaflet map
@@ -273,8 +274,6 @@
                     color: "#0F97A3",
                 },            
             }
-            //
-
 
         var geoJsonLayers = {}; // global to store all the geoJSON layers
         var selectedSet = {}; // global for selected features
@@ -1094,16 +1093,14 @@
                             } else { // areas to be reopened
                                 summOpen[att] += props[att];
                             }
-
                         }
                     }
                 }
+                
 
             } // end of loop through selectedSet
-
-            // create Net value object
-            summNet = calcNet(summClose, summOpen);
-
+            
+            
             // Update area count text
             var polyCount = Object.keys(selectedSet).length;
 
