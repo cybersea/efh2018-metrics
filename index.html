@@ -842,11 +842,12 @@
                     map.addLayer(geoJsonLayers[targetLayer]);
                     // enable select and unselect all buttons
                     selBtn.prop('disabled', false);
+                    unselBtn.prop('disabled', false);
                 } else {
                     icon.removeClass('fa-check-square-o').addClass('fa-square-o');
                     map.removeLayer(geoJsonLayers[targetLayer]);
                     // disable select and unselect all buttons
-                    selBtn.prop('disabled', true);                      
+                    selBtn.prop('disabled', true);
                     unselBtn.prop('disabled', true);  
                 }
 
