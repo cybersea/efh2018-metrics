@@ -46,9 +46,9 @@
         <div id="layer-controls">
             <!-- Collaborative -->
             <input id="collabLayer" type="checkbox" value="collabLayer" checked>
-            <label for="collabLayer" style='color:#E5571D'>
+            <label for="collabLayer" style='color:#E5571D' data-nice-name="Collaborative">
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
-                Collaborative 
+                Collaborative <span class="layer-counter"><span class="layer-counter-current">0</span>/59</span>
                 <button class="layer-unselect-all">
                     <span class="tooltip" data-tooltip="Remove Proposal from Selection"><i class="fa fa-minus-square-o"></i></span>
                 </button>
@@ -58,9 +58,9 @@
             </label>
             <!-- Oceana -->
             <input id="onoLayer" type="checkbox" value="onoLayer" checked>
-            <label for="onoLayer" style='color:#6F067B'>
+            <label for="onoLayer" style='color:#6F067B' data-nice-name="Oceana-NRDC-OC">
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
-                Oceana et al. 
+                Oceana et al. <span class="layer-counter"><span class="layer-counter-current">0</span>/68</span>
                 <button class="layer-unselect-all">
                     <span class="tooltip" data-tooltip="Remove Proposal from Selection"><i class="fa fa-minus-square-o"></i></span>
                 </button>
@@ -70,9 +70,9 @@
             </label>
             <!-- Fishermans Marketing Association -->
             <input id="fmaLayer" type="checkbox" value="fmaLayer" unchecked>
-            <label for="fmaLayer" id="fmaLayer" style='color:#377EB8'>
+            <label for="fmaLayer" id="fmaLayer" style='color:#377EB8' data-nice-name="FMA">
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
-                FMA 
+                FMA <span class="layer-counter"><span class="layer-counter-current">0</span>/1</span>
                 <button class="layer-unselect-all">
                     <span class="tooltip" data-tooltip="Remove Proposal from Selection"><i class="fa fa-minus-square-o"></i></span>
                 </button>
@@ -82,9 +82,9 @@
             </label>
             <!-- Farallones National Marine Sanctuary -->
             <input id="gfnmsLayer" type="checkbox" value="gfnmsLayer" unchecked>
-            <label for="gfnmsLayer" style='color:#E2007F'>
+            <label for="gfnmsLayer" style='color:#E2007F' data-nice-name="GFNMS">
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
-                GFNMS 
+                GFNMS <span class="layer-counter"><span class="layer-counter-current">0</span>/3</span>
                 <button class="layer-unselect-all">
                     <span class="tooltip" data-tooltip="Remove Proposal from Selection"><i class="fa fa-minus-square-o"></i></span>
                 </button>
@@ -94,9 +94,9 @@
             </label>
             <!-- Greenpeace -->
             <input id="greenpeaceLayer" type="checkbox" value="greenpeaceLayer" unchecked>
-            <label for="greenpeaceLayer" style='color:#0F6001'>
+            <label for="greenpeaceLayer" style='color:#0F6001' data-nice-name="Greenpeace">
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
-                Greenpeace 
+                Greenpeace <span class="layer-counter"><span class="layer-counter-current">0</span>/9</span>
                 <button class="layer-unselect-all">
                     <span class="tooltip" data-tooltip="Remove Proposal from Selection"><i class="fa fa-minus-square-o"></i></span>
                 </button>
@@ -106,9 +106,9 @@
             </label>
             <!-- Monterey Bay National Marine Sanctuary -->
             <input id="mbnmsLayer" type="checkbox" value="mbnmsLayer" unchecked>
-            <label for="mbnmsLayer" style='color:#E9BD02'>
+            <label for="mbnmsLayer" style='color:#E9BD02' data-nice-name="MBNMS">
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
-                MBNMS 
+                MBNMS <span class="layer-counter"><span class="layer-counter-current">0</span>/15</span>
                 <button class="layer-unselect-all">
                     <span class="tooltip" data-tooltip="Remove Proposal from Selection"><i class="fa fa-minus-square-o"></i></span>
                 </button>
@@ -118,9 +118,9 @@
             </label>
             <!-- Marine Conservation Institute -->
             <input id="mciLayer" type="checkbox" value="mciLayer" unchecked>
-            <label for="mciLayer" style='color:#650B0B'>
+            <label for="mciLayer" style='color:#650B0B' data-nice-name="MCI">
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
-                MCI 
+                MCI <span class="layer-counter"><span class="layer-counter-current">0</span>/25</span>
                 <button class="layer-unselect-all">
                     <span class="tooltip" data-tooltip="Remove Proposal from Selection"><i class="fa fa-minus-square-o"></i></span>
                 </button>
@@ -130,9 +130,9 @@
             </label>
             <!-- Extra Polygons (Proposer = None) -->
             <input id="noneLayer" type="checkbox" value="noneLayer" unchecked>
-            <label for="noneLayer" style='color:#0F97A3'>
+            <label for="noneLayer" style='color:#0F97A3' data-nice-name="None">
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o"></i></span> 
-                None 
+                None <span class="layer-counter"><span class="layer-counter-current">0</span>/22</span>
                 <button class="layer-unselect-all">
                     <span class="tooltip" data-tooltip="Remove Proposal from Selection"><i class="fa fa-minus-square-o"></i></span>
                 </button>
@@ -239,42 +239,39 @@
 
         // Style info for individual proposal layers
         var layerInfo = {
-                collabLayer: {
-                    proposer: "Collaborative",
-                    color: "#E5571D"
-                },
-                onoLayer: {
-                    proposer: "Oceana-NRDC-OC",
-                    color: "#6F067B"
-                },
-                fmaLayer: {
-                    proposer: "FMA",
-                    color: "#377EB8"
-                },
-                gfnmsLayer: {
-                    proposer: "GFNMS",
-                    color: "#E2007F"
-
-                },
-                greenpeaceLayer: {
-                    proposer: "Greenpeace",
-                    color: "#0F6001"
-                },
-                mbnmsLayer: {
-                    proposer: "MBNMS",
-                    color: "#E9BD02"
-                },
-                mciLayer: {
-                    proposer: "MCI",
-                    color: "#650B0B"
-                },
-                noneLayer: {
-                    proposer: "None",
-                    color: "#0F97A3",
-                },            
-            }
-            //
-
+            collabLayer: {
+                proposer: "Collaborative",
+                color: "#E5571D"
+            },
+            onoLayer: {
+                proposer: "Oceana-NRDC-OC",
+                color: "#6F067B"
+            },
+            fmaLayer: {
+                proposer: "FMA",
+                color: "#377EB8"
+            },
+            gfnmsLayer: {
+                proposer: "GFNMS",
+                color: "#E2007F"
+            },
+            greenpeaceLayer: {
+                proposer: "Greenpeace",
+                color: "#0F6001"
+            },
+            mbnmsLayer: {
+                proposer: "MBNMS",
+                color: "#E9BD02"
+            },
+            mciLayer: {
+                proposer: "MCI",
+                color: "#650B0B"
+            },
+            noneLayer: {
+                proposer: "None",
+                color: "#0F97A3",
+            },            
+        };
 
         var geoJsonLayers = {}; // global to store all the geoJSON layers
         var selectedSet = {}; // global for selected features
@@ -590,6 +587,11 @@
             // Add the feature's metrics to the polygon table
             updatePolyTable(data);
 
+            // increase layer control counter by 1 for this proposal
+            var $layerCounter = $('label[data-nice-name*="'+data.Proposer+'"]').find('.layer-counter-current');
+            var currentValue = +$layerCounter.html(); // the '+' turns it into a number
+            $layerCounter.html(currentValue + 1);
+
             // Unselect any overlapping features
             overlapping.forEach(function (layer) {
                 unselected(layer);
@@ -625,6 +627,11 @@
                 });
                 layer.bringToFront();
             }
+
+            // decrease layer control counter by 1 for this proposal
+            var $layerCounter = $('label[data-nice-name*="'+data.Proposer+'"]').find('.layer-counter-current');
+            var currentValue = +$layerCounter.html(); // the '+' turns it into a number
+            $layerCounter.html(currentValue - 1);
 
             // Remove the feature's stats from the summary statistics
             updateSummmary();
@@ -703,6 +710,8 @@
                 $('#zoom').removeClass('available');
                 $('#clear').removeClass('available');
             }
+
+            $('.layer-counter-current').html(0);
                         
             selectedSet = {};  // remove all layers from selected set
 
@@ -984,6 +993,11 @@
             // update the html of the table
             $table.html(rows);
 
+        }
+
+        function updateLayerControlCounter(layer, data) {
+            console.log(layer);
+            console.log(data);
         }
 
         function updateSummmary() {

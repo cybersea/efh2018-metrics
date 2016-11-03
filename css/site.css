@@ -85,7 +85,7 @@ h3 {
 /*  Leaflet Control Mods*/
 .leaflet-control-layers {
     position: relative;
-    right: 220px
+    right: 250px
 }
 
 /*   RIGHT SIDE PANEL*/
@@ -95,7 +95,7 @@ h3 {
     right: 0;
     top: 0;
     bottom: 0;
-    width: 220px;
+    width: 250px;
     background: rgba(240, 240, 240, .6);
     border-left: 2px solid #597DAB;
     z-index: 10;
@@ -315,6 +315,19 @@ tr:hover th {
     border: none;
     outline: none;
     float: right;
+    cursor: pointer;
+}
+/*.layer-unselect-all:hover .fa,
+.layer-select-all:hover .fa {
+    color: blue;
+}*/
+
+.layer-counter {
+    color: #999;
+    font-size: 0.8em;
+}
+.layer-counter-current {
+    font-weight: 900;
 }
 
 /** tooltips **/
