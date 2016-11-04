@@ -145,11 +145,14 @@ h3 {
 .poly-info {
     padding: 6px 8px;
     font-size: 1.1em;
-    width: 200px;
+    width: 230px;
     color: rgba(4, 33, 61, 1);
+    background: whitesmoke;
 }
 
 .poly-info h3 {
+    font-weight: 500;
+    font-size: 1.2em;
     padding: 0 0 0 0;
     margin: 0;
 }
@@ -455,8 +458,8 @@ html.loading:after {
     content:"\f110";
     color: black;
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 52px;
+    right: 15px;
     -webkit-animation: rotating 0.5s linear infinite;
     -moz-animation: rotating 0.5s linear infinite;
     -ms-animation: rotating 0.5s linear infinite;
