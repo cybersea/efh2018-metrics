@@ -77,6 +77,17 @@
                     <i class="fa fa-plus"></i>
                 </button>
             </label>
+            <input id="phLayer" type="checkbox" value="phLayer" checked>
+            <label for="phLayer" style='color:#00E575' data-nice-name="Priority Habitats in RCA">
+                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o layer-selection-icon"></i></span> 
+                Priority Hab <span class="layer-counter"><span class="layer-counter-current">0</span>/36</span>
+                <button class="layer-unselect-all tooltip" data-tooltip="Remove Proposal from Selection">
+                    <i class="fa fa-minus"></i>
+                </button>
+                <button class="layer-select-all tooltip" data-tooltip="Add Proposal to Selection">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </label>
             <p class="efh-type">Other EFH Proposals</p>
             <!-- Fishermans Marketing Association -->
             <input id="fmaLayer" type="checkbox" value="fmaLayer" unchecked>
@@ -291,7 +302,11 @@
             noneLayer: {
                 proposer: "None",
                 color: "#0F97A3",
-            },            
+            },  
+            phLayer : {
+                proposer: "Priority Habitats in RCA",
+                color: "#00E575",
+            }
         };
 
         var geoJsonLayers = {}; // global to store all the geoJSON layers
@@ -341,6 +356,7 @@
         // Add only Collaborative and Oceana layers to map to start
         geoJsonLayers["onoLayer"].addTo(map);
         geoJsonLayers["collabLayer"].addTo(map);
+        geoJsonLayers["phLayer"].addTo(map);
         
         // Supplemental Layer styles
         var depLineWeight = 2;
