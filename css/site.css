@@ -40,6 +40,11 @@ h3 {
     width: 64%;
 }
 
+/* On hover of home button, show pointer*/
+.easy-button-button{
+    cursor:pointer;
+}
+
 /*  Polygon Search Box */
 #poly-search {
     display: block;

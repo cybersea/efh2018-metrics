@@ -43,8 +43,8 @@
         
         <!-- HTML form for user to select EFH proposal to draw on map -->
         <!-- Note that values correspond exactly to attribute names in source GeoJSON data file -->
-        <!-- Only Collaborative and Ocean proposals initially visible -->
-<!--        <h2>EFH Proposals</h2>-->
+        <!-- Only Collaborative and Oceana proposals initially visible -->
+        <!--        <h2>EFH Proposals</h2>-->
 
         <div id='poly-search'>
             <i class="fa fa-search"></i>
@@ -185,36 +185,69 @@
             <!-- <h3 id='poly-count'></h3> -->
             <div class="table-wrapper"><table id="summary-metrics"></table></div>
             <span class='start-text'>
-                <p>Click on individual proposal polygons to add or remove them from the selection</p>
+                <p>Click on a polygon on the map to add or remove it from the selection.</p>
+                <p style="text-align:center">OR</p>
+                <p>Select all or unselect all polygons from a proposal or alternative using the <i class="fa fa-plus"></i> or <i class="fa fa-minus"></i> icon next to its name.</p>
+                <br>
                 <p>A summary of metrics for all selected polygons will display here.</p>
+                <p>To avoid double-counting in the summary metrics, if you select a polygon that overlaps a current selection, the overlapping polygon will be removed from the selection.</p>
+
             </span>
         </div>
         <div class='side-panel' id='polygons-panel'>
             <div class="table-wrapper"><table id="polygon-metrics" class="data"></table></div>
             <button id='download-csv'>Download CSV File</button>
             <span class='start-text'>
-                <p>Click on individual proposal polygons to add or remove them from the selection</p>
+                <p>Click on a polygon on the map to add or remove it from the selection.</p>
+                <p style="text-align:center">OR</p>
+                <p>Select all or unselect all polygons from a proposal or alternative using the <i class="fa fa-plus"></i> or <i class="fa fa-minus"></i> icon next to its name.</p>
+                <br>
                 <p>A table listing all the selected polygons and their metrics will display here.</p>
+                <p>To avoid double-counting in the summary metrics, if you select a polygon that overlaps a current selection, the overlapping polygon will be removed from the selection.</p>
             </span>
         </div>
         <div class='side-panel' id='info-panel'>
             <h2>Background</h2>
-        <p>The <a href="http://www.pcouncil.org/" target="_blank">Pacific Fishery Managment Council</a> (Council) is currently reviewing <a href="http://www.pcouncil.org/groundfish/groundfish-essential-fish-habitat/" target="_blank">Groundfish Essential Fish Habitat</a> Conservation Areas (EFHCA) off the West Coast of the United States.  The Council is evaluating proposals that include areas to be closed to commercial trawl fishing, as well as closed areas to be reopened.</p>
-        <p>During this review, the Council will consider the importance of the habitat to groundfish (i.e., rockfish, flatfish) and other environmental considerations, as well as the economic impacts and benefits to the fishing and associated businesses and communities. </p>
+        <p>The <a href="http://www.pcouncil.org/" target="_blank">Pacific Fishery Managment Council</a> (Council) is currently reviewing <a href="http://www.pcouncil.org/groundfish/groundfish-essential-fish-habitat/" target="_blank">Groundfish Essential Fish Habitat</a> Conservation Areas <a href="http://www.westcoast.fisheries.noaa.gov/fisheries/management/groundfish_closures/essential_fish.html" target="_blank">(EFHCA)</a> and the <a href="http://www.westcoast.fisheries.noaa.gov/fisheries/management/groundfish_closures/rockfish_areas.html" target="_blank">Trawl Rockfish Conservation Area</a> (RCA) off the West Coast of the United States.  The Council is evaluating alternatives that include areas to be closed to commercial trawl fishing, as well as currently closed areas to be reopened. These areas are referred to as polygons.</p>
+        <p>Each alternative or set of polygons, other than Alternative 2.b. (Priority Habitats in the trawl RCA), is labeled according to the group that proposed the areas for consideration. The EFH Alternatives are:
+            <ul>
+                <li>Collaborative: Alternative 1.b. </li>
+                <li>Oceana et al: Alternative 1.c. </li>
+                <li>Priority Hab: Alternative 2.b. Priority habitats for groundfish within the trawl RCA</li>   
+            </ul>
+        Other EFH proposals were submitted to the Council, but are not being analyzed as stand-alone alternatives.  They are included here to inform the Council's decision-making process.  They include:
+            <ul>
+                <li>FMA: Fishermen's Marketing Association</li>
+                <li>GFNMS: Greater Farallones National Marine Sanctuary</li>
+                <li>Greenpeace</li>
+                <li>MBNMS: Monterey Bay National Marine Sanctuary</li>
+                <li>MCI: Marine Conservation Institute</li>
+                <li>None: Polygons that were identified byt the Collaborative group, but were not included in their final proposal</li>
+            </ul>            
+        </p>
+        <p>During this evaluation, the Council will consider the importance of the habitat to groundfish (i.e., rockfish, flatfish) and other environmental considerations, as well as the economic impacts and benefits to the fishing and associated businesses and communities before identifying their preferred configuration of EFHCAs.  </p>
 
         <h2>How to Use this Tool</h2>
-        <p>This tool allows a user, such as a Council Member, to select a custom set of EFH proposal polygons and see a summary of the metrics for their set. </p>
-        <p>
-            <li>Click a polygon to add or remove it from the selection</li>
+        <p>This tool allows a user to select a custom set of EFHCA alternative polygons and see a summary of the metrics for their set. 
+        <ul>
             <li>Hover over a polygon to view its metrics</li>
-            <li>Toggle a proposal name in the right panel to draw or remove its polygons from the map</li>
+            <li>Click a polygon on the map to add or remove it from the selection</li>
+            <li>Toggle a checkbox in the right panel to draw or remove an alternative's or proposal's polygons from the map</li>
+            <li>Zoom to a polygon by entering its name in the search box</li>
+            <li>Click the <i class="fa fa-plus"></i> icon next to an alternative or proposal to select all of its polygons</li>
+            <li>Click the <i class="fa fa-minus"></i> icon next to an alternative or proposal to unselect all of its polygons</li> 
+            <li>View the count of selected polygons out of the total polygons for each proposal or alternative next to its name</li>
+            <li>Hover over the layers icon in the upper right of the map to select additional layers to draw on the map</li>
             <li>View summary metrics for all selected polygons in the Summary Tab</li>
             <li>View and download a table of individual metrics for selected polygons in the Polygons Tab</li>
+
+        </ul>
         </p>
-        <p>Note: To avoid double-counting in the summary metrics, if you select a polygon that overlaps a current selection, the overlapping polygon will be removed from the selection.</p>
+        <p>To avoid double-counting in the summary metrics, if you select a polygon that overlaps a current selection, the overlapping polygon will be removed from the selection.</p>
             
         <h2>Credits</h2>
-        <p>NOAA, National Marine Fisheries Service (NMFS) scientists and colleagues laid the analytical groundwork for this review through  a multi-year synthesis of new data sets and analyses.  Results of the Groundfish Essential Fish Habitat (EFH) Synthesis are available through the <a href="http://efh-catalog.coas.oregonstate.edu/synthesis/" target="_blank">EFH Catalog</a>. </p>
+        <p>The Council, NOAA, National Marine Fisheries Service (NMFS), scientists, tribes, fishermen, and non-governmental organizations laid the analytical groundwork for this review through  a multi-year synthesis of new data sets and analyses.  Results of the Groundfish Essential Fish Habitat (EFH) Review are available through the <a href="http://efh-catalog.coas.oregonstate.edu/overview/" target="_blank">EFH Catalog</a> as well as the <a href="http://efh-viewer.coas.oregonstate.edu/efh/" target="_blank">EFH Viewer</a>.</p>
+        <p>The EFH/RCA Project Team has produced an <a href="http://www.pcouncil.org/wp-content/uploads/2016/11/F4a_Project_Team_Report_EFHRCA_Modifications_Analytical_Doc_NOV2016BB.pdf" target="_blank">analytical report</a> which is the basis for the metrics in this tool.</p>
         <p>Web Development by Allison Bailey, <a href="http://www.soundgis.com" target="_blank">Sound GIS</a></p>
         </div>
     </div>
@@ -245,10 +278,11 @@
         L.control.scale().addTo(map); // Add scale bar
         
         // Add home button - zooms to full extent when clicked
-        L.easyButton('fa-home', function(btn, map){
+        var homeBtn = L.easyButton('fa-home', function(btn, map){
             map.setView([41, -121.2]);
             map.setZoom(6);
         }).addTo(map);
+        
         
         // Create a geoJSON layer of all polygons for search function 
         var allpolys = L.geoJson(proposals_metrics);
