@@ -1014,9 +1014,14 @@
 
         // Convert sq meters to square miles and format nicely
         function sqm2sqmi(val) {
-            return (val / 2589988.11).toLocaleString(undefined, {
-                maximumFractionDigits: 0
-            })
+            var sqmi = val / 2589988.11
+            if (sqmi >= 0.5 || sqmi == 0 ) {
+                return (val / 2589988.11).toLocaleString(undefined, {
+                    maximumFractionDigits: 0
+                })
+            } else {
+                return "<1"
+            }
         }
 
         // Convert meters to miles and format nicely
