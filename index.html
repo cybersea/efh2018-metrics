@@ -614,7 +614,7 @@
         function toggleSelected(layer){
 
             var id = layer.feature.properties.concat_id;
-
+            
             if ( selectedSet.hasOwnProperty(id) ){ // in selected set
                 
                 // Unselect it
@@ -683,8 +683,7 @@
             var id = layer.feature.properties.concat_id;
             var proposer = layer.feature.properties.Proposer;
 
-            // If it is selected, remove from selected set object and revert style      
-            // Object version of above code
+            // If it is selected, remove from selected set object and revert style   
             if (selectedSet.hasOwnProperty(id)){
 
                 // Remove poly from selected set
@@ -701,7 +700,8 @@
                 layer.setStyle({
                     color: strokeColor,
                 });
-                layer.bringToFront();
+                // Following causes errors if layer is not currently visible
+                //  layer.bringToFront();
             }
 
             // decrease layer control counter by 1 for this proposal
