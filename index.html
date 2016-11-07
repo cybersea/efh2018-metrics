@@ -172,7 +172,7 @@
     
     <div id='map'></div>
     
-    <div id='layer-control-text'><p>Reference<br>Layers</p></div>
+    <div id='layer-control-text'></div>
 
     <!-- Side panel Div   -->
     <div id='side-panel'>
@@ -606,6 +606,10 @@
             var switcher = L.control.layers(null, layerLabels, {
                 collapsed: true});
             switcher.addTo(map); 
+            
+            // Add text label next to layer switcher control
+            $( "#layer-control-text" ).html( "<p>Reference<br>Layers</p>" );
+            
 
             // Remove text first time layer switcher is used
             // This seems a little funky, so don't use it for now
