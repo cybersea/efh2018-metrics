@@ -283,8 +283,9 @@
         
         // Add home button - zooms to full extent when clicked
         var homeBtn = L.easyButton('fa-home', function(btn, map){
-            map.setView([41, -121.2]);
-            map.setZoom(6);
+//            map.setView([41, -121.2]);
+//            map.setZoom(6);
+            map.setView([41, -121.2],6,{reset: true})
         }).addTo(map);
         
         
