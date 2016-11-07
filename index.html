@@ -882,7 +882,8 @@
             html += "<br>" + "<b>Seamounts: </b>" + pct(data.SmtAreaM2, data.SiteAreaM2);
             html += "<br>" + "<b>Corals & Sponges</b> (1 km blocks): " + data.corspg_cnt;
             html += "<br>" + "<b>OFS 20% HSP: </b> " + pct(data.OF20AreaM2, data.SiteAreaM2);
-
+            html += "<br>" + "<b>Conserv. Value Mean: </b> " + rnd(data.cv_mean, 2);
+            html += "<br>" + "<b>Conserv. Value Variance: </b> " + rnd(data.cv_var, 2);            
             // Remove all socioeconomic data for now
 //            if (data.VesCount >= 3 || data.VesCount == 0) {
 //                html += "<br>" + "<b>Trawl Tow Length (mi): </b>" + m2mi(data.TowLenM);
@@ -1044,8 +1045,10 @@
 
         // Calculate percentage or return zero if denominator is zero
         function pct(num, denom) {
-            if (denom == 0 || !(num)) {
+            if (denom == 0 || !(num) || num == 0) {
                 return "0%";
+            } else if ( (num / denom) < 0.5 ) {
+                return "<1%";
             } else {
                 return (num / denom).toLocaleString(undefined, {
                     style: 'percent'
