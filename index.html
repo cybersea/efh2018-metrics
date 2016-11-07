@@ -171,6 +171,8 @@
     <!-- end right-panel -->
     
     <div id='map'></div>
+    
+    <div id='layer-control-text'><p>Reference<br>Layers</p></div>
 
     <!-- Side panel Div   -->
     <div id='side-panel'>
@@ -604,6 +606,13 @@
             var switcher = L.control.layers(null, layerLabels, {
                 collapsed: true});
             switcher.addTo(map); 
+
+            // Remove text first time layer switcher is used
+            // This seems a little funky, so don't use it for now
+//            switcher.getContainer().addEventListener("mouseenter", function( event ) {   
+//                // highlight the mouseenter target
+//                $("#layer-control-text").hide();
+//            }, false);  
  
         } // end drawSwitcher()
 
