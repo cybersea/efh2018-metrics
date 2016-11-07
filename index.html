@@ -1427,6 +1427,8 @@
                 '<th>Seamounts (sq mi)</th>' +
                 '<th>Corals & Sponges (1 km blocks)</th>' +
                 '<th>OFS 20% HSP (sq mi)</th>' +
+                '<th>Conservation Value Mean</th>' +
+                '<th>Conservation Value Variance</th>' +
 //                '<th>Trawl Tow Length (mi)</th>' +                
 //                '<th>Percent Coastwide Tow Length</th>' +
 //                '<th>Total Catch (MT)</th>' +
@@ -1471,7 +1473,9 @@
                     '<td>' + sqm2sqmi(data.CynAreaM2) + '</td>' +
                     '<td>' + sqm2sqmi(data.SmtAreaM2) + '</td>' +
                     '<td>' + data.corspg_cnt + '</td>' +
-                    '<td>' + sqm2sqmi(data.OF20AreaM2) + '</td>'                
+                    '<td>' + sqm2sqmi(data.OF20AreaM2) + '</td>' +              
+                    '<td>' + rnd(data.cv_mean, 2) + '</td>' +
+                    '<td>' + rnd(data.cv_var, 2) + '</td>'
  
                 // Remove all socioeconomic data for now
 
