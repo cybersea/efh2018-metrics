@@ -1048,7 +1048,7 @@
         function pct(num, denom) {
             if (denom == 0 || !(num) || num == 0) {
                 return "0%";
-            } else if ( (num / denom) < 0.5 ) {
+            } else if ( (num / denom) < 0.01 ) {
                 return "<1%";
             } else {
                 return (num / denom).toLocaleString(undefined, {
