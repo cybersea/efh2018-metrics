@@ -11,6 +11,7 @@
     <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
     <script src="http://api.tiles.mapbox.com/mapbox.js/plugins/turf/v2.0.0/turf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/leaflet.esri/1.0.4/esri-leaflet.js"></script>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
     -->
     <!--Local -->  
@@ -20,12 +21,12 @@
     
     <script src="js/jquery-1.11.2.min.js"></script>
     <script src="js/leaflet.js"></script>
+    <script src="js/esri-leaflet.js"></script>    
     <script src="js/turf.min.js"></script>
     <script src="js/jquery.tabletoCSV.js"></script>
     <script src="js/easy-button.js"></script>
     <script src="js/typeahead.bundle.min.js"></script>
     
-
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Work+Sans:400,500,600' rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
@@ -272,12 +273,30 @@
         }
         var map = L.map('map', options);
 
-        // Base Map
+        // Base Maps
+        // ESRI Oceans Base Map
         var esri_ocean = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', {
             attribution: 'Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri',
             maxZoom: 11
         });
+        
+        // Nautical Charts - Image Service
+        var rnc_image = L.esri.imageMapLayer({
+            url: "https://seamlessrnc.nauticalcharts.noaa.gov/arcgis/rest/services/RNC/NOAA_RNC/ImageServer",
+            attribution: 'NOAA Office of Coast Survey',
+            position: "back"
+        });
+        rnc_image.on('load', function(e){ });
+        
+        // Add base layers to map
+        //  rnc_image.addTo(map); 
         esri_ocean.addTo(map);
+        
+
+        var baseLayers = {
+            "ESRI Oceans": esri_ocean,
+            "Nautical Charts": rnc_image
+        };
 
         L.control.scale().addTo(map); // Add scale bar
         
@@ -604,7 +623,7 @@
                 "<b style='color:#737300'>Trawl RCA</b>": layers["rca"],
             }
 
-            var switcher = L.control.layers(null, layerLabels, {
+            var switcher = L.control.layers(baseLayers, layerLabels, {
                 collapsed: true});
             switcher.addTo(map); 
             
