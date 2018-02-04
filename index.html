@@ -14,14 +14,20 @@
     <script src="https://cdn.jsdelivr.net/leaflet.esri/1.0.4/esri-leaflet.js"></script>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
     -->
+    <!-- Updated Remote versions-->
+    <script src="http://cdn.leafletjs.com/leaflet/v1.3.1/leaflet.js"></script>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v1.3.1/leaflet.css" />
+    <script src="https://unpkg.com/esri-leaflet@2.1.2/dist/esri-leaflet.js"></script>
+
+
     <!--Local -->  
     <link href='css/normalize.css' rel="stylesheet">
-    <link href="css/leaflet.css" rel="stylesheet"/>
+<!--    <link href="css/leaflet.css" rel="stylesheet"/>-->
     <link href="css/easy-button.css" rel="stylesheet"/>
     
     <script src="js/jquery-1.11.2.min.js"></script>
-    <script src="js/leaflet.js"></script>
-    <script src="js/esri-leaflet.js"></script>    
+<!--    <script src="js/leaflet.js"></script>-->
+<!--    <script src="js/esri-leaflet.js"></script>    -->
     <script src="js/turf.min.js"></script>
     <script src="js/jquery.tabletoCSV.js"></script>
     <script src="js/easy-button.js"></script>
@@ -39,6 +45,10 @@
 </head>
 
 <body>
+    
+    <div id='map'></div>
+    
+    <div id='layer-control-text'></div>
 
     <div id="right-panel">
         
@@ -171,10 +181,6 @@
     </div>
     <!-- end right-panel -->
     
-    <div id='map'></div>
-    
-    <div id='layer-control-text'></div>
-
     <!-- Side panel Div   -->
     <div id='side-panel'>
         <h1>West Coast Groundfish<br> Essential Fish Habitat</h1>
