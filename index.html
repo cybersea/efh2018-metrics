@@ -53,7 +53,7 @@
     <div id="right-panel">
         
         <!-- HTML form for user to select EFH proposal to draw on map -->
-        <!-- Note that values correspond exactly to attribute names in source GeoJSON data file -->
+        <!-- Note that values for data-nice-name must correspond exactly to attribute names in source GeoJSON data file -->
         <!-- Only Collaborative and Oceana proposals initially visible -->
         <!--        <h2>EFH Proposals</h2>-->
 
@@ -61,6 +61,7 @@
             <i class="fa fa-search"></i>
             <input class="typeahead" type="text" placeholder="Search by polygon name ...">
         </div>
+        
 
         <div id="layer-controls">
             <p class="efh-type">EFH Alternatives</p>
@@ -78,7 +79,7 @@
             </label>
             <!-- Oceana -->
             <input id="onoLayer" type="checkbox" value="onoLayer" checked>
-            <label for="onoLayer" style='color:#6F067B' data-nice-name="Oceana-NRDC-OC">
+            <label for="onoLayer" style='color:#6F067B' data-nice-name="Oceana et al.">
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o layer-selection-icon"></i></span> 
                 Oceana et al. <span class="layer-counter"><span class="layer-counter-current">0</span>/68</span>
                 <button class="layer-unselect-all tooltip" data-tooltip="Remove Proposal from Selection">
@@ -88,6 +89,55 @@
                     <i class="fa fa-plus"></i>
                 </button>
             </label>
+            <!-- Midwater Trawlers Cooperative -->
+            <input id="mtcLayer" type="checkbox" value="mtcLayer" unchecked>
+            <label for="mtcLayer" style='color:#E2007F' data-nice-name="MTC">
+                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
+                MTC <span class="layer-counter"><span class="layer-counter-current">0</span>/13</span>
+                <button class="layer-unselect-all tooltip" data-tooltip="Remove Proposal from Selection" disabled = "true">
+                    <i class="fa fa-minus"></i>
+                </button>
+                <button class="layer-select-all tooltip" data-tooltip="Add Proposal to Selection" disabled = "true">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </label>
+            <!-- Garibaldi Reef south -->
+            <input id="garibLayer" type="checkbox" value="garibLayer" unchecked>
+            <label for="garibLayer" id="garibLayer" style='color:#377EB8' data-nice-name="Garibaldi Reef South">
+                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
+                Garibaldi Reef S. <span class="layer-counter"><span class="layer-counter-current">0</span>/1</span>
+                <button class="layer-unselect-all tooltip" data-tooltip="Remove Proposal from Selection" disabled = "true">
+                    <i class="fa fa-minus"></i>  
+                </button>
+                <button class="layer-select-all tooltip" data-tooltip="Add Proposal to Selection" disabled = "true">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </label>
+            <!-- Rittenburg Bank -->
+            <input id="rittLayer" type="checkbox" value="rittLayer" unchecked>
+            <label for="rittLayer" style='color:#650B0B' data-nice-name="Rittenburg Bank">
+                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
+                Rittenburg Bank <span class="layer-counter"><span class="layer-counter-current">0</span>/1</span>
+                <button class="layer-unselect-all tooltip" data-tooltip="Remove Proposal from Selection" disabled = "true">
+                    <i class="fa fa-minus"></i>
+                </button>
+                <button class="layer-select-all tooltip" data-tooltip="Add Proposal to Selection" disabled = "true">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </label>
+             <!-- Potato Bank -->
+            <input id="potatoLayer" type="checkbox" value="potatoLayer" unchecked>
+            <label for="potatoLayer" style='color:#E9BD02' data-nice-name="Potato Bank">
+                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
+                Potato Bank <span class="layer-counter"><span class="layer-counter-current">0</span>/2</span>
+                <button class="layer-unselect-all tooltip" data-tooltip="Remove Proposal from Selection" disabled = "true">
+                    <i class="fa fa-minus"></i>
+                </button>
+                <button class="layer-select-all tooltip" data-tooltip="Add Proposal to Selection" disabled = "true">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </label>
+            <!-- 
             <input id="phLayer" type="checkbox" value="phLayer" checked>
             <label for="phLayer" style='color:#00E575' data-nice-name="Priority Habitats in RCA">
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o layer-selection-icon"></i></span> 
@@ -100,7 +150,6 @@
                 </button>
             </label>
             <p class="efh-type">Other EFH Proposals</p>
-            <!-- Fishermans Marketing Association -->
             <input id="fmaLayer" type="checkbox" value="fmaLayer" unchecked>
             <label for="fmaLayer" id="fmaLayer" style='color:#377EB8' data-nice-name="FMA">
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
@@ -112,19 +161,6 @@
                     <i class="fa fa-plus"></i>
                 </button>
             </label>
-            <!-- Farallones National Marine Sanctuary -->
-            <input id="gfnmsLayer" type="checkbox" value="gfnmsLayer" unchecked>
-            <label for="gfnmsLayer" style='color:#E2007F' data-nice-name="GFNMS">
-                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
-                GFNMS <span class="layer-counter"><span class="layer-counter-current">0</span>/3</span>
-                <button class="layer-unselect-all tooltip" data-tooltip="Remove Proposal from Selection" disabled = "true">
-                    <i class="fa fa-minus"></i>
-                </button>
-                <button class="layer-select-all tooltip" data-tooltip="Add Proposal to Selection" disabled = "true">
-                    <i class="fa fa-plus"></i>
-                </button>
-            </label>
-            <!-- Greenpeace -->
             <input id="greenpeaceLayer" type="checkbox" value="greenpeaceLayer" unchecked>
             <label for="greenpeaceLayer" style='color:#0F6001' data-nice-name="Greenpeace">
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
@@ -136,7 +172,6 @@
                     <i class="fa fa-plus"></i>
                 </button>
             </label>
-            <!-- Monterey Bay National Marine Sanctuary -->
             <input id="mbnmsLayer" type="checkbox" value="mbnmsLayer" unchecked>
             <label for="mbnmsLayer" style='color:#E9BD02' data-nice-name="MBNMS">
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
@@ -148,7 +183,6 @@
                     <i class="fa fa-plus"></i>
                 </button>
             </label>
-            <!-- Marine Conservation Institute -->
             <input id="mciLayer" type="checkbox" value="mciLayer" unchecked>
             <label for="mciLayer" style='color:#650B0B' data-nice-name="MCI">
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
@@ -160,7 +194,6 @@
                     <i class="fa fa-plus"></i>
                 </button>
             </label>
-            <!-- Extra Polygons (Proposer = None) -->
             <input id="noneLayer" type="checkbox" value="noneLayer" unchecked>
             <label for="noneLayer" style='color:#0F97A3' data-nice-name="None">
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
@@ -172,6 +205,7 @@
                     <i class="fa fa-plus"></i>
                 </button>
             </label>
+            -->
         </div>
 
         <div id='ui-controls'>
@@ -334,43 +368,44 @@
 
 
         // Style info for individual proposal layers
+        // proposer must match source data from GeoJson file
         var layerInfo = {
             collabLayer: {
                 proposer: "Collaborative",
                 color: "#E5571D"
             },
             onoLayer: {
-                proposer: "Oceana-NRDC-OC",
+                proposer: "Oceana et al.",
                 color: "#6F067B"
             },
-            fmaLayer: {
-                proposer: "FMA",
-                color: "#377EB8"
-            },
-            gfnmsLayer: {
-                proposer: "GFNMS",
+             mtcLayer: {
+                proposer: "MTC",
                 color: "#E2007F"
             },
-            greenpeaceLayer: {
-                proposer: "Greenpeace",
-                color: "#0F6001"
+            garibLayer: {
+                proposer: "Garibaldi Reef South",
+                color: "#377EB8"
             },
-            mbnmsLayer: {
-                proposer: "MBNMS",
-                color: "#E9BD02"
-            },
-            mciLayer: {
-                proposer: "MCI",
+            rittLayer: {
+                proposer: "Rittenburg Bank",
                 color: "#650B0B"
             },
-            noneLayer: {
-                proposer: "None",
-                color: "#0F97A3",
-            },  
-            phLayer : {
-                proposer: "Priority Habitats in RCA",
-                color: "#00E575",
-            }
+            potatoLayer: {
+                proposer: "Potato Bank",
+                color: "#E9BD02"
+            },
+//            greenpeaceLayer: {
+//                proposer: "Greenpeace",
+//                color: "#0F6001"
+//            },
+//            noneLayer: {
+//                proposer: "None",
+//                color: "#0F97A3",
+//            },  
+//            phLayer : {
+//                proposer: "Priority Habitats in RCA",
+//                color: "#00E575",
+//            }
         };
 
         var geoJsonLayers = {}; // global to store all the geoJSON layers
@@ -382,7 +417,7 @@
 
             geoJsonLayers[lyr] = L.geoJson(proposals_metrics, {
                 filter: function (feature) {
-                    if (feature.properties.Proposer == [layerInfo[lyr].proposer]) {
+                    if (feature.properties.Alternative == [layerInfo[lyr].proposer]) {
                         return feature;
                     }
                 },
@@ -420,7 +455,6 @@
         // Add only Collaborative and Oceana layers to map to start
         geoJsonLayers["onoLayer"].addTo(map);
         geoJsonLayers["collabLayer"].addTo(map);
-        geoJsonLayers["phLayer"].addTo(map);
         
         // Supplemental Layer styles
         var depLineWeight = 2;
@@ -701,7 +735,7 @@
             updatePolyTable(data);
 
             // increase layer control counter by 1 for this proposal
-            var $layerCounter = $('label[data-nice-name*="'+data.Proposer+'"]').find('.layer-counter-current');
+            var $layerCounter = $('label[data-nice-name*="'+data.Alternative+'"]').find('.layer-counter-current');
             var currentValue = +$layerCounter.html(); // the '+' turns it into a number
             $layerCounter.html(currentValue + 1);
 
@@ -718,7 +752,7 @@
             // var layer = e.target;
             var data = layer.feature.properties;
             var id = layer.feature.properties.concat_id;
-            var proposer = layer.feature.properties.Proposer;
+            var proposer = layer.feature.properties.Alternative;
 
             // If it is selected, remove from selected set object and revert style   
             if (selectedSet.hasOwnProperty(id)){
@@ -742,7 +776,7 @@
             }
 
             // decrease layer control counter by 1 for this proposal
-            var $layerCounter = $('label[data-nice-name*="'+data.Proposer+'"]').find('.layer-counter-current');
+            var $layerCounter = $('label[data-nice-name*="'+data.Alternative+'"]').find('.layer-counter-current');
             var currentValue = +$layerCounter.html(); // the '+' turns it into a number
             $layerCounter.html(currentValue - 1);
 
@@ -806,7 +840,7 @@
             for ( var i in selectedSet ){
 
                 var layer = selectedSet[i];
-                var proposer = layer.feature.properties.Proposer;
+                var proposer = layer.feature.properties.Alternative;
 
                 // Get original color of layer based on proposer
                 for (lyr in layerInfo) {
@@ -898,7 +932,7 @@
             // layer (feature) that was passed to this function
             var html = "<h3>" + data.SiteName + "</h3>" // +
             html += "<br>" + "<b>Action: </b>" + data.RegAction;
-            html += "<br>" + "<b>Proposer: </b>" + data.Proposer;
+            html += "<br>" + "<b>Alternative: </b>" + data.Alternative;
             html += "<br>" + "<b>Area (sq mi): </b>" + sqm2sqmi(data.SiteAreaM2);
             html += "<br>" + "<b>Hard Substrate: </b>" + pct(data.hard, data.SiteAreaM2);
             html += "<br>" + "<b>Mixed Substrate: </b>" + pct(data.mixed, data.SiteAreaM2);
@@ -1406,7 +1440,7 @@
             rows += '<tr>' +
                 '<th>Action</th>' +
                 '<th>Site Name</th>' +
-                '<th>Proposer</th>' +
+                '<th>Alternative</th>' +
                 '<th>Area (sq mi)</th>' +
                 '<th>Hard (sq mi)</th>' +
                 '<th>Mixed (sq mi)</th>' +
@@ -1450,7 +1484,7 @@
            rows += '<tr>' +
                 '<th>Action</th>' +
                 '<th>Site Name</th>' +
-                '<th>Proposer</th>' +
+                '<th>Alternative</th>' +
                 '<th>Area (sq mi)</th>' +
                 '<th>Hard (sq mi)</th>' +
                 '<th>Mixed (sq mi)</th>' +
@@ -1497,7 +1531,7 @@
                 rows += '<tr>' +
                     '<td>' + data.RegAction + '</td>' +
                     '<td>' + data.SiteName + '</td>' +
-                    '<td>' + data.Proposer + '</td>' +
+                    '<td>' + data.Alternative + '</td>' +
                     '<td>' + sqm2sqmi(data.SiteAreaM2) + '</td>' +
                     '<td>' + sqm2sqmi(data.hard) + '</td>' +
                     '<td>' + sqm2sqmi(data.mixed) + '</td>' +
