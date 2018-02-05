@@ -26,8 +26,10 @@
     <link href="css/easy-button.css" rel="stylesheet"/>
     
     <script src="js/jquery-1.11.2.min.js"></script>
-<!--    <script src="js/leaflet.js"></script>-->
-<!--    <script src="js/esri-leaflet.js"></script>    -->
+<!--
+    <script src="js/leaflet.js"></script>
+    <script src="js/esri-leaflet.js"></script>    
+-->
     <script src="js/turf.min.js"></script>
     <script src="js/jquery.tabletoCSV.js"></script>
     <script src="js/easy-button.js"></script>
@@ -933,27 +935,17 @@
             var html = "<h3>" + data.SiteName + "</h3>" // +
             html += "<br>" + "<b>Action: </b>" + data.RegAction;
             html += "<br>" + "<b>Alternative: </b>" + data.Alternative;
-            html += "<br>" + "<b>Area (sq mi): </b>" + sqm2sqmi(data.SiteAreaM2);
-            html += "<br>" + "<b>Hard Substrate: </b>" + pct(data.hard, data.SiteAreaM2);
-            html += "<br>" + "<b>Mixed Substrate: </b>" + pct(data.mixed, data.SiteAreaM2);
-            html += "<br>" + "<b>Soft Substrate: </b>" + pct(data.soft, data.SiteAreaM2);
-            html += "<br>" + "<b>Unknown Substrate: </b>" + pct(data.unknown, data.SiteAreaM2);
-            html += "<br>" + "<b>Canyons & Gullies: </b>" + pct(data.CynAreaM2, data.SiteAreaM2);
-            html += "<br>" + "<b>Seamounts: </b>" + pct(data.SmtAreaM2, data.SiteAreaM2);
+            html += "<br>" + "<b>Area (sq mi): </b>" + data.SiteAreaMi2;
+            html += "<br>" + "<b>Hard Substrate: </b>" + pct(data.hard, data.SiteAreaMi2);
+            html += "<br>" + "<b>Mixed Substrate: </b>" + pct(data.mixed, data.SiteAreaMi2);
+            html += "<br>" + "<b>Soft Substrate: </b>" + pct(data.soft, data.SiteAreaMi2);
+            html += "<br>" + "<b>Unknown Substrate: </b>" + pct(data.unknown, data.SiteAreaMi2);
+            html += "<br>" + "<b>Canyons & Gullies: </b>" + pct(data.CynAreaMi2, data.SiteAreaMi2);
+            html += "<br>" + "<b>Seamounts: </b>" + pct(data.SmtAreaMi2, data.SiteAreaMi2);
             html += "<br>" + "<b>Corals & Sponges</b> (1 km blocks): " + data.corspg_cnt;
-            html += "<br>" + "<b>OFS 20% HSP: </b> " + pct(data.OF20AreaM2, data.SiteAreaM2);
-            html += "<br>" + "<b>Conserv. Value Mean: </b> " + rnd(data.cv_mean, 2);
-            html += "<br>" + "<b>Conserv. Value Variance: </b> " + rnd(data.cv_var, 2);            
-            // Remove all socioeconomic data for now
-//            if (data.VesCount >= 3 || data.VesCount == 0) {
-//                html += "<br>" + "<b>Trawl Tow Length (mi): </b>" + m2mi(data.TowLenM);
-//                html += "<br>" + "<b>Total Catch (MT): </b> " + rnd(data.Total_MT,1);
-//                html += "<br>" + "<b>Total Ex-Vessel Value: </b> " + dollars(data.Total_Rev);
-//            } else {
-//                html += "<br>" + "<b>Trawl Tow Length: </b> **";
-//                html += "<br>" + "<b>Total Catch (MT): </b> **";
-//                html += "<br>" + "<b>Total Ex-Vessel Value: </b> **";
-//            }     
+            html += "<br>" + "<b>OFS: </b> " + pct(data.OF80AreaMi2, data.SiteAreaMi2);
+            html += "<br>" + "<b>Conserv. Value Mean: </b> " + rnd(data.consval_mean, 2);
+            html += "<br>" + "<b>Conserv. Value Variance: </b> " + rnd(data.consval_var, 2);               
 
             // Assign the html content to the info box using JQuery selector
             $(".poly-info").html(html);
@@ -1095,6 +1087,17 @@
                 return "<1"
             }
         }
+        
+        // Format area values for the HTML table
+        function fmt4table(val) {
+            if (val >= 0.5 || val == 0 ) {
+                return (val).toLocaleString(undefined, {
+                    maximumFractionDigits: 0
+                })
+            } else {
+                return "<1"
+            }
+        }
 
         // Convert meters to miles and format nicely
         function m2mi(val) {
@@ -1165,23 +1168,7 @@
                 '<tr><td>Canyons & Gullies</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Seamounts</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Corals & Sponges (1 km blocks)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><td>OFS 20% HSP (sq mi) </td>' + '<td></td>' + '<td></td>' + '<td></td></tr>';
-//                '<tr class="table-row-header"><th>Socioeconomic Metrics</th>' + '<th>Displace</th>' + '<th>Restore</th>' + '<th>Net</th></tr>' +
-//                '<tr><th>Trawl Effort</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-//                '<tr><td>Total Tow Length (mi)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-//                '<tr><td>Percent of Coastwide Tow Length</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-//                '<tr><th>Total Catch (Metric Tons)</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-//                '<tr><td>Flatfish (MT)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-//                '<tr><td>Rockfish (MT)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-//                '<tr><td>Roundfish (MT)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-//                '<tr><td>Sharks & Skates (MT)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-//                '<tr><td>Other (MT)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-//                '<tr><th>Total Ex-Vessel Value (Thousands of $)</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-//                '<tr><td>Flatfish ($1K)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-//                '<tr><td>Rockfish ($1K)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-//                '<tr><td>Roundfish ($1K)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-//                '<tr><td>Sharks & Skates ($1K)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-//                '<tr><td>Other ($1K)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>';
+                '<tr><td>OFS (sq mi) </td>' + '<td></td>' + '<td></td>' + '<td></td></tr>';
                     
             // update the html of the table
             $table.html(rows);
@@ -1193,29 +1180,15 @@
 
             // List of metric attributes
             var metric_attributes = [
-                "SiteAreaM2",
+                "SiteAreaMi2",
                 "hard",
                 "mixed",
                 "soft",
                 "unknown",
-                "CynAreaM2",
-                "SmtAreaM2",
+                "CynAreaMi2",
+                "SmtAreaMi2",
                 "corspg_cnt",
-                "OF20AreaM2",
-//                "TowLenM",
-//                "PropLenTot",
-//                "Total_MT",
-//                "Flatfish_MT",
-//                "Rockfish_MT",
-//                "Roundfish_MT",
-//                "SharkSkate_MT",
-//                "Other_MT",
-//                "Total_Rev",
-//                "Flatfish_Rev",
-//                "Rockfish_Rev",
-//                "Roundfish_Rev",
-//                "SharkSkate_Rev",
-//                "Other_Rev",               
+                "OF80AreaMi2",          
             ]
 
 
@@ -1223,54 +1196,26 @@
 
             // Initialize Summary Data objects with zeros for all metrics
             var summOpen = {
-                SiteAreaM2: 0,
+                SiteAreaMi2: 0,
                 hard: 0,
                 mixed: 0,
                 soft: 0,
                 unknown: 0,
-                CynAreaM2: 0,
-                SmtAreaM2: 0,
+                CynAreaMi2: 0,
+                SmtAreaMi2: 0,
                 corspg_cnt: 0,
-                OF20AreaM2: 0,
-//                TowLenM: 0,
-//                PropLenTot: 0,
-//                Total_MT: 0,
-//                Flatfish_MT: 0,
-//                Rockfish_MT: 0,
-//                Roundfish_MT: 0,
-//                SharkSkate_MT: 0,
-//                Other_MT: 0,
-//                Total_Rev: 0,
-//                Flatfish_Rev: 0,
-//                Rockfish_Rev: 0,
-//                Roundfish_Rev: 0,
-//                SharkSkate_Rev: 0,
-//                Other_Rev: 0    
+                OF80AreaMi2: 0,    
             };
             var summClose = {
-                SiteAreaM2: 0,
+                SiteAreaMi2: 0,
                 hard: 0,
                 mixed: 0,
                 soft: 0,
                 unknown: 0,
-                CynAreaM2: 0,
-                SmtAreaM2: 0,
+                CynAreaMi2: 0,
+                SmtAreaMi2: 0,
                 corspg_cnt: 0,
-                OF20AreaM2: 0,
-//                TowLenM: 0,
-//                PropLenTot: 0,
-//                Total_MT: 0,
-//                Flatfish_MT: 0,
-//                Rockfish_MT: 0,
-//                Roundfish_MT: 0,
-//                SharkSkate_MT: 0,
-//                Other_MT: 0,
-//                Total_Rev: 0,
-//                Flatfish_Rev: 0,
-//                Rockfish_Rev: 0,
-//                Roundfish_Rev: 0,
-//                SharkSkate_Rev: 0,
-//                Other_Rev: 0    
+                OF80AreaMi2: 0,    
             };
 
             // loop through all the selected features
@@ -1331,88 +1276,44 @@
                 rows = '';
 
             // Variables for frequently used metrics
-            var areaClose = summClose.SiteAreaM2;
-            var areaOpen = summOpen.SiteAreaM2;
+            var areaClose = summClose.SiteAreaMi2;
+            var areaOpen = summOpen.SiteAreaMi2;
             var areaNet = areaClose - areaOpen;
 
             // Populate the table
             rows += '<tr class="table-row-header"><th>Environmental Metrics</th>' + '<th>Close</th>' + '<th>Open</th>' + '<th>Net</th></tr>' +
-                '<tr><td>Area (sq mi)</td>' + '<td>' + sqm2sqmi(areaClose) + '</td>' +
-                '<td>' + sqm2sqmi(areaOpen) + '</td>' +
-                '<td>' + sqm2sqmi(areaNet) + '</td></tr>' +
+                '<tr><td>Area (sq mi)</td>' + '<td>' + fmt4table(areaClose) + '</td>' +
+                '<td>' + fmt4table(areaOpen) + '</td>' +
+                '<td>' + fmt4table(areaNet) + '</td></tr>' +
                 '<tr><th>Substrate Type</th><td></td><td></td><td></td></tr>' +
-                '<tr><td>Hard (sq mi) </td>' + '<td>' + sqm2sqmi(summClose.hard) + '</td>' +
-                '<td>' + sqm2sqmi(summOpen.hard) + '</td>' +
-                '<td>' + sqm2sqmi(calcNet(summClose.hard, summOpen.hard)) + '</td></tr>' +
-                '<tr><td>Mixed (sq mi) </td>' + '<td>' + sqm2sqmi(summClose.mixed) + '</td>' +
-                '<td>' + sqm2sqmi(summOpen.mixed) + '</td>' +
-                '<td>' + sqm2sqmi(calcNet(summClose.mixed, summOpen.mixed)) + '</td></tr>' +
-                '<tr><td>Soft (sq mi) </td>' + '<td>' + sqm2sqmi(summClose.soft) + '</td>' +
-                '<td>' + sqm2sqmi(summOpen.soft, areaOpen) + '</td>' +
-                '<td>' + sqm2sqmi(calcNet(summClose.soft, summOpen.soft), areaNet) + '</td></tr>' +
-                '<tr><td>Unknown (sq mi) </td>' + '<td>' + sqm2sqmi(summClose.unknown) + '</td>' +
-                '<td>' + sqm2sqmi(summOpen.unknown, areaOpen) + '</td>' +
-                '<td>' + sqm2sqmi(calcNet(summClose.unknown, summOpen.unknown), areaNet) + '</td></tr>' +
+                '<tr><td>Hard (sq mi) </td>' + '<td>' + fmt4table(summClose.hard) + '</td>' +
+                '<td>' + fmt4table(summOpen.hard) + '</td>' +
+                '<td>' + fmt4table(calcNet(summClose.hard, summOpen.hard)) + '</td></tr>' +
+                '<tr><td>Mixed (sq mi) </td>' + '<td>' + fmt4table(summClose.mixed) + '</td>' +
+                '<td>' + fmt4table(summOpen.mixed) + '</td>' +
+                '<td>' + fmt4table(calcNet(summClose.mixed, summOpen.mixed)) + '</td></tr>' +
+                '<tr><td>Soft (sq mi) </td>' + '<td>' + fmt4table(summClose.soft) + '</td>' +
+                '<td>' + fmt4table(summOpen.soft, areaOpen) + '</td>' +
+                '<td>' + fmt4table(calcNet(summClose.soft, summOpen.soft), areaNet) + '</td></tr>' +
+                '<tr><td>Unknown (sq mi) </td>' + '<td>' + fmt4table(summClose.unknown) + '</td>' +
+                '<td>' + fmt4table(summOpen.unknown, areaOpen) + '</td>' +
+                '<td>' + fmt4table(calcNet(summClose.unknown, summOpen.unknown), areaNet) + '</td></tr>' +
                 '<tr><th>Priority Habitats</th><td></td><td></td><td></td></tr>' +
-                '<tr><td>Hard Substrate (sq mi) </td>' + '<td>' + sqm2sqmi(summClose.hard) + '</td>' +
-                '<td>' + sqm2sqmi(summOpen.hard, areaOpen) + '</td>' +
-                '<td>' + sqm2sqmi(calcNet(summClose.hard, summOpen.hard), areaNet) + '</td></tr>' +
-                '<tr><td>Canyons & Gullies  (sq mi) </td>' + '<td>' + sqm2sqmi(summClose.CynAreaM2) + '</td>' +
-                '<td>' + sqm2sqmi(summOpen.CynAreaM2, areaOpen) + '</td>' +
-                '<td>' + sqm2sqmi(calcNet(summClose.CynAreaM2, summOpen.CynAreaM2), areaNet) + '</td></tr>' +
-                '<tr><td>Seamounts  (sq mi) </td>' + '<td>' + sqm2sqmi(summClose.SmtAreaM2) + '</td>' +
-                '<td>' + sqm2sqmi(summOpen.SmtAreaM2, areaOpen) + '</td>' +
-                '<td>' + sqm2sqmi(calcNet(summClose.SmtAreaM2, summOpen.SmtAreaM2), areaNet) + '</td></tr>' +
+                '<tr><td>Hard Substrate (sq mi) </td>' + '<td>' + fmt4table(summClose.hard) + '</td>' +
+                '<td>' + fmt4table(summOpen.hard, areaOpen) + '</td>' +
+                '<td>' + fmt4table(calcNet(summClose.hard, summOpen.hard), areaNet) + '</td></tr>' +
+                '<tr><td>Canyons & Gullies  (sq mi) </td>' + '<td>' + fmt4table(summClose.CynAreaMi2) + '</td>' +
+                '<td>' + fmt4table(summOpen.CynAreaMi2, areaOpen) + '</td>' +
+                '<td>' + fmt4table(calcNet(summClose.CynAreaMi2, summOpen.CynAreaMi2), areaNet) + '</td></tr>' +
+                '<tr><td>Seamounts  (sq mi) </td>' + '<td>' + fmt4table(summClose.SmtAreaMi2) + '</td>' +
+                '<td>' + fmt4table(summOpen.SmtAreaMi2, areaOpen) + '</td>' +
+                '<td>' + fmt4table(calcNet(summClose.SmtAreaMi2, summOpen.SmtAreaMi2), areaNet) + '</td></tr>' +
                 '<tr><td>Corals & Sponges (1 km blocks)</td>' + '<td>' + summClose.corspg_cnt + '</td>' +
                 '<td>' + summOpen.corspg_cnt + '</td>' +
                 '<td>' + calcNet(summClose.corspg_cnt, summOpen.corspg_cnt) + '</td></tr>' +
-                '<tr><td>OFS 20% HSP (sq mi) </td>' + '<td>' + sqm2sqmi(summClose.OF20AreaM2) + '</td>' +
-                '<td>' + sqm2sqmi(summOpen.OF20AreaM2, areaOpen) + '</td>' +
-                '<td>' + sqm2sqmi(calcNet(summClose.OF20AreaM2, summOpen.OF20AreaM2), areaNet) + '</td></tr>';
-//                '<tr class="table-row-header"><th>Socioeconomic Metrics</th><th>Displace</th><th>Restore</th><th>Net</th></tr>' +
-//                '<tr><th>Trawl Effort</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-//                '<tr><td>Total Tow Length (mi)</td>' + '<td>' + m2mi(summClose.TowLenM) + '</td>' +
-//                '<td>' + m2mi(summOpen.TowLenM) + '</td>' +
-//                '<td>' + m2mi(calcNet( summOpen.TowLenM, summClose.TowLenM)) + '</td></tr>' +   
-//                '<tr><td>Percent of Coastwide Tow Length</td>' + '<td>' + prop2pct(summClose.PropLenTot) + '</td>' +
-//                '<td>' + prop2pct(summOpen.PropLenTot) + '</td>' +
-//                '<td>' + prop2pct(calcNet(summOpen.PropLenTot, summClose.PropLenTot)) + '</td></tr>' + 
-//                '<tr><th>Total Catch (Metric Tons)</th>' + '<td>' + rnd(summClose.Total_MT, 1) + '</td>' + 
-//                '<td>' + rnd(summOpen.Total_MT, 1) + '</td>' + 
-//                '<td>' + rnd(calcNet(summClose.Total_MT,summOpen.Total_MT), 1) + '</td></tr>' +
-//                '<tr><td>Flatfish (MT)</td>' + '<td>' + rnd(summClose.Flatfish_MT, 1) + '</td>' + 
-//                '<td>' + rnd(summOpen.Flatfish_MT, 1) + '</td>' + 
-//                '<td>' + rnd(calcNet(summClose.Flatfish_MT,summOpen.Flatfish_MT), 1) + '</td></tr>' +
-//                '<tr><td>Rockfish (MT)</td>'  + '<td>' + rnd(summClose.Rockfish_MT, 1) + '</td>' + 
-//                '<td>' + rnd(summOpen.Rockfish_MT, 1) + '</td>' + 
-//                '<td>' + rnd(calcNet(summClose.Rockfish_MT,summOpen.Rockfish_MT), 1) + '</td></tr>' +
-//                '<tr><td>Roundfish (MT)</td>'  + '<td>' + rnd(summClose.Roundfish_MT, 1) + '</td>' + 
-//                '<td>' + rnd(summOpen.Roundfish_MT, 1) + '</td>' + 
-//                '<td>' + rnd(calcNet(summClose.Roundfish_MT,summOpen.Roundfish_MT), 1) + '</td></tr>' +
-//                '<tr><td>Sharks & Skates (MT)</td>'  + '<td>' + rnd(summClose.SharkSkate_MT, 1) + '</td>' + 
-//                '<td>' + rnd(summOpen.SharkSkate_MT, 1) + '</td>' + 
-//                '<td>' + rnd(calcNet(summClose.SharkSkate_MT,summOpen.SharkSkate_MT), 1) + '</td></tr>' +
-//                '<tr><td>Other (MT)</td>' + '<td>' + rnd(summClose.Other_MT, 1) + '</td>' + 
-//                '<td>' + rnd(summOpen.Other_MT, 1) + '</td>' + 
-//                '<td>' + rnd(calcNet(summClose.Other_MT,summOpen.Other_MT), 1) + '</td></tr>' +
-//                '<tr><th>Total Ex-Vessel Value (Thousands of $)</th>' + '<td>' + dollars(summClose.Total_Rev) + '</td>' + 
-//                '<td>' + dollars(summOpen.Total_Rev) + '</td>' + 
-//                '<td>' + dollars(calcNet(summClose.Total_Rev,summOpen.Total_Rev)) + '</td></tr>' +
-//                '<tr><td>Flatfish ($1K)</td>' + '<td>' + dollars(summClose.Flatfish_Rev) + '</td>' + 
-//                '<td>' + dollars(summOpen.Flatfish_Rev) + '</td>' + 
-//                '<td>' + dollars(calcNet(summClose.Flatfish_Rev,summOpen.Flatfish_Rev)) + '</td></tr>' +
-//                '<tr><td>Rockfish ($1K)</td>'  + '<td>' + dollars(summClose.Rockfish_Rev) + '</td>' + 
-//                '<td>' + dollars(summOpen.Rockfish_Rev) + '</td>' + 
-//                '<td>' + dollars(calcNet(summClose.Rockfish_Rev,summOpen.Rockfish_Rev)) + '</td></tr>' +
-//                '<tr><td>Roundfish ($1K)</td>'  + '<td>' + dollars(summClose.Roundfish_Rev) + '</td>' + 
-//                '<td>' + dollars(summOpen.Roundfish_Rev) + '</td>' + 
-//                '<td>' + dollars(calcNet(summClose.Roundfish_Rev,summOpen.Roundfish_Rev)) + '</td></tr>' +
-//                '<tr><td>Sharks & Skates ($1K)</td>'  + '<td>' + dollars(summClose.SharkSkate_Rev) + '</td>' + 
-//                '<td>' + dollars(summOpen.SharkSkate_Rev) + '</td>' + 
-//                '<td>' + dollars(calcNet(summClose.SharkSkate_Rev,summOpen.SharkSkate_Rev)) + '</td></tr>' +
-//                '<tr><td>Other ($1K)</td>' + '<td>' + dollars(summClose.Other_Rev) + '</td>' + 
-//                '<td>' + dollars(summOpen.Other_Rev) + '</td>' + 
-//                '<td>' + dollars(calcNet(summClose.Other_Rev,summOpen.Other_Rev)) + '</td></tr>';
+                '<tr><td>OFS (sq mi) </td>' + '<td>' + fmt4table(summClose.OF80AreaMi2) + '</td>' +
+                '<td>' + fmt4table(summOpen.OF80AreaMi2, areaOpen) + '</td>' +
+                '<td>' + fmt4table(calcNet(summClose.OF80AreaMi2, summOpen.OF80AreaMi2), areaNet) + '</td></tr>';
             
             // update the html of the table
             $table.html(rows);
@@ -1449,21 +1350,7 @@
                 '<th>Canyons & Gullies (sq mi)</th>' +
                 '<th>Seamounts (sq mi)</th>' +
                 '<th>Corals & Sponges (1 km blocks)</th>' +
-                '<th>OFS 20% HSP (sq mi)</th>' +
-//                '<th>Trawl Tow Length (mi)</th>' +
-//                '<th>Percent Coastwide Tow Length</th>' +
-//                '<th>Total Catch (MT)</th>' +
-//                '<th>Flatfish Catch (MT)</th>' +
-//                '<th>Rockfish Catch (MT)</th>' +
-//                '<th>Roundfish Catch (MT)</th>' +
-//                '<th>Sharks & Skates Catch (MT)</th>' +
-//                '<th>Other Catch (MT)</th>' +
-//                '<th>Total Ex-Vessel Value</th>' +
-//                '<th>Flatfish Ex-Vessel Value</th>' +
-//                '<th>Rockfish Ex-Vessel Value</th>' +
-//                '<th>Roundfish Ex-Vessel Value</th>' +
-//                '<th>Sharks & Skates Ex-Vessel Value</th>' +
-//                '<th>Other Catch Ex-Vessel Value</th>' +                
+                '<th>OFS (sq mi)</th>' +              
                 '</tr>'
 
             // update the html of the table
@@ -1493,23 +1380,9 @@
                 '<th>Canyons & Gullies (sq mi)</th>' +
                 '<th>Seamounts (sq mi)</th>' +
                 '<th>Corals & Sponges (1 km blocks)</th>' +
-                '<th>OFS 20% HSP (sq mi)</th>' +
+                '<th>OFS (sq mi)</th>' +
                 '<th>Conservation Value Mean</th>' +
                 '<th>Conservation Value Variance</th>' +
-//                '<th>Trawl Tow Length (mi)</th>' +                
-//                '<th>Percent Coastwide Tow Length</th>' +
-//                '<th>Total Catch (MT)</th>' +
-//                '<th>Flatfish Catch (MT)</th>' +
-//                '<th>Rockfish Catch (MT)</th>' +
-//                '<th>Roundfish Catch (MT)</th>' +
-//                '<th>Sharks & Skates Catch (MT)</th>' +
-//                '<th>Other Catch (MT)</th>' +
-//                '<th>Total Ex-Vessel Value</th>' +
-//                '<th>Flatfish Ex-Vessel Value</th>' +
-//                '<th>Rockfish Ex-Vessel Value</th>' +
-//                '<th>Roundfish Ex-Vessel Value</th>' +
-//                '<th>Sharks & Skates Ex-Vessel Value</th>' +
-//                '<th>Other Catch Ex-Vessel Value</th>' + 
                '</tr>'
 
             // loop through all the selected features                
@@ -1527,59 +1400,23 @@
                     towLen = "**";
                 }
 
-
                 rows += '<tr>' +
                     '<td>' + data.RegAction + '</td>' +
                     '<td>' + data.SiteName + '</td>' +
                     '<td>' + data.Alternative + '</td>' +
-                    '<td>' + sqm2sqmi(data.SiteAreaM2) + '</td>' +
-                    '<td>' + sqm2sqmi(data.hard) + '</td>' +
-                    '<td>' + sqm2sqmi(data.mixed) + '</td>' +
-                    '<td>' + sqm2sqmi(data.soft) + '</td>' +
-                    '<td>' + sqm2sqmi(data.unknown) + '</td>' +
-                    '<td>' + sqm2sqmi(data.CynAreaM2) + '</td>' +
-                    '<td>' + sqm2sqmi(data.SmtAreaM2) + '</td>' +
+                    '<td>' + fmt4table(data.SiteAreaMi2) + '</td>' +
+                    '<td>' + fmt4table(data.hard) + '</td>' +
+                    '<td>' + fmt4table(data.mixed) + '</td>' +
+                    '<td>' + fmt4table(data.soft) + '</td>' +
+                    '<td>' + fmt4table(data.unknown) + '</td>' +
+                    '<td>' + fmt4table(data.CynAreaMi2) + '</td>' +
+                    '<td>' + fmt4table(data.SmtAreaMi2) + '</td>' +
                     '<td>' + data.corspg_cnt + '</td>' +
-                    '<td>' + sqm2sqmi(data.OF20AreaM2) + '</td>' +              
-                    '<td>' + rnd(data.cv_mean, 2) + '</td>' +
-                    '<td>' + rnd(data.cv_var, 2) + '</td>'
- 
-                // Remove all socioeconomic data for now
-
-//                if (data.VesCount >= 3 || data.VesCount == 0) {
-//                    rows += '<td>' + m2mi(data.TowLenM) + '</td>' +
-//                    '<td>' + prop2pct(data.PropLenTot) + '</td>' +
-//                    '<td>' + rnd(data.Total_MT, 1) + '</td>' +
-//                    '<td>' + rnd(data.Flatfish_MT, 1) + '</td>' +
-//                    '<td>' + rnd(data.Rockfish_MT, 1) + '</td>' +
-//                    '<td>' + rnd(data.Roundfish_MT, 1) + '</td>' +
-//                    '<td>' + rnd(data.SharkSkate_MT, 1) + '</td>' +
-//                    '<td>' + rnd(data.Other_MT, 1) + '</td>' +
-//                    '<td>' + dollars(data.Total_Rev) + '</td>' +
-//                    '<td>' + dollars(data.Flatfish_Rev) + '</td>' +
-//                    '<td>' + dollars(data.Rockfish_Rev) + '</td>' +
-//                    '<td>' + dollars(data.Roundfish_Rev) + '</td>' +
-//                    '<td>' + dollars(data.SharkSkate_Rev) + '</td>' +
-//                    '<td>' + dollars(data.Other_Rev) + '</td>'
-//                } else {
-//                    rows += '<td>' + '**' + '</td>' +
-//                    '<td>' + '**' + '</td>' +
-//                    '<td>' + '**' + '</td>' +
-//                    '<td>' + '**' + '</td>' +
-//                    '<td>' + '**' + '</td>' +
-//                    '<td>' + '**' + '</td>' +
-//                    '<td>' + '**' + '</td>' +
-//                    '<td>' + '**' + '</td>' +
-//                    '<td>' + '**' + '</td>' +
-//                    '<td>' + '**' + '</td>' +
-//                    '<td>' + '**' + '</td>' +
-//                    '<td>' + '**' + '</td>' +
-//                    '<td>' + '**' + '</td>' +
-//                    '<td>' + '**' + '</td>'
-//               }
-                               
+                    '<td>' + fmt4table(data.OF80AreaMi2) + '</td>' +              
+                    '<td>' + rnd(data.consval_mean, 2) + '</td>' +
+                    '<td>' + rnd(data.consval_var, 2) + '</td>'            
                 rows += '</tr>'
-//            });
+                
             } // end of loop through selectedSet
 
             // update the html of the table
