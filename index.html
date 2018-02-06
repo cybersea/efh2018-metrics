@@ -886,7 +886,7 @@
 
             // Update the info box               
             updateInfo(layer)
-
+            
             $(".poly-info").show(); // Show the info box
 
         } // end highlightFeature()
@@ -925,6 +925,7 @@
 
 
         function updateInfo(layer) {
+            // Info pop-up box when hover over polygon on map
 
             // variable to access layer properties
             var data = layer.feature.properties;
@@ -935,17 +936,22 @@
             var html = "<h3>" + data.SiteName + "</h3>" // +
             html += "<br>" + "<b>Action: </b>" + data.RegAction;
             html += "<br>" + "<b>Alternative: </b>" + data.Alternative;
-            html += "<br>" + "<b>Area (sq mi): </b>" + data.SiteAreaMi2;
+            html += "<br>" + "<b>Area (sq mi): </b>" + fmt4table(data.SiteAreaMi2);
             html += "<br>" + "<b>Hard Substrate: </b>" + pct(data.hard, data.SiteAreaMi2);
             html += "<br>" + "<b>Mixed Substrate: </b>" + pct(data.mixed, data.SiteAreaMi2);
             html += "<br>" + "<b>Soft Substrate: </b>" + pct(data.soft, data.SiteAreaMi2);
             html += "<br>" + "<b>Unknown Substrate: </b>" + pct(data.unknown, data.SiteAreaMi2);
             html += "<br>" + "<b>Canyons & Gullies: </b>" + pct(data.CynAreaMi2, data.SiteAreaMi2);
             html += "<br>" + "<b>Seamounts: </b>" + pct(data.SmtAreaMi2, data.SiteAreaMi2);
-            html += "<br>" + "<b>Corals & Sponges</b> (1 km blocks): " + data.corspg_cnt;
-            html += "<br>" + "<b>OFS: </b> " + pct(data.OF80AreaMi2, data.SiteAreaMi2);
-            html += "<br>" + "<b>Conserv. Value Mean: </b> " + rnd(data.consval_mean, 2);
-            html += "<br>" + "<b>Conserv. Value Variance: </b> " + rnd(data.consval_var, 2);               
+            html += "<br>" + "<b>Overfished Species: </b> " + pct(data.OF80AreaMi2, data.SiteAreaMi2);
+            html += "<br>" + "<b>Coral Presence</b> (1 km cell): " + data.coral_cnt;
+            html += "<br>" + "<b>Sponge Presence</b> (1 km cell): " + data.sponge_cnt;
+            html += "<br>" + "<b>Sea Pen Presence</b> (1 km cell): " + data.penn_cnt;
+            html += "<br>" + "<b>Coral Bycatch</b> (.5 km cell): " + data.coralthreshold_count;
+            html += "<br>" + "<b>Sponge Bycatch</b> (.5 km cell): " + data.spongethreshold_count;
+            html += "<br>" + "<b>Sea Pen Bycatch</b> (.5 km cell): " + data.pennthreshold_count;
+//            html += "<br>" + "<b>Conserv. Value Mean: </b> " + rnd(data.consval_mean, 2);
+//            html += "<br>" + "<b>Conserv. Value Variance: </b> " + rnd(data.consval_var, 2);               
 
             // Assign the html content to the info box using JQuery selector
             $(".poly-info").html(html);
@@ -1164,17 +1170,22 @@
                 '<tr><td>Soft</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Unknown</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><th>Priority Habitats</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><td>Hard Substrate</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
                 '<tr><td>Canyons & Gullies</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><td>Seamounts</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><td>Corals & Sponges (1 km blocks)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
-                '<tr><td>OFS (sq mi) </td>' + '<td></td>' + '<td></td>' + '<td></td></tr>';
+                '<tr><td>OFS (sq mi) </td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><th>Habitat-Forming Invertebrates</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><td>Coral Presence (1 km cells)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><td>Sponge Presence (1 km cells)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><td>Sea Pen Presence (1 km cells)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><td>Coral Bycatch (.5 km cells)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><td>Sponge Bycatch (.5 km cells)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><td>Sea Pen Bycatch (.5 km cells)</td>' + '<td></td>' + '<td></td>' + '<td></td></tr>';
                     
             // update the html of the table
             $table.html(rows);
 
         }
 
+        
         function updateSummmary() {
             // use selectedSet to summarize Data
 
@@ -1186,9 +1197,13 @@
                 "soft",
                 "unknown",
                 "CynAreaMi2",
-                "SmtAreaMi2",
-                "corspg_cnt",
                 "OF80AreaMi2",          
+                "coral_cnt",,
+                "sponge_cnt",
+                "penn_cnt",
+                "coralthreshold_count",
+                "spongethreshold_count",
+                "pennthreshold_count",
             ]
 
 
@@ -1202,9 +1217,13 @@
                 soft: 0,
                 unknown: 0,
                 CynAreaMi2: 0,
-                SmtAreaMi2: 0,
-                corspg_cnt: 0,
                 OF80AreaMi2: 0,    
+                coral_cnt: 0,
+                sponge_cnt: 0,
+                penn_cnt: 0,
+                coralthreshold_count: 0,
+                spongethreshold_count: 0,
+                pennthreshold_count: 0,
             };
             var summClose = {
                 SiteAreaMi2: 0,
@@ -1213,9 +1232,13 @@
                 soft: 0,
                 unknown: 0,
                 CynAreaMi2: 0,
-                SmtAreaMi2: 0,
-                corspg_cnt: 0,
                 OF80AreaMi2: 0,    
+                coral_cnt: 0,
+                sponge_cnt: 0,
+                penn_cnt: 0,
+                coralthreshold_count: 0,
+                spongethreshold_count: 0,
+                pennthreshold_count: 0,
             };
 
             // loop through all the selected features
@@ -1299,28 +1322,37 @@
                 '<td>' + fmt4table(summOpen.unknown, areaOpen) + '</td>' +
                 '<td>' + fmt4table(calcNet(summClose.unknown, summOpen.unknown), areaNet) + '</td></tr>' +
                 '<tr><th>Priority Habitats</th><td></td><td></td><td></td></tr>' +
-                '<tr><td>Hard Substrate (sq mi) </td>' + '<td>' + fmt4table(summClose.hard) + '</td>' +
-                '<td>' + fmt4table(summOpen.hard, areaOpen) + '</td>' +
-                '<td>' + fmt4table(calcNet(summClose.hard, summOpen.hard), areaNet) + '</td></tr>' +
                 '<tr><td>Canyons & Gullies  (sq mi) </td>' + '<td>' + fmt4table(summClose.CynAreaMi2) + '</td>' +
                 '<td>' + fmt4table(summOpen.CynAreaMi2, areaOpen) + '</td>' +
                 '<td>' + fmt4table(calcNet(summClose.CynAreaMi2, summOpen.CynAreaMi2), areaNet) + '</td></tr>' +
-                '<tr><td>Seamounts  (sq mi) </td>' + '<td>' + fmt4table(summClose.SmtAreaMi2) + '</td>' +
-                '<td>' + fmt4table(summOpen.SmtAreaMi2, areaOpen) + '</td>' +
-                '<td>' + fmt4table(calcNet(summClose.SmtAreaMi2, summOpen.SmtAreaMi2), areaNet) + '</td></tr>' +
-                '<tr><td>Corals & Sponges (1 km blocks)</td>' + '<td>' + summClose.corspg_cnt + '</td>' +
-                '<td>' + summOpen.corspg_cnt + '</td>' +
-                '<td>' + calcNet(summClose.corspg_cnt, summOpen.corspg_cnt) + '</td></tr>' +
                 '<tr><td>OFS (sq mi) </td>' + '<td>' + fmt4table(summClose.OF80AreaMi2) + '</td>' +
                 '<td>' + fmt4table(summOpen.OF80AreaMi2, areaOpen) + '</td>' +
-                '<td>' + fmt4table(calcNet(summClose.OF80AreaMi2, summOpen.OF80AreaMi2), areaNet) + '</td></tr>';
+                '<td>' + fmt4table(calcNet(summClose.OF80AreaMi2, summOpen.OF80AreaMi2), areaNet) + '</td></tr>' +
+                '<tr><th>Habitat-Forming Invertebrates</th>' + '<td></td>' + '<td></td>' + '<td></td></tr>' +
+                '<tr><td>Coral Presence (1 km cells)</td>' + '<td>' + summClose.coral_cnt + '</td>' +
+                '<td>' + summOpen.coral_cnt + '</td>' +
+                '<td>' + calcNet(summClose.coral_cnt, summOpen.coral_cnt) + '</td></tr>' +
+                '<tr><td>Sponge Presence (1 km cells)</td>' + '<td>' + summClose.sponge_cnt + '</td>' +
+                '<td>' + summOpen.sponge_cnt + '</td>' +
+                '<td>' + calcNet(summClose.sponge_cnt, summOpen.sponge_cnt) + '</td></tr>' +
+                '<tr><td>Sea Pen Presence (1 km cells)</td>' + '<td>' + summClose.penn_cnt + '</td>' +
+                '<td>' + summOpen.penn_cnt + '</td>' +
+                '<td>' + calcNet(summClose.penn_cnt, summOpen.penn_cnt) + '</td></tr>' +
+                '<tr><td>Coral Bycatch (.5 km cells)</td>' + '<td>' + summClose.coralthreshold_count + '</td>' +
+                '<td>' + summOpen.coralthreshold_count + '</td>' +
+                '<td>' + calcNet(summClose.coralthreshold_count, summOpen.coralthreshold_count) + '</td></tr>' +
+                '<tr><td>Sponge Bycatch (.5 km cells)</td>' + '<td>' + summClose.spongethreshold_count + '</td>' +
+                '<td>' + summOpen.spongethreshold_count + '</td>' +
+                '<td>' + calcNet(summClose.spongethreshold_count, summOpen.spongethreshold_count) + '</td></tr>' +
+                '<tr><td>Sea Pen Bycatch (.5 km cells)</td>' + '<td>' + summClose.pennthreshold_count + '</td>' +
+                '<td>' + summOpen.pennthreshold_count + '</td>' +
+                '<td>' + calcNet(summClose.pennthreshold_count, summOpen.pennthreshold_count) + '</td></tr>';
             
             // update the html of the table
             $table.html(rows);
 
             // update individual poly table with the selected set
             updatePolyTable();
-
 
         } // end updatedSummary()
 
@@ -1348,9 +1380,13 @@
                 '<th>Soft (sq mi)</th>' +
                 '<th>Unknown (sq mi)</th>' +
                 '<th>Canyons & Gullies (sq mi)</th>' +
-                '<th>Seamounts (sq mi)</th>' +
-                '<th>Corals & Sponges (1 km blocks)</th>' +
                 '<th>OFS (sq mi)</th>' +              
+                '<th>Coral Presence (1 km cells)</th>' +
+                '<th>Sponge Presence (1 km cells)</th>' +
+                '<th>Sea Pen Presence (1 km cells)</th>' +
+                '<th>Coral Bycatch (.5 km cells)</th>' +
+                '<th>Sponge Bycatch (.5 km cells)</th>' +
+                '<th>Sea Pen Bycatch (0.5 km cells)</th>' +
                 '</tr>'
 
             // update the html of the table
@@ -1378,12 +1414,14 @@
                 '<th>Soft (sq mi)</th>' +
                 '<th>Unknown (sq mi)</th>' +
                 '<th>Canyons & Gullies (sq mi)</th>' +
-                '<th>Seamounts (sq mi)</th>' +
-                '<th>Corals & Sponges (1 km blocks)</th>' +
                 '<th>OFS (sq mi)</th>' +
-                '<th>Conservation Value Mean</th>' +
-                '<th>Conservation Value Variance</th>' +
-               '</tr>'
+                '<th>Coral Presence (1 km cells)</th>' +
+                '<th>Sponge Presence (1 km cells)</th>' +
+                '<th>Sea Pen Presence (1 km cells)</th>' +
+                '<th>Coral Bycatch (.5 km cells)</th>' +
+                '<th>Sponge Bycatch (.5 km cells)</th>' +
+                '<th>Sea Pen Bycatch (.5 km cells)</th>' +
+                '</tr>'
 
             // loop through all the selected features                
             for ( var i in selectedSet ){
@@ -1410,12 +1448,15 @@
                     '<td>' + fmt4table(data.soft) + '</td>' +
                     '<td>' + fmt4table(data.unknown) + '</td>' +
                     '<td>' + fmt4table(data.CynAreaMi2) + '</td>' +
-                    '<td>' + fmt4table(data.SmtAreaMi2) + '</td>' +
-                    '<td>' + data.corspg_cnt + '</td>' +
                     '<td>' + fmt4table(data.OF80AreaMi2) + '</td>' +              
-                    '<td>' + rnd(data.consval_mean, 2) + '</td>' +
-                    '<td>' + rnd(data.consval_var, 2) + '</td>'            
-                rows += '</tr>'
+                    '<td>' + data.coral_cnt + '</td>' +
+                    '<td>' + data.sponge_cnt + '</td>' +
+                    '<td>' + data.penn_cnt + '</td>' +
+                    '<td>' + data.coralthreshold_count + '</td>' +
+                    '<td>' + data.spongethreshold_count + '</td>' +
+                    '<td>' + data.pennthreshold_count + '</td>' +
+                    '</tr>'
+//                rows += '</tr>'
                 
             } // end of loop through selectedSet
 
