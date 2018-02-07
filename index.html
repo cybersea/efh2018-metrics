@@ -462,36 +462,6 @@
         var depLineWeight = 2;
         var depOpacity = 1;
         
-        var latStyles = {
-            color: "black",
-            weight: 1,
-            opacity: depOpacity
-        }      
-        var dep30Styles = {
-            color: "#006400",
-            weight: depLineWeight,
-            opacity: depOpacity
-        }       
-        var dep100Styles = {
-            color: "#eead0e",
-            weight: depLineWeight,
-            opacity: depOpacity
-        }
-        var dep150Styles = {
-            color: "#8b2500",
-            weight: depLineWeight,
-            opacity: depOpacity
-        }        
-        var dep700Styles = {
-            color: "#104e8b",
-            weight: depLineWeight,
-            opacity: depOpacity
-        }  
-        var tribalUAStyles = {
-            color: "#594600",
-            weight: 2,
-            opacity: 1
-        } 
         var eezStyles = {
             fillColor: "#7f7f7f",
 //            stroke: false,
@@ -510,6 +480,44 @@
             weight: 1,
             opacity: 1
         }
+        var tribalUAStyles = {
+            color: "#594600",
+            weight: 2,
+            opacity: 1
+        } 
+        var latStyles = {
+            color: "black",
+            weight: 1,
+            opacity: depOpacity
+        }      
+        var dep30Styles = {
+//            color: "#006400",
+//            color: "#bdd7e7",
+            color: "#87bede",
+            weight: depLineWeight,
+            opacity: depOpacity
+        }       
+        var dep100Styles = {
+//            color: "#eead0e",
+//            color: "#6baed6",
+            color:"#348ccb",
+            weight: depLineWeight,
+            opacity: depOpacity
+        }
+        var dep150Styles = {
+//            color: "#8b2500",
+//            color:"#3182bd",
+            color: "#08519c",
+            weight: depLineWeight,
+            opacity: depOpacity
+        }        
+        var dep700Styles = {
+//            color: "#104e8b",
+//            color: "#08519c",
+            color: "#000066",
+            weight: depLineWeight,
+            opacity: depOpacity
+        }  
         var efhcaStyles = {
             fillColor: "#7f7f7f",
             fillOpacity: 0.3,
@@ -524,6 +532,20 @@
             weight: 1,
             opacity: 1            
         }
+        var ccaStyles = {
+            fillColor: "#ffb366",
+            fillOpacity: 0.3,
+            color: "black",
+            weight: 0.5,
+            opacity: 1            
+        }
+        var cbgcaStyles = {
+            fillColor: "#ff9999",
+            fillOpacity: 0.3,
+            color: "black",
+            weight: 0.5,
+            opacity: 1            
+        }
         var rcaStyles = {
             fillColor: "#737300",
             fillOpacity: 0.3,
@@ -531,35 +553,48 @@
             weight: 1,
             opacity: 1            
         }
+        var dacStyles = {
+            fillColor: "#eead0e",
+            fillOpacity: 0.4,
+            color: "#eead0e",
+            weight: 1,
+            opacity: 1            
+        }
         
         sources = {
             "eez": "data/eez_py.geojson",
             "eez_ln": "data/eez_ln.geojson",
+            "state_ln": "data/state_ln.geojson",
+            "tribalUA_ln": "data/tribalUA_ln.geojson",
             "lat": "data/strata_lat.geojson",
             "dep30fm": "data/rca_30fm.geojson",
             "dep100fm": "data/rca_100fm.geojson",
             "dep150fm": "data/rca_150fm.geojson",
             "dep700fm": "data/efh_700fm.geojson", 
-            "tribalUA_ln": "data/tribalUA_ln.geojson",
-            "state_ln": "data/state_ln.geojson",
             "efhca":"data/efh_consarea_py.geojson",
             "efh700":"data/efh_700fm_py.geojson",
-            "rca":"data/RCA_TrawlGF_MarAprSepOct.geojson",    
+            "cca":"data/cca_py.geojson",
+            "cbgca":"data/cbgca_py.geojson",
+            "rca":"data/RCA_TrawlGF_MarAprSepOct.geojson",
+            "dac":"data/rca_dca.geojson",
         }
         
         styles = {
             "eez": eezStyles,
             "eez_ln": eezLnStyles,
+            "state_ln": stateStyles,
+            "tribalUA_ln": tribalUAStyles,
             "lat": latStyles,
             "dep30fm": dep30Styles,
             "dep100fm": dep100Styles,
             "dep150fm": dep150Styles,
             "dep700fm": dep700Styles,
-            "tribalUA_ln": tribalUAStyles,
-            "state_ln": stateStyles,
             "efhca":efhcaStyles,
             "efh700":efh700Styles,
+            "cca":ccaStyles,
+            "cbgca":cbgcaStyles,
             "rca":rcaStyles,
+            "dac":dacStyles,
         }
        
         var data = {}; // object to hold JSON data for each layer
@@ -573,6 +608,9 @@
                 $.getJSON(sources["state_ln"], function(d) {
                     data["state_ln"] =  d;
                 }),
+                  $.getJSON(sources["tribalUA_ln"], function(d) {
+                    data["tribalUA_ln"] =  d;
+                }),  
                 $.getJSON(sources["lat"], function(d) {
                     data["lat"] =  d;
                 }),
@@ -588,18 +626,24 @@
                  $.getJSON(sources["dep700fm"], function(d) {
                     data["dep700fm"] =  d;
                 }),
-                  $.getJSON(sources["tribalUA_ln"], function(d) {
-                    data["tribalUA_ln"] =  d;
-                }),  
                 $.getJSON(sources["efhca"], function(d) {
                     data["efhca"] =  d;
                 }),  
                 $.getJSON(sources["efh700"], function(d) {
                     data["efh700"] =  d;
                 }),
+                $.getJSON(sources["cca"], function(d) {
+                    data["cca"] =  d;
+                }),  
+                $.getJSON(sources["cbgca"], function(d) {
+                    data["cbgca"] =  d;
+                }),  
                 $.getJSON(sources["rca"], function(d) {
                     data["rca"] =  d;
-                })                
+                }),                
+                $.getJSON(sources["dac"], function(d) {
+                    data["dac"] =  d;
+                }),  
         ).then(function() {
 
             // send complete data object to another function to create layers, etc.
@@ -654,15 +698,18 @@
             var layerLabels = {
                 "<b style='color:#7f7f7f'>EEZ</b>": layers["eez_ln"],
                 "<b style='color:#7f7f7f'>State Waters</b>": layers["state_ln"],
-                "<b style='color:black'>Latitude Breaks</b>": layers["lat"],
-                "<b style='color:#006400'>30 fathoms</b>": layers["dep30fm"],
-                "<b style='color:#eead0e'>100 fathoms</b>": layers["dep100fm"],
-                "<b style='color:#8b2500'>150 fathoms</b>": layers["dep150fm"],
-                "<b style='color:#104e8b'>700 fathoms</b>": layers["dep700fm"],
                 "<b style='color:#594600'>Tribal U&A</b>": layers["tribalUA_ln"],
+                "<b style='color:black'>Latitude Breaks</b>": layers["lat"],
+                "<b style='color:#87bede'>30 fathoms</b>": layers["dep30fm"],
+                "<b style='color:#348ccb'>100 fathoms</b>": layers["dep100fm"],
+                "<b style='color:#08519c'>150 fathoms</b>": layers["dep150fm"],
+                "<b style='color:#000066'>700 fathoms</b>": layers["dep700fm"],
                 "<b style='color:#7f7f7f'>EFH Conservation Areas</b>": layers["efhca"],
                 "<b style='color:#7f7f7f'>EFH 700-fm Closure</b>": layers["efh700"],
-                "<b style='color:#737300'>Trawl RCA</b>": layers["rca"],
+                 "<b style='color:#ffb366'>Cowcod Conservation Area</b>": layers["cca"],
+                "<b style='color:#ff9999'>Cordell Bank Groundfish Closed Area</b>": layers["cbgca"],
+                "<b style='color:#737300'>Trawl RCA, 2015</b>": layers["rca"],
+                "<b style='color:#eead0e'>RCA Alt 2b - Discrete Area Closures</b>": layers["dac"],
             }
 
             var switcher = L.control.layers(baseLayers, layerLabels, {
