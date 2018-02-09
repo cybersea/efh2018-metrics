@@ -65,7 +65,8 @@
         </div>
         
 
-        <div id="layer-controls">
+        <div id="layer-controls" class="metrics">
+            <!-- Current EFH Alternatives.  Can be selected for metrics summaries and interacted with by polygon -->
             <p class="efh-type">EFH Alternatives</p>
             <!-- Collaborative -->
             <input id="collabLayer" type="checkbox" value="collabLayer" checked>
@@ -139,6 +140,7 @@
                     <i class="fa fa-plus"></i>
                 </button>
             </label>
+              <!-- Priority Habitats in Trawl RCA in Washington State -->
             <input id="phLayer" type="checkbox" value="phLayer" checked>
             <label for="phLayer" style='color:#00E575' data-nice-name="Priority Habitats in Trawl RCA - WA">
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o layer-selection-icon"></i></span> 
@@ -150,64 +152,38 @@
                     <i class="fa fa-plus"></i>
                 </button>
             </label>
-            <!-- 
+         </div>
+           
+         <div id="layer-controls" class="nometrics">            
+            <!-- Old EFH Proposals.  Can only by turned on or off to draw on map -->
             <p class="efh-type">Other EFH Proposals</p>
-            <input id="fmaLayer" type="checkbox" value="fmaLayer" unchecked>
-            <label for="fmaLayer" id="fmaLayer" style='color:#377EB8' data-nice-name="FMA">
-                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
-                FMA <span class="layer-counter"><span class="layer-counter-current">0</span>/1</span>
-                <button class="layer-unselect-all tooltip" data-tooltip="Remove Proposal from Selection" disabled = "true">
-                    <i class="fa fa-minus"></i>  
-                </button>
-                <button class="layer-select-all tooltip" data-tooltip="Add Proposal to Selection" disabled = "true">
-                    <i class="fa fa-plus"></i>
-                </button>
-            </label>
+            <!-- Greenpeace -->
             <input id="greenpeaceLayer" type="checkbox" value="greenpeaceLayer" unchecked>
             <label for="greenpeaceLayer" style='color:#0F6001' data-nice-name="Greenpeace">
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
-                Greenpeace <span class="layer-counter"><span class="layer-counter-current">0</span>/9</span>
-                <button class="layer-unselect-all tooltip" data-tooltip="Remove Proposal from Selection" disabled = "true">
-                    <i class="fa fa-minus"></i>
-                </button>
-                <button class="layer-select-all tooltip" data-tooltip="Add Proposal to Selection" disabled = "true">
-                    <i class="fa fa-plus"></i>
-                </button>
+                Greenpeace 
             </label>
-            <input id="mbnmsLayer" type="checkbox" value="mbnmsLayer" unchecked>
-            <label for="mbnmsLayer" style='color:#E9BD02' data-nice-name="MBNMS">
-                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
-                MBNMS <span class="layer-counter"><span class="layer-counter-current">0</span>/15</span>
-                <button class="layer-unselect-all tooltip" data-tooltip="Remove Proposal from Selection" disabled = "true">
-                    <i class="fa fa-minus"></i>
-                </button>
-                <button class="layer-select-all tooltip" data-tooltip="Add Proposal to Selection" disabled = "true">
-                    <i class="fa fa-plus"></i>
-                </button>
-            </label>
+            <!-- MCI -->
             <input id="mciLayer" type="checkbox" value="mciLayer" unchecked>
-            <label for="mciLayer" style='color:#650B0B' data-nice-name="MCI">
+            <label for="mciLayer" style='color:#996561' data-nice-name="MCI">
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
-                MCI <span class="layer-counter"><span class="layer-counter-current">0</span>/25</span>
-                <button class="layer-unselect-all tooltip" data-tooltip="Remove Proposal from Selection" disabled = "true">
-                    <i class="fa fa-minus"></i>
-                </button>
-                <button class="layer-select-all tooltip" data-tooltip="Add Proposal to Selection" disabled = "true">
-                    <i class="fa fa-plus"></i>
-                </button>
+                MCI
             </label>
+            <!-- None -->
             <input id="noneLayer" type="checkbox" value="noneLayer" unchecked>
             <label for="noneLayer" style='color:#0F97A3' data-nice-name="None">
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
-                None <span class="layer-counter"><span class="layer-counter-current">0</span>/22</span>
+                None
+<!--
                 <button class="layer-unselect-all tooltip" data-tooltip="Remove Proposal from Selection" disabled = "true">
                     <i class="fa fa-minus"></i>
                 </button>
                 <button class="layer-select-all tooltip" data-tooltip="Add Proposal to Selection" disabled = "true">
                     <i class="fa fa-plus"></i>
                 </button>
+-->
             </label>
-            -->
+
         </div>
 
         <div id='ui-controls'>
@@ -299,7 +275,7 @@
         </div>
     </div>
 
-    <!--  GeoJSON source data (var proposals_metrics)   -->
+    <!--  GeoJSON EFH Alternatives source data (var proposals_metrics)   -->
     <script src="data/efh_proposals_metrics.js"></script>
     <!--  JSON with concat_id and list of unique 1km cells with corspg presence (var corspg1km_proposals)   -->
     <script src="data/corspg1km_proposals.js"></script>
@@ -374,49 +350,75 @@
         var layerInfo = {
             collabLayer: {
                 proposer: "Collaborative",
-                color: "#E5571D"
+                color: "#E5571D",
+                selectable: 1,
             },
             onoLayer: {
                 proposer: "Oceana et al.",
-                color: "#6F067B"
-            },
+                color: "#6F067B",
+                selectable: 1,
+           },
              mtcLayer: {
                 proposer: "MTC",
-                color: "#E2007F"
+                color: "#E2007F",
+                selectable: 1,
             },
             garibLayer: {
                 proposer: "Garibaldi Reef South",
-                color: "#377EB8"
-            },
+                color: "#377EB8",
+                selectable: 1,
+           },
             rittLayer: {
                 proposer: "Rittenburg Bank",
-                color: "#650B0B"
+                color: "#650B0B",
+                selectable: 1,
             },
             potatoLayer: {
                 proposer: "Potato Bank",
-                color: "#E9BD02"
+                color: "#E9BD02",
+                selectable: 1,
             },
             phLayer : {
                 proposer: "Priority Habitats in Trawl RCA - WA",
                 color: "#00E575",
-            }
-//            greenpeaceLayer: {
-//                proposer: "Greenpeace",
-//                color: "#0F6001"
-//            },
-//            noneLayer: {
-//                proposer: "None",
-//                color: "#0F97A3",
-//            },  
+                selectable: 1,
+            },
+            greenpeaceLayer: {
+                proposer: "Greenpeace",
+                color: "#0F6001",
+                selectable: 0,
+            },
+            mciLayer: {
+                proposer: "MCI",
+                color: "#996561",
+                selectable: 0,
+            },
+            noneLayer: {
+                proposer: "None",
+                color: "#0F97A3",
+                selectable: 0,
+            },  
 
         };
+        
+        var selectableAlts = [
+            "Collaborative",
+            "Oceana et al.",
+            "MTC",
+            "Garibaldi Reef South",
+            "Rittenburg Bank",
+            "Potato Bank",
+            "Priority Habitats in Trawl RCA - WA",
+        ]
 
         var geoJsonLayers = {}; // global to store all the geoJSON layers
         var selectedSet = {}; // global for selected features
         
 
-        // Create individual geoJson Layers for each proposal
+        // Create individual geoJson Layers for each alternative
         for (var lyr in layerInfo) {
+            
+            var alternative = layerInfo[lyr].proposer; 
 
             geoJsonLayers[lyr] = L.geoJson(proposals_metrics, {
                 filter: function (feature) {
@@ -444,14 +446,16 @@
                         mouseover: highlightFeature,
                         mouseout: resetHighlight,
                         click: function(e){
-                            toggleSelected(e.target);
-                            //selected(e.target);
+                            if (selectableAlts.includes(feature.properties.Alternative)){
+                                toggleSelected(e.target);
+                            }
                         },
                     });
                 }
             })//.addTo(map);
 
             geoJsonLayers[lyr].startStyle = styles
+            geoJsonLayers[lyr].selectable = layerInfo[lyr].selectable
 
         } // end of loop through all geoJSON layers
         
@@ -461,7 +465,9 @@
         
         // Add all EFH Alts to map to start  (if change, also need to update html for TOC)
         for (var lyr in geoJsonLayers) {
-            geoJsonLayers[lyr].addTo(map);
+            if (layerInfo[lyr].selectable){
+                geoJsonLayers[lyr].addTo(map);
+            }
         }
         
         // Supplemental Layer styles
@@ -978,33 +984,43 @@
 
 
         function updateInfo(layer) {
+            
             // Info pop-up box when hover over polygon on map
 
             // variable to access layer properties
             var data = layer.feature.properties;
+            var alternative = data.Alternative;
+            
+            if (selectableAlts.includes(alternative)){
+                var altTitle = "Alternative"
+            } else {
+                    altTitle = "Proposer"
+            }
+            
 
             // populate html variable with header - Site name
             // and values for the specified attributes using the 
             // layer (feature) that was passed to this function
             var html = "<h3>" + data.SiteName + "</h3>" // +
             html += "<br>" + "<b>Action: </b>" + data.RegAction;
-            html += "<br>" + "<b>Alternative: </b>" + data.Alternative;
+            html += "<br>" + "<b>" + altTitle + ": </b>" + alternative;
             html += "<br>" + "<b>Area (sq mi): </b>" + fmt4table(data.SiteAreaMi2);
-            html += "<br>" + "<b>Hard Substrate: </b>" + pct(data.hard, data.SiteAreaMi2);
-            html += "<br>" + "<b>Mixed Substrate: </b>" + pct(data.mixed, data.SiteAreaMi2);
-            html += "<br>" + "<b>Soft Substrate: </b>" + pct(data.soft, data.SiteAreaMi2);
-            html += "<br>" + "<b>Unknown Substrate: </b>" + pct(data.unknown, data.SiteAreaMi2);
-            html += "<br>" + "<b>Canyons & Gullies: </b>" + pct(data.CynAreaMi2, data.SiteAreaMi2);
-            html += "<br>" + "<b>Seamounts: </b>" + pct(data.SmtAreaMi2, data.SiteAreaMi2);
-            html += "<br>" + "<b>Overfished Species: </b> " + pct(data.OF80AreaMi2, data.SiteAreaMi2);
-            html += "<br>" + "<b>Coral Presence</b> (1 km cells): " + data.coral_cnt;
-            html += "<br>" + "<b>Sponge Presence</b> (1 km cells): " + data.sponge_cnt;
-            html += "<br>" + "<b>Sea Pen Presence</b> (1 km cells): " + data.penn_cnt;
-            html += "<br>" + "<b>Coral Bycatch</b> (.5 km cells): " + data.coralthreshold_count;
-            html += "<br>" + "<b>Sponge Bycatch</b> (.5 km cells): " + data.spongethreshold_count;
-            html += "<br>" + "<b>Sea Pen Bycatch</b> (.5 km cells): " + data.pennthreshold_count;
+            if (selectableAlts.includes(alternative)){
+                html += "<br>" + "<b>Hard Substrate: </b>" + pct(data.hard, data.SiteAreaMi2);
+                html += "<br>" + "<b>Mixed Substrate: </b>" + pct(data.mixed, data.SiteAreaMi2);
+                html += "<br>" + "<b>Soft Substrate: </b>" + pct(data.soft, data.SiteAreaMi2);
+                html += "<br>" + "<b>Unknown Substrate: </b>" + pct(data.unknown, data.SiteAreaMi2);
+                html += "<br>" + "<b>Canyons & Gullies: </b>" + pct(data.CynAreaMi2, data.SiteAreaMi2);
+                html += "<br>" + "<b>Overfished Species: </b> " + pct(data.OF80AreaMi2, data.SiteAreaMi2);
+                html += "<br>" + "<b>Coral Presence</b> (1 km cells): " + data.coral_cnt;
+                html += "<br>" + "<b>Sponge Presence</b> (1 km cells): " + data.sponge_cnt;
+                html += "<br>" + "<b>Sea Pen Presence</b> (1 km cells): " + data.penn_cnt;
+                html += "<br>" + "<b>Coral Bycatch</b> (.5 km cells): " + data.coralthreshold_count;
+                html += "<br>" + "<b>Sponge Bycatch</b> (.5 km cells): " + data.spongethreshold_count;
+                html += "<br>" + "<b>Sea Pen Bycatch</b> (.5 km cells): " + data.pennthreshold_count;
 //            html += "<br>" + "<b>Conserv. Value Mean: </b> " + rnd(data.consval_mean, 2);
-//            html += "<br>" + "<b>Conserv. Value Variance: </b> " + rnd(data.consval_var, 2);               
+//            html += "<br>" + "<b>Conserv. Value Variance: </b> " + rnd(data.consval_var, 2); 
+            }
 
             // Assign the html content to the info box using JQuery selector
             $(".poly-info").html(html);
