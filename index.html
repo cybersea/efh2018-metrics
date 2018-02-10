@@ -1156,7 +1156,7 @@
         // Convert sq meters to square miles and format nicely
         function sqm2sqmi(val) {
             var sqmi = val / 2589988.11
-            if (sqmi >= 0.5 || sqmi == 0 ) {
+            if (Math.abs(sqmi) >= 0.5 || sqmi == 0 ) {
                 return (val / 2589988.11).toLocaleString(undefined, {
                     maximumFractionDigits: 0
                 })
@@ -1167,7 +1167,7 @@
         
         // Format area values for the HTML table
         function fmt4table(val) {
-            if (val >= 0.5 || val == 0 ) {
+            if (Math.abs(val) >= 0.5 || val == 0 ) {
                 return (val).toLocaleString(undefined, {
                     maximumFractionDigits: 0
                 })
