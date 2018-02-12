@@ -575,6 +575,13 @@
             weight: 1,
             opacity: 1            
         }
+        var gt3500Styles = {
+            fillColor: "#002673",
+            fillOpacity: 0.3,
+            color: "#002673",
+            weight: 1,
+            opacity: 1            
+        }
         
         sources = {
             "eez": "data/eez_py.geojson",
@@ -592,6 +599,7 @@
             "cbgca":"data/cbgca_py.geojson",
             "rca":"data/RCA_TrawlGF_MarAprSepOct.geojson",
             "dac":"data/rca_dca.geojson",
+            "gt3500m":"data/deeperthan3500m_py.geojson",
         }
         
         styles = {
@@ -610,6 +618,7 @@
             "cbgca":cbgcaStyles,
             "rca":rcaStyles,
             "dac":dacStyles,
+            "gt3500m":gt3500Styles,
         }
        
         var data = {}; // object to hold JSON data for each layer
@@ -659,6 +668,9 @@
                 $.getJSON(sources["dac"], function(d) {
                     data["dac"] =  d;
                 }),  
+                $.getJSON(sources["gt3500m"], function(d) {
+                    data["gt3500m"] =  d;
+                }),
         ).then(function() {
 
             // send complete data object to another function to create layers, etc.
@@ -725,6 +737,7 @@
                 "<b style='color:#ff9999'>Cordell Bank Groundfish Closed Area</b>": layers["cbgca"],
                 "<b style='color:#737300'>Trawl RCA, 2015</b>": layers["rca"],
                 "<b style='color:#eead0e'>RCA Alt 2b - Discrete Area Closures</b>": layers["dac"],
+                "<b style='color:#002673'>Waters Deeper than 3500 m</b>": layers["gt3500m"],
             }
 
             var switcher = L.control.layers(baseLayers, layerLabels, {
