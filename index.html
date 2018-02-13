@@ -155,8 +155,24 @@
             </label>
          </div>
  
+          <div id="layer-controls" class="rcaalts">            
+            <!-- RCA Alternatives  Can only by turned on or off to draw on map -->
+            <p class="efh-type">RCA Alternatives</p>
+            <!-- Discrete Area Closures (WA) -->
+            <input id="dacLayer" type="checkbox" value="dacLayer" unchecked>
+            <label for="dacLayer" style='color:#EEAD0E' data-nice-name="Greenpeace">
+                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
+                2b. Discrete Area Closures 
+            </label>
+            <!-- Block Area Closures -->
+            <input id="bacLayer" type="checkbox" value="bacLayer" unchecked>
+            <label for="bacLayer" style='color:#2e9e82' data-nice-name="MCI">
+                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
+                2c. Block Area Closures
+            </label>
+        </div> 
 
-         <div id="layer-controls" class="otherproposals">            
+        <div id="layer-controls" class="otherproposals">            
             <!-- Old EFH Proposals.  Can only by turned on or off to draw on map -->
             <p class="efh-type">Other EFHCA Proposals</p>
             <!-- Greenpeace -->
@@ -186,7 +202,7 @@
             -->
             </label>
         </div>
-        
+  
         <div id='ui-controls'>
             <button value="Zoom" class="layer-ui-button" id="zoom">Zoom to selection <i class="fa fa-arrows-alt"></i></button>
             <button value="Clear" class="layer-ui-button" id="clear">Clear selection <i class="fa fa-ban"></i></button>
@@ -386,12 +402,22 @@
                 color: "#00E575",
                 selectable: 1,
             },
+            dacLayer: {
+                proposer: "Discrete Area Closures",
+                color: "#EEAD0E",
+                selectable: 0,
+            },
+            bacLayer: {
+                proposer: "Block Area Closures",
+                color: "#6DC067",
+                color: "#2e9e82",
+                selectable: 0,
+            },
             greenpeaceLayer: {
                 proposer: "Greenpeace",
                 color: "#0F6001",
                 selectable: 0,
-            },
-            mciLayer: {
+            },            mciLayer: {
                 proposer: "MCI",
                 color: "#996561",
                 selectable: 0,
@@ -412,6 +438,11 @@
             "Rittenburg Bank",
             "Potato Bank",
             "Priority Habitats in Trawl RCA - WA",
+        ]
+        
+        var rcaAlts = [
+            "Block Area Closures",
+            "Discrete Area Closures",
         ]
 
         var geoJsonLayers = {}; // global to store all the geoJSON layers
@@ -568,13 +599,6 @@
             weight: 1,
             opacity: 1            
         }
-        var dacStyles = {
-            fillColor: "#eead0e",
-            fillOpacity: 0.4,
-            color: "#eead0e",
-            weight: 1,
-            opacity: 1            
-        }
         var gt3500Styles = {
             fillColor: "#002673",
             fillOpacity: 0.3,
@@ -598,7 +622,6 @@
             "cca":"data/cca_py.geojson",
             "cbgca":"data/cbgca_py.geojson",
             "rca":"data/RCA_TrawlGF_MarAprSepOct.geojson",
-            "dac":"data/rca_dca.geojson",
             "gt3500m":"data/deeperthan3500m_py.geojson",
         }
         
@@ -617,7 +640,6 @@
             "cca":ccaStyles,
             "cbgca":cbgcaStyles,
             "rca":rcaStyles,
-            "dac":dacStyles,
             "gt3500m":gt3500Styles,
         }
        
@@ -664,10 +686,7 @@
                 }),  
                 $.getJSON(sources["rca"], function(d) {
                     data["rca"] =  d;
-                }),                
-                $.getJSON(sources["dac"], function(d) {
-                    data["dac"] =  d;
-                }),  
+                }),                 
                 $.getJSON(sources["gt3500m"], function(d) {
                     data["gt3500m"] =  d;
                 }),
@@ -736,7 +755,6 @@
                  "<b style='color:#ffb366'>Cowcod Conservation Area</b>": layers["cca"],
                 "<b style='color:#ff9999'>Cordell Bank Groundfish Closed Area</b>": layers["cbgca"],
                 "<b style='color:#737300'>Trawl RCA, 2015</b>": layers["rca"],
-                "<b style='color:#eead0e'>RCA Alt 2b - Discrete Area Closures</b>": layers["dac"],
                 "<b style='color:#002673'>Waters Deeper than 3500 m</b>": layers["gt3500m"],
             }
 
@@ -1007,7 +1025,7 @@
             var data = layer.feature.properties;
             var alternative = data.Alternative;
             
-            if (selectableAlts.includes(alternative)){
+            if (selectableAlts.includes(alternative) || rcaAlts.includes(alternative)){
                 var altTitle = "Alternative"
             } else {
                     altTitle = "Proposer"
@@ -1021,7 +1039,7 @@
             html += "<br>" + "<b>Action: </b>" + data.RegAction;
             html += "<br>" + "<b>" + altTitle + ": </b>" + alternative;
             html += "<br>" + "<b>Area (sq mi): </b>" + fmt4table(data.SiteAreaMi2);
-            if (selectableAlts.includes(alternative)){
+            if (selectableAlts.includes(alternative) || rcaAlts.includes(alternative)){
                 html += "<br>" + "<b>Hard Substrate: </b>" + pct(data.hard, data.SiteAreaMi2);
                 html += "<br>" + "<b>Mixed Substrate: </b>" + pct(data.mixed, data.SiteAreaMi2);
                 html += "<br>" + "<b>Soft Substrate: </b>" + pct(data.soft, data.SiteAreaMi2);
