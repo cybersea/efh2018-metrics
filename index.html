@@ -142,19 +142,24 @@
                 </button>
             </label>
               <!-- Priority Habitats in Trawl RCA in Washington State -->
-            <input id="phLayer" type="checkbox" value="phLayer" checked>
+            <input id="phLayer" type="checkbox" value="phLayer" unchecked>
             <label for="phLayer" style='color:#00E575' data-nice-name="Priority Habitats in Trawl RCA - WA">
-                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o layer-selection-icon"></i></span> 
+                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
                 1g. Priority Hab <span class="layer-counter"><span class="layer-counter-current">0</span>/1</span>
-                <button class="layer-unselect-all tooltip" data-tooltip="Remove Proposal from Selection">
+                <button class="layer-unselect-all tooltip" data-tooltip="Remove Proposal from Selection" disabled = "true">
                     <i class="fa fa-minus"></i>
                 </button>
-                <button class="layer-select-all tooltip" data-tooltip="Add Proposal to Selection">
+                <button class="layer-select-all tooltip" data-tooltip="Add Proposal to Selection" disabled = "true">
                     <i class="fa fa-plus"></i>
                 </button>
             </label>
          </div>
- 
+        
+         <div id='ui-controls'>
+            <button value="Zoom" class="layer-ui-button" id="zoom">Zoom to selection <i class="fa fa-arrows-alt"></i></button>
+            <button value="Clear" class="layer-ui-button" id="clear">Clear selection <i class="fa fa-ban"></i></button>
+        </div>
+        
           <div id="layer-controls" class="rcaalts">            
             <!-- RCA Alternatives  Can only by turned on or off to draw on map -->
             <p class="efh-type">RCA Alternatives</p>
@@ -203,10 +208,7 @@
             </label>
         </div>
   
-        <div id='ui-controls'>
-            <button value="Zoom" class="layer-ui-button" id="zoom">Zoom to selection <i class="fa fa-arrows-alt"></i></button>
-            <button value="Clear" class="layer-ui-button" id="clear">Clear selection <i class="fa fa-ban"></i></button>
-        </div>
+
         
 
     </div>
@@ -371,61 +373,74 @@
                 proposer: "Collaborative",
                 color: "#E5571D",
                 selectable: 1,
+                draw:1,
             },
             onoLayer: {
                 proposer: "Oceana et al.",
                 color: "#6F067B",
                 selectable: 1,
-           },
+                 draw:1,
+          },
              mtcLayer: {
                 proposer: "MTC",
                 color: "#E2007F",
                 selectable: 1,
-            },
+                 draw:1,
+           },
             garibLayer: {
                 proposer: "Garibaldi Reef South",
                 color: "#377EB8",
                 selectable: 1,
+                draw:1,
            },
             rittLayer: {
                 proposer: "Rittenburg Bank",
                 color: "#650B0B",
                 selectable: 1,
-            },
+                draw:1,
+           },
             potatoLayer: {
                 proposer: "Potato Bank",
                 color: "#E9BD02",
                 selectable: 1,
+                draw:1,
             },
             phLayer : {
                 proposer: "Priority Habitats in Trawl RCA - WA",
                 color: "#00E575",
                 selectable: 1,
+                draw:0,
             },
             dacLayer: {
                 proposer: "Discrete Area Closures",
                 color: "#EEAD0E",
                 selectable: 0,
-            },
+                 draw:0,
+           },
             bacLayer: {
                 proposer: "Block Area Closures",
                 color: "#6DC067",
                 color: "#2e9e82",
                 selectable: 0,
+                draw:0,
             },
             greenpeaceLayer: {
                 proposer: "Greenpeace",
                 color: "#0F6001",
                 selectable: 0,
-            },            mciLayer: {
+                draw:0,
+            },
+            mciLayer: {
                 proposer: "MCI",
                 color: "#996561",
                 selectable: 0,
+                draw:0,
             },
             noneLayer: {
                 proposer: "None",
                 color: "#0F97A3",
                 selectable: 0,
+                draw:0,
             },  
 
         };
@@ -497,9 +512,9 @@
 //        geoJsonLayers["onoLayer"].addTo(map);
 //        geoJsonLayers["collabLayer"].addTo(map);
         
-        // Add all EFH Alts to map to start  (if change, also need to update html for TOC)
+        // Add most EFH Alts to map to start  (if change, also need to update html for TOC)
         for (var lyr in geoJsonLayers) {
-            if (layerInfo[lyr].selectable){
+            if (layerInfo[lyr].draw){
                 geoJsonLayers[lyr].addTo(map);
             }
         }

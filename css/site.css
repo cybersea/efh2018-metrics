@@ -213,6 +213,8 @@ h3 {
 #ui-controls {
     width: 100%;
     margin-top: 10px;
+    border-bottom: 1px solid #597DAB;
+
 }
 
 #ui-controls button {
