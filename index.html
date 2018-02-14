@@ -219,6 +219,7 @@
             <button class='selected' value='summary-panel'>Summary</button>
             <button value='polygons-panel'>Polygons <span id="poly-count">(0)</span></button>
             <button value='info-panel'>Info</button>
+            <button value='help-panel'>How To</button>         
         </div>
         <div class='side-panel' id='summary-panel'>
             <!-- <h3 id='poly-count'></h3> -->
@@ -278,6 +279,14 @@
                 <li>None: Polygons that were identified by the Collaborative group, but were not included in their final proposal</li>
             </ul>            
 
+        <h2>Credits</h2>
+        <p>The Council, NOAA, National Marine Fisheries Service (NMFS), scientists, tribes, fishermen, and non-governmental organizations laid the analytical groundwork for this review through  a multi-year synthesis of new data sets and analyses.  Results of the Groundfish Essential Fish Habitat (EFH) Review are available through the <a href="http://efh-catalog.coas.oregonstate.edu/overview/" target="_blank">EFH Catalog</a> as well as the <a href="http://efh-viewer.coas.oregonstate.edu/efh/" target="_blank">EFH Viewer</a>.</p>
+        <p>The EFH/RCA Project Team has produced an <a href="http://www.pcouncil.org/wp-content/uploads/2016/11/F4a_Project_Team_Report_EFHRCA_Modifications_Analytical_Doc_NOV2016BB.pdf" target="_blank">analytical report</a> which is the basis for the metrics in this tool.</p>
+        <p>Web Development by Allison Bailey, <a href="http://www.soundgis.com" target="_blank">Sound GIS</a></p>
+        </div>
+
+        <div class='side-panel' id='help-panel'>
+
         <h2>How to Use this Tool</h2>
         <p>This tool allows a user to select a custom set of EFHCA alternative polygons and see a summary of the metrics for their set. </p>
         <ul>
@@ -295,12 +304,9 @@
         </ul>
         <p>To avoid double-counting in the summary metrics, if you select a polygon that overlaps a current selection, the overlapping polygon will be removed from the selection.</p>
         <p>For the best experience, use the Chrome browser.  Other browsers have not been thoroughly tested.</p>
-            
-        <h2>Credits</h2>
-        <p>The Council, NOAA, National Marine Fisheries Service (NMFS), scientists, tribes, fishermen, and non-governmental organizations laid the analytical groundwork for this review through  a multi-year synthesis of new data sets and analyses.  Results of the Groundfish Essential Fish Habitat (EFH) Review are available through the <a href="http://efh-catalog.coas.oregonstate.edu/overview/" target="_blank">EFH Catalog</a> as well as the <a href="http://efh-viewer.coas.oregonstate.edu/efh/" target="_blank">EFH Viewer</a>.</p>
-        <p>The EFH/RCA Project Team has produced an <a href="http://www.pcouncil.org/wp-content/uploads/2016/11/F4a_Project_Team_Report_EFHRCA_Modifications_Analytical_Doc_NOV2016BB.pdf" target="_blank">analytical report</a> which is the basis for the metrics in this tool.</p>
-        <p>Web Development by Allison Bailey, <a href="http://www.soundgis.com" target="_blank">Sound GIS</a></p>
+          
         </div>
+        
     </div>
 
     <!--  GeoJSON EFH Alternatives source data (var proposals_metrics)   -->

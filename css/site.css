@@ -329,7 +329,7 @@ tr:hover th {
 
 #panel-tabs button {
     display: inline-block;
-    width: 25%;
+    width: 24%;
     background: white;
     color: rgba(200, 200, 200, 1);
     font-size: 1.1em;
@@ -362,12 +362,14 @@ tr:hover th {
 
 #summary-panel,
 #polygons-panel,
-#info-panel {
+#info-panel,
+#help-panel{
     position: absolute;
 }
 
 #polygons-panel,
-#info-panel {
+#info-panel,
+#help-panel{
     display: none;
 }
 
