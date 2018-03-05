@@ -153,18 +153,24 @@
             <button value="Clear" class="layer-ui-button" id="clear">Clear selection <i class="fa fa-ban"></i></button>
         </div>
         
-          <div id="layer-controls" class="rcaalts">            
+        <div id="layer-controls" class="rcaalts">            
             <!-- RCA Alternatives  Can only by turned on or off to draw on map -->
             <p class="efh-type">Trawl RCA Alternatives</p>
+            <!-- Remove Trawl RCA -->
+            <input id="removercaLayer" type="checkbox" value="removercaLayer" unchecked>
+            <label for="removercaLayer" style='color:#737300' data-nice-name="Remove RCA">
+                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
+                2a. Remove Trawl RCA
+            </label> 
             <!-- Discrete Area Closures (WA) -->
             <input id="dacLayer" type="checkbox" value="dacLayer" unchecked>
-            <label for="dacLayer" style='color:#EEAD0E' data-nice-name="Greenpeace">
+            <label for="dacLayer" style='color:#EEAD0E' data-nice-name="Discrete Area Closures">
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
                 2b. Discrete Area Closures 
             </label>
             <!-- Block Area Closures -->
             <input id="bacLayer" type="checkbox" value="bacLayer" unchecked>
-            <label for="bacLayer" style='color:#2e9e82' data-nice-name="MCI">
+            <label for="bacLayer" style='color:#2e9e82' data-nice-name="Block Area Closures">
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
                 2c. Block Area Closures
             </label>
@@ -424,15 +430,20 @@
                 selectable: 1,
                 draw:0,
             },
+            removercaLayer: {
+                proposer: "Remove RCA",
+                color: "#737300",
+                selectable: 0,
+                draw:0,
+            },
             dacLayer: {
                 proposer: "Discrete Area Closures",
                 color: "#EEAD0E",
                 selectable: 0,
                  draw:0,
-           },
+            },
             bacLayer: {
                 proposer: "Block Area Closures",
-                color: "#6DC067",
                 color: "#2e9e82",
                 selectable: 0,
                 draw:0,
@@ -469,6 +480,7 @@
         ]
         
         var rcaAlts = [
+            "Remove RCA",
             "Block Area Closures",
             "Discrete Area Closures",
         ]
@@ -565,29 +577,21 @@
             opacity: depOpacity
         }      
         var dep30Styles = {
-//            color: "#006400",
-//            color: "#bdd7e7",
             color: "#87bede",
             weight: depLineWeight,
             opacity: depOpacity
         }       
         var dep100Styles = {
-//            color: "#eead0e",
-//            color: "#6baed6",
             color:"#348ccb",
             weight: depLineWeight,
             opacity: depOpacity
         }
         var dep150Styles = {
-//            color: "#8b2500",
-//            color:"#3182bd",
             color: "#08519c",
             weight: depLineWeight,
             opacity: depOpacity
         }        
         var dep700Styles = {
-//            color: "#104e8b",
-//            color: "#08519c",
             color: "#000066",
             weight: depLineWeight,
             opacity: depOpacity
@@ -766,8 +770,6 @@
         function drawSwitcher(layers){
             
             // Layer Switcher   
-            // Not sure how the order is determined.  Seems to vary.
-            // Doesn't seem to matter if it is called from $.when/.then, or from drawMap() function
             
             var layerLabels = {
                 "<b style='color:#7f7f7f'>EEZ</b>": layers["eez_ln"],
