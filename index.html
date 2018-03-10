@@ -317,8 +317,18 @@
 
     <!--  GeoJSON EFH Alternatives source data (var proposals_metrics)   -->
     <script src="data/efh_proposals_metrics.js"></script>
-    <!--  JSON with concat_id and list of unique 1km cells with corspg presence (var corspg1km_proposals)   -->
-    <script src="data/corspg1km_proposals.js"></script>
+    <!--  JSON with concat_id and list of unique 1km cells with cor, spg, or pen presence  -->
+    <!-- var same as the file name, cor1km_efhalts, spg1km_efhalts, pen1km_efhalts    -->
+    <script src="data/cor1km_efhalts.js"></script> 
+    <script src="data/pen1km_efhalts.js"></script>
+    <script src="data/spg1km_efhalts.js"></script>
+    <!-- unique 500m cell with cor, spg, or pen bycatch, var same as the file name, cor1km_efhalts, spg1km_efhalts, pen1km_efhalts    -->
+<!--
+    <script src="data/cor500m_efhalts.js"></script> 
+    <script src="data/pen500m_efhalts.js"></script>
+    <script src="data/spg500m_efhalts.js"></script> 
+-->
+    
     
     <!--  Main mapping script   -->
     <script>
@@ -1221,7 +1231,7 @@
             if (Math.abs(sqmi) >= 0.5 || sqmi == 0 ) {
                 return (val / 2589988.11).toLocaleString(undefined, {
                     maximumFractionDigits: 0
-                })
+                });
             } else {
                 return "<1"
             }
@@ -1232,7 +1242,7 @@
             if (Math.abs(val) >= 0.5 || val == 0 ) {
                 return (val).toLocaleString(undefined, {
                     maximumFractionDigits: 0
-                })
+                });
             } else {
                 return "<1"
             }
@@ -1242,7 +1252,7 @@
         function m2mi(val) {
             return (val / 1609.344).toLocaleString(undefined, {
                 maximumFractionDigits: 0
-            })
+            });
         }
 
         // Calculate percentage or return zero if denominator is zero
@@ -1281,6 +1291,21 @@
                 maximumFractionDigits: 0
             }) + "K"
         }
+        
+        // Return a unique list of cells with invert type present
+        function cellsUnique(poly_id, cells_poly, cells_init){
+            var unique_cells = {};  // initialize object for unique cells
+            all_cells = cells_init.concat(cells_poly);  // combine initial list of cells with cells for the current polygon
+            if ( all_cells.length > 0 ) { // check for empty list
+                all_cells.forEach(function (cell) {
+                    unique_cells[cell] = 1;
+                });
+                return Object.keys(unique_cells);
+            } else {
+               return [];
+            }
+            
+       }
 
         function buildSummary() {
 
@@ -1331,14 +1356,30 @@
                 "unknown",
                 "CynAreaMi2",
                 "OF80AreaMi2",          
-                "coral_cnt",,
-                "sponge_cnt",
-                "penn_cnt",
+//                "coral_cnt",,
+//                "sponge_cnt",
+//                "penn_cnt",
                 "coralthreshold_count",
                 "spongethreshold_count",
                 "pennthreshold_count",
             ]
-
+            var invert_attributes = [
+                "coral_cnt",
+                "sponge_cnt",
+                "penn_cnt",
+//                "coralthreshold_count",
+//                "spongethreshold_count",
+//                "pennthreshold_count",                
+            ]
+            // Association between invert attribute and object with unique cell ids
+            var invert_celldata = {
+                "coral_cnt": cor1km_efhalts,
+                "sponge_cnt": spg1km_efhalts,
+                "penn_cnt": pen1km_efhalts,
+//                "coralthreshold_count": cor500m_efhalts,
+//                "spongethreshold_count": spg500m_efhalts,
+//                "pennthreshold_count": pen500m_efhalts, 
+            }
 
             var polyData = []; // individual polygon attributes
 
@@ -1373,12 +1414,31 @@
                 spongethreshold_count: 0,
                 pennthreshold_count: 0,
             };
+            // Initialize list of unique cells for invert counts
+            var cellsOpen = {
+                coral_cnt: [],
+                sponge_cnt: [],
+                penn_cnt: [],
+//                coralthreshold_count: [],
+//                spongethreshold_count: [],
+//                pennthreshold_count: [],  
+            };
+            var cellsClose = {
+                coral_cnt: [],
+                sponge_cnt: [],
+                penn_cnt: [],
+//                coralthreshold_count: [],
+//                spongethreshold_count: [],
+//                pennthreshold_count: [],               
+            };
 
             // loop through all the selected features
             for ( var i in selectedSet ){
                 
                 var selection = selectedSet[i];
                 var props = selection.feature.properties;
+                var id = props.concat_id
+                // console.log(props)
 
                 // Add individual polygon metrics to polyData list
                 polyData.push(props);
@@ -1386,11 +1446,10 @@
                 // loop through the properties
                 for (var att in props) {
 
-                    // Only use metrics of interest
+                    // Simple sum of most numeric metrics
                     if (metric_attributes.indexOf(att) >= 0) {
                         // if it's a number
                         if (Number(props[att])) {
-
                             // Areas to be closed
                             if (props.RegAction === "close") {
                                 summClose[att] += props[att];
@@ -1398,10 +1457,23 @@
                                 summOpen[att] += props[att];
                             }
                         }
-                    }
-                }
+                    } // End of simple sum of attributes
+                    
+                    // invert metrics -- create list of unique cell ids for all selected polys
+                    if (invert_attributes.indexOf(att) >= 0){
+                        if (typeof(invert_celldata[att][id]) !== 'undefined')  { // check for any cells present for this poly
+                            if (props.RegAction === "close") {
+                                cellsClose[att] = cellsUnique(id, invert_celldata[att][id], cellsClose[att])
+                                summClose[att] = cellsClose[att].length
+                            } else { // areas to be reopoend
+                                cellsOpen[att] = cellsUnique(id, invert_celldata[att][id], cellsOpen[att])
+                                summOpen[att] = cellsOpen[att].length
+                            }
+                        }
+                    } // end of invert cell calcs
+                    
+                } // end of loop through all the properties
                 
-
             } // end of loop through selectedSet
             
             
