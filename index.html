@@ -28,6 +28,10 @@
     <script src="js/jquery.tabletoCSV.js"></script>
     <script src="js/easy-button.js"></script>
     <script src="js/typeahead.bundle.min.js"></script>
+
+    <!--Measure Tool -->      
+    <link rel="stylesheet" href="https://ppete2.github.io/Leaflet.PolylineMeasure/Leaflet.PolylineMeasure.css" />
+    <script src="https://ppete2.github.io/Leaflet.PolylineMeasure/Leaflet.PolylineMeasure.js"></script>
     
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Work+Sans:400,500,600' rel='stylesheet' type='text/css'>
@@ -365,6 +369,13 @@
             map.setView([41, -121.2],6,{reset: true})
         }).addTo(map);
         
+        var mt_options = {
+            unit: 'nauticalmiles',
+            showBearings: true,
+            showUnitControl: true,
+            measureControlLabel: '&#8614;', //  '&#128207;'
+        };
+        L.control.polylineMeasure(mt_options).addTo(map);
         
         // Create a geoJSON layer of all polygons for search function 
         var allpolys = L.geoJson(proposals_metrics);
