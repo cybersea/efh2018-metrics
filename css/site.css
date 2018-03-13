@@ -481,6 +481,7 @@ html.loading:after {
     position: absolute;
     top: 52px;
     right: 15px;
+    z-index: 1000;
     -webkit-animation: rotating 0.5s linear infinite;
     -moz-animation: rotating 0.5s linear infinite;
     -ms-animation: rotating 0.5s linear infinite;
