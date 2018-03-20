@@ -759,8 +759,16 @@
                 var layer = L.geoJson(data[k], {
                     style: function (feature) {  // style for each GeoJSON feature
                         return styles[k]
+                    },
+                    onEachFeature: function (feature, layer) {
+                        if (k === "lat") {
+                            var label = feature.properties.Landmark.split(',')[0];
+                            layer.bindTooltip(label, 
+                                {permanent: true, direction: 'top', opacity: 1 , offset: [0,12]}
+                                );
+                        }
                     }
-                })
+                });
                 // Initial state of all layers is off. 
                 // layer.addTo(map);
                 
@@ -777,7 +785,7 @@
                 if (e.name.indexOf('EFH') >= 0 || e.name.indexOf('RCA') >= 0){
                     e.layer.bringToBack();
                 } 
-            })
+            });
 
                         
         } // end drawMap()

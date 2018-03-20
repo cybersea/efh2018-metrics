@@ -144,6 +144,17 @@ h3 {
     position: relative;
     right: 255px
 }
+.leaflet-tooltip {
+  background-color: transparent;
+  border: transparent;
+  box-shadow: none;
+  }
+.leaflet-tooltip-top:before,
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+    border: 0px solid transparent;
+    }
 
 /*   RIGHT SIDE PANEL*/
 /* Looks like Leaflet default z-index for map is 400, and for controls is 800 or 1000*/
