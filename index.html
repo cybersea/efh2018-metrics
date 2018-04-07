@@ -316,6 +316,7 @@
             <li>View the count of selected polygons out of the total polygons for each EFHCA alternative next to its name</li>
             <li>View summary metrics for all selected EFHCA polygons in the Summary Tab</li>
             <li>View and download a table of individual metrics for selected polygons in the Polygons Tab</li>
+            <li>'**' indicate confidential economic data</li>
         </ul>
         <p>To avoid double-counting in the summary metrics, if you select a polygon that overlaps a current selection, the overlapped polygon will be removed from the selection.</p>
         <p>For the best experience, use the Chrome browser.  Other browsers have not been thoroughly tested.</p>
@@ -1295,9 +1296,13 @@
         }
         
         // Format proportion as percent
-        function prop2pct(val){
+        function prop2pct(val, digits){
+            if (val == 0){
+                digits = 0
+            }
             return val.toLocaleString(undefined, {
-                style: 'percent'
+                style: 'percent',
+                minimumFractionDigits: digits,
             });
         }
         
@@ -1328,7 +1333,8 @@
                     return dollars(val);
                 } else if (type == 'landings'){
                     return rnd(val,0)
-                }
+                } else if (type == 'percent')
+                    return prop2pct(val, 4)
             }
         }
         
@@ -1570,6 +1576,14 @@
                 '<th>Coral Bycatch (.5 km cells)</th>' +
                 '<th>Sponge Bycatch (.5 km cells)</th>' +
                 '<th>Sea Pen Bycatch (0.5 km cells)</th>' +
+                '<th>Landings, non-RCA (lbs)</th>' +
+                '<th>Landings, non-RCA (% coastwide)</th>' +
+                '<th>Landings, in RCA (lbs)</th>' +
+                '<th>Landings, in RCA (% coastwide)</th>' +
+                '<th>Ex-Vessel Revenue non-RCA (dollars)</th>' +
+                '<th>Ex-Vessel Revenue non-RCA (% coastwide)</th>' +
+                '<th>Ex-Vessel Revenue in RCA (dollars)</th>' +
+                '<th>Ex-Vessel Revenue in RCA (% coastwide)</th>' + 
                 '</tr>'
 
             // update the html of the table
@@ -1604,7 +1618,15 @@
                 '<th>Coral Bycatch (.5 km cells)</th>' +
                 '<th>Sponge Bycatch (.5 km cells)</th>' +
                 '<th>Sea Pen Bycatch (.5 km cells)</th>' +
-                '</tr>'
+                '<th>Landings, non-RCA (lbs)</th>' +
+                '<th>Landings, non-RCA (% coastwide)</th>' +
+                '<th>Landings, in RCA (lbs)</th>' +
+                '<th>Landings, in RCA (% coastwide)</th>' +
+                '<th>Ex-Vessel Revenue non-RCA (dollars)</th>' +
+                '<th>Ex-Vessel Revenue non-RCA (% coastwide)</th>' +
+                '<th>Ex-Vessel Revenue in RCA (dollars)</th>' +
+                '<th>Ex-Vessel Revenue in RCA (% coastwide)</th>' + 
+               '</tr>'
 
             // loop through all the selected features                
             for ( var i in selectedSet ){
@@ -1612,14 +1634,14 @@
                 var selection = selectedSet[i];
                 var data = selection.feature.properties;
 
-                // Tow Length filter (< 3 vessels in an area)
-                var towLen;
-                if (data.VesCount >= 3 || data.VesCount == 0) {
-                    towLen = m2mi(data.TowLenM);
-                    
-                } else {
-                    towLen = "**";
-                }
+//                // Tow Length filter (< 3 vessels in an area)
+//                var towLen;
+//                if (data.VesCount >= 3 || data.VesCount == 0) {
+//                    towLen = m2mi(data.TowLenM);
+//                    
+//                } else {
+//                    towLen = "**";
+//                }
 
                 rows += '<tr>' +
                     '<td>' + data.RegAction + '</td>' +
@@ -1638,6 +1660,14 @@
                     '<td>' + data.coralthreshold_count + '</td>' +
                     '<td>' + data.spongethreshold_count + '</td>' +
                     '<td>' + data.pennthreshold_count + '</td>' +
+                    '<td>' + cfd4table(data.LWlb_outRCA, 'landings') + '</td>' +
+                    '<td>' + cfd4table(data.LWprop_outRCA, 'percent') + '</td>' +
+                    '<td>' + cfd4table(data.LWlb_inRCA, 'landings') + '</td>' +
+                    '<td>' + cfd4table(data.LWprop_inRCA, 'percent') + '</td>' +
+                    '<td>' + cfd4table(data.Rev_outRCA, 'dollars') + '</td>' +
+                    '<td>' + cfd4table(data.Revprop_outRCA, 'percent') + '</td>' +
+                    '<td>' + cfd4table(data.Rev_inRCA, 'dollars') + '</td>' +
+                    '<td>' + cfd4table(data.Revprop_inRCA, 'percent') + '</td>' +
                     '</tr>'
 //                rows += '</tr>'
                 
