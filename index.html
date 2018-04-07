@@ -1075,6 +1075,13 @@
             // variable to access layer properties
             var data = layer.feature.properties;
             var alternative = data.Alternative;
+
+            // Years for the Economic data
+            var RCAeconYr = "1997-2001";
+            var noRCAeconYr = "2011-2014";
+            if (data.RegAction === "reopen") {
+                noRCAeconYr = "1997-2001";
+            }    
             
             if (selectableAlts.includes(alternative) || rcaAlts.includes(alternative)){
                 var altTitle = "Alternative"
@@ -1082,7 +1089,6 @@
                     altTitle = "Proposer"
             }
             
-
             // populate html variable with header - Site name
             // and values for the specified attributes using the 
             // layer (feature) that was passed to this function
@@ -1103,6 +1109,15 @@
                 html += "<br>" + "<b>Coral Bycatch</b> (.5 km cells): " + data.coralthreshold_count;
                 html += "<br>" + "<b>Sponge Bycatch</b> (.5 km cells): " + data.spongethreshold_count;
                 html += "<br>" + "<b>Sea Pen Bycatch</b> (.5 km cells): " + data.pennthreshold_count;
+            }
+            if (selectableAlts.includes(alternative)) {
+                html += "<br>" + "<b>Outside RCA</b> (" + noRCAeconYr + "):";
+                html += "<br>" + "&emsp;<b>Landings</b> (lbs): " + cfd4table(data.LWlb_outRCA, 'landings');
+                html += "<br>" + "&emsp;<b>Ex-Vessel Revenue: </b>: " + cfd4table(data.Rev_outRCA, 'dollars');
+                html += "<br>" + "<b>Inside RCA</b> (" + RCAeconYr + "):";
+                html += "<br>" + "&emsp;<b>Landings</b> (lbs): " + cfd4table(data.LWlb_inRCA, 'landings');
+                html += "<br>" + "&emsp;<b>Ex-Vessel Revenue</b>: " + cfd4table(data.Rev_inRCA, 'dollars');
+                html += "<br>" + "** indicates confidential data";
 //            html += "<br>" + "<b>Conserv. Value Mean: </b> " + rnd(data.consval_mean, 2);
 //            html += "<br>" + "<b>Conserv. Value Variance: </b> " + rnd(data.consval_var, 2); 
             }
@@ -1294,15 +1309,29 @@
             })
         }
         
-        // Round to even thousands of dollars
+        // Round to even dollars
         function dollars(val){
             return val.toLocaleString(undefined, {
                 style: 'currency',
                 currency: 'USD',
-                maximumFractionDigits: 0
-            }) + "K"
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+            });
         }
-
+        
+        // Handle confidential data, where -1 indicates confidential
+        function cfd4table(val,type){
+            if (val == -1){
+                return "**";
+            } else {
+                if (type == 'dollars'){
+                    return dollars(val);
+                } else if (type == 'landings'){
+                    return rnd(val,0)
+                }
+            }
+        }
+        
         function buildSummary() {
 
             // Remove starter text
