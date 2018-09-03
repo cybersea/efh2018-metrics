@@ -107,54 +107,6 @@
                     <i class="fa fa-plus"></i>
                 </button>
             </label>
-            <!-- Garibaldi Reef south -->
-            <input id="garibLayer" type="checkbox" value="garibLayer" checked>
-            <label for="garibLayer" id="garibLayer" style='color:#377EB8' data-nice-name="Garibaldi Reef South">
-                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o layer-selection-icon"></i></span> 
-                1d. Garibaldi Reef S.<span class="layer-counter"><span class="layer-counter-current">0</span>/1</span>
-                <button class="layer-unselect-all tooltip" data-tooltip="Remove Proposal from Selection">
-                    <i class="fa fa-minus"></i>  
-                </button>
-                <button class="layer-select-all tooltip" data-tooltip="Add Proposal to Selection">
-                    <i class="fa fa-plus"></i>
-                </button>
-            </label>
-            <!-- Rittenburg Bank -->
-            <input id="rittLayer" type="checkbox" value="rittLayer" checked>
-            <label for="rittLayer" style='color:#650B0B' data-nice-name="Rittenburg Bank">
-                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o layer-selection-icon"></i></span> 
-                1e. Rittenburg Bank <span class="layer-counter"><span class="layer-counter-current">0</span>/1</span>
-                <button class="layer-unselect-all tooltip" data-tooltip="Remove Proposal from Selection">
-                    <i class="fa fa-minus"></i>
-                </button>
-                <button class="layer-select-all tooltip" data-tooltip="Add Proposal to Selection">
-                    <i class="fa fa-plus"></i>
-                </button>
-            </label>
-             <!-- Potato Bank -->
-            <input id="potatoLayer" type="checkbox" value="potatoLayer" checked>
-            <label for="potatoLayer" style='color:#E9BD02' data-nice-name="Potato Bank">
-                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o layer-selection-icon"></i></span> 
-                1f. Potato Bank <span class="layer-counter"><span class="layer-counter-current">0</span>/2</span>
-                <button class="layer-unselect-all tooltip" data-tooltip="Remove Proposal from Selection">
-                    <i class="fa fa-minus"></i>
-                </button>
-                <button class="layer-select-all tooltip" data-tooltip="Add Proposal to Selection">
-                    <i class="fa fa-plus"></i>
-                </button>
-            </label>
-              <!-- Priority Habitats in Trawl RCA in Washington State -->
-            <input id="phLayer" type="checkbox" value="phLayer" unchecked>
-            <label for="phLayer" style='color:#00E575' data-nice-name="Priority Habitats in Trawl RCA - WA">
-                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
-                1g. Priority Hab <span class="layer-counter"><span class="layer-counter-current">0</span>/1</span>
-                <button class="layer-unselect-all tooltip" data-tooltip="Remove Proposal from Selection" disabled = "true">
-                    <i class="fa fa-minus"></i>
-                </button>
-                <button class="layer-select-all tooltip" data-tooltip="Add Proposal to Selection" disabled = "true">
-                    <i class="fa fa-plus"></i>
-                </button>
-            </label>
          </div>
         
          <div id='ui-controls'>
@@ -171,12 +123,6 @@
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
                 2a. Remove Trawl RCA
             </label> 
-            <!-- Discrete Area Closures (WA) -->
-            <input id="dacLayer" type="checkbox" value="dacLayer" unchecked>
-            <label for="dacLayer" style='color:#EEAD0E' data-nice-name="Discrete Area Closures">
-                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
-                2b. Discrete Area Closures 
-            </label>
             <!-- Block Area Closures -->
             <input id="bacLayer" type="checkbox" value="bacLayer" unchecked>
             <label for="bacLayer" style='color:#2e9e82' data-nice-name="Block Area Closures">
@@ -185,37 +131,8 @@
             </label>
         </div> 
 
-        <div id="layer-controls" class="otherproposals">            
-            <!-- Old EFH Proposals.  Can only by turned on or off to draw on map -->
-            <p class="efh-type">Other EFHCA Proposals</p>
-            <!-- Greenpeace -->
-            <input id="greenpeaceLayer" type="checkbox" value="greenpeaceLayer" unchecked>
-            <label for="greenpeaceLayer" style='color:#0F6001' data-nice-name="Greenpeace">
-                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
-                Greenpeace 
-            </label>
-            <!-- MCI -->
-            <input id="mciLayer" type="checkbox" value="mciLayer" unchecked>
-            <label for="mciLayer" style='color:#996561' data-nice-name="MCI">
-                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
-                MCI
-            </label>
-            <!-- None -->
-            <input id="noneLayer" type="checkbox" value="noneLayer" unchecked>
-            <label for="noneLayer" style='color:#0F97A3' data-nice-name="None">
-                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
-                None
-            <!--
-                <button class="layer-unselect-all tooltip" data-tooltip="Remove Proposal from Selection" disabled = "true">
-                    <i class="fa fa-minus"></i>
-                </button>
-                <button class="layer-select-all tooltip" data-tooltip="Add Proposal to Selection" disabled = "true">
-                    <i class="fa fa-plus"></i>
-                </button>
-            -->
-            </label>
-        </div>
-  
+
+        
     </div>
     <!-- end right-panel -->
     
@@ -816,14 +733,6 @@
             
             // Add text label next to layer switcher control
             $( "#layer-control-text" ).html( "<p>Reference<br>Layers</p>" );
-            
-
-            // Remove text first time layer switcher is used
-            // This seems a little funky, so don't use it for now
-//            switcher.getContainer().addEventListener("mouseenter", function( event ) {   
-//                // highlight the mouseenter target
-//                $("#layer-control-text").hide();
-//            }, false);  
  
         } // end drawSwitcher()
 
