@@ -3,7 +3,7 @@
 
 <head>
     <meta charset=utf-8 />
-    <title>EFH Metrics - 2018</title>
+    <title>EFH Metrics DEIS - 2018</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <link rel="shortcut icon" href="images/sgfish_icon.png" type="image/png" />
     
@@ -99,7 +99,7 @@
             <input id="paLayer" type="checkbox" value="paLayer" checked>
             <label for="paLayer" style='color:#0F6001' data-nice-name="PFMC FPA">
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o layer-selection-icon"></i></span> 
-                1c. Preferred <span class="layer-counter"><span class="layer-counter-current">0</span>/70</span>
+                1h. Preferred <span class="layer-counter"><span class="layer-counter-current">0</span>/70</span>
                 <button class="layer-unselect-all tooltip" data-tooltip="Remove Proposal from Selection">
                     <i class="fa fa-minus"></i>
                 </button>
@@ -128,6 +128,18 @@
             <label for="bacLayer" style='color:#2e9e82' data-nice-name="Block Area Closures">
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
                 2c. Block Area Closures
+            </label>
+            <!-- Remove Trawl RCA (OR/CA), Preferred Alt -->
+            <input id="removercaORCALayer" type="checkbox" value="removercaORCALayer" unchecked>
+            <label for="removercaORCALayer" style='color:#737300' data-nice-name="Remove RCA (OR/CA)">
+                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
+                2d. Preferred - Remove Trawl RCA (OR/CA)
+            </label> 
+            <!-- Block Area Closures (OR/CA) Preferred Alt -->
+            <input id="bacORCALayer" type="checkbox" value="bacORCALayer" unchecked>
+            <label for="bacORCALayer" style='color:#2e9e82' data-nice-name="PFMC FPA Trawl RCA">
+                <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
+                2d. Preferred - Block Area Closures (OR/CA)
             </label>
         </div> 
         
@@ -347,6 +359,18 @@
                 selectable: 0,
                 draw:0,
             }, 
+            removercaORCALayer: {
+                proposer: "Remove RCA (OR/CA)",
+                color: "#737300",
+                selectable: 0,
+                draw:0,
+            },
+            bacORCALayer: {
+                proposer: "PFMC FPA Trawl RCA",
+                color: "#2e9e82",
+                selectable: 0,
+                draw:0,
+            }, 
         };
         
         var selectableAlts = [
@@ -358,6 +382,8 @@
         var rcaAlts = [
             "Remove RCA",
             "Block Area Closures",
+            "Remove RCA (OR/CA)",
+            "PFMC FPA Trawl RCA",
         ]
 
         var geoJsonLayers = {}; // global to store all the geoJSON layers
