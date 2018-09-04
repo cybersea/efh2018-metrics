@@ -187,37 +187,26 @@
         <div class='side-panel' id='info-panel'>
             <h2>Background</h2>
         <p>The <a href="http://www.pcouncil.org/" target="_blank">Pacific Fishery Management Council</a> (Council) is developing Amendment 28 to the <a href="https://www.pcouncil.org/groundfish/fishery-management-plan/" target="_blank"> Pacific Coast Groundfish Fishery Management Plan</a>. The Council is considering proposed changes to <a href="http://www.pcouncil.org/groundfish/groundfish-essential-fish-habitat/" target="_blank">Groundfish Essential Fish Habitat</a> Conservation Areas <a href="http://www.westcoast.fisheries.noaa.gov/fisheries/management/groundfish_closures/essential_fish.html" target="_blank">(EFHCA)</a> and the <a href="http://www.westcoast.fisheries.noaa.gov/fisheries/management/groundfish_closures/rockfish_areas.html" target="_blank">Trawl Rockfish Conservation Area</a> (RCA), as well as prohibiting the use of bottom-contact fishing gear in waters deeper than 3,500 meters off the West Coast of the United States.  The range of alternatives include areas to be closed to commercial trawl fishing, as well as currently closed areas to be reopened.</p>
-        <p>Before identifying a preferred set of alternatives, the Council will consider the impacts and benefits of the alternatives to groundfish habitat, biological resources, and socioeconomics related to fishing opportunities and coastal communities.</p>
-        <p>The primary purpose of this tool is to support the Council's review and selection of a preferred EFHCA Alternative. The user can select a custom set of polygons from any EFHCA Alternative and see a summary of the environmental metrics for their set. To provide context, associated data layers, such as existing trawl closures, jurisdictional boundaries, Trawl RCA Alternatives, other EFHCA proposals can be displayed.</p>
+        <p>Before identifying a preferred set of alternatives, the Council considered the impacts and benefits of the alternatives to groundfish habitat, biological resources, and socioeconomics related to fishing opportunities and coastal communities.</p>
+        <p>The primary purpose of this tool is to support Council, stakeholder, and public review of the Draft Environmental Impact Statement. The user can select a custom set of polygons from any EFHCA Alternative and see a summary of the environmental metrics for their set. To provide context, associated data layers, such as existing trawl closures, jurisdictional boundaries, and Trawl RCA Alternatives can be displayed.</p>
         <p>The <a href="docs/EFH_RCA_Alternatives_2018.pdf" target="_blank">EFHCA Alternatives</a> are:</p>
 <!--            <ul style="list-style-type:none">-->
             <ul>
                 <li>1.a.  Collaborative</li>
                 <li>1.b.  Oceana et al. </li>
-                <li>1.c.  Midwater Trawlers Cooperative (MTC) </li>
-                <li>1.d.  Garibaldi Reef South </li>
-                <li>1.e.  Rittenburg Bank</li>
-                <li>1.f.  Potato Bank Correction </li>
-                <li>1.g.  Priority Habitats within Trawl RCA in Washington </li>
+                <li>1.h.  EFHCA Preferred Alternative </li>
             </ul>
         
         <p>The <a href="docs/EFH_RCA_Alternatives_2018.pdf" target="_blank">Trawl RCA Alternatives</a> are:</p>
             <ul>
-                <li>2.a.  Remove the Trawl RCA</li>
-                <li>2.b.  Remove the Trawl RCA and implement Discrete Area Closures (DAC) in Washington </li>
-                <li>2.c.  Remove the Trawl RCA and implement Block Area Closures (BAC)</li>
+                <li>2.c.  Remove the Trawl RCA and implement Block Area Closures (BAC) outside the tribal U&A fishing area</li>
+                <li>2.d.  RCA Preferred Alternative -- Remove the Trawl RCA and implement Block Area Closures (BAC) in waters off Oregon and California </li>
             </ul>
-        <p> <a href="docs/EFH_RCA_Alternatives_2018.pdf" target="_blank">Alternative 3a</a> is to close waters deeper than 3,500 meters to bottom contact gear (display from Reference Layers)</p>
-        <p>Other EFH proposals were submitted to the Council, but are not being considered as EFHCA alternatives.  They are included here for information purposes only. Metrics for these proposals are available in an <a href="http://www.pcouncil.org/wp-content/uploads/2016/11/F4a_Project_Team_Report_EFHRCA_Modifications_Analytical_Doc_NOV2016BB.pdf" target="_blank">analytical report</a>.</p>
-            <ul>
-                <li>Greenpeace</li>
-                <li>MCI: Marine Conservation Institute</li>
-                <li>None: Polygons that were identified by the Collaborative group, but were not included in their final proposal</li>
-            </ul>            
+        <p> <a href="docs/EFH_RCA_Alternatives_2018.pdf" target="_blank">Alternative 3a</a> is to close waters deeper than 3,500 meters to bottom contact gear (display from Reference Layers)</p>           
 
         <h2>Credits</h2>
         <p>The Council, NOAA, National Marine Fisheries Service (NMFS), scientists, tribes, fishermen, and non-governmental organizations laid the analytical groundwork for this review through  a multi-year synthesis of new data sets and analyses.  Results of the Groundfish Essential Fish Habitat (EFH) Review are available through the <a href="http://efh-catalog.coas.oregonstate.edu/overview/" target="_blank">EFH Catalog</a> and the <a href="http://efh-viewer.coas.oregonstate.edu/efh/" target="_blank">EFH Viewer</a>. Additional layers and resources are available on the <a href="https://www.nwfsc.noaa.gov/data/map" target="_blank">NWFSC/FRAM Data Warehouse</a>.</p>
-        <p>The EFH/RCA Project Team is producing a Preliminary Draft Environmental Impact Statement <a href="http://www.pcouncil.org/groundfish/groundfish-essential-fish-habitat/" target="_blank">(PDEIS)</a> which is the basis for the metrics in this tool.</p>
+        <p>The EFH/RCA Project Team is producing a Draft Environmental Impact Statement <a href="http://www.pcouncil.org/groundfish/groundfish-essential-fish-habitat/" target="_blank">(PDEIS)</a> which is the basis for the metrics in this tool.</p>
         <p>Web Development by Allison Bailey, <a href="http://www.soundgis.com" target="_blank">Sound GIS</a></p>
         </div>
 
@@ -683,7 +672,7 @@
             var layerLabels = {
                 "<b style='color:#7f7f7f'>EEZ</b>": layers["eez_ln"],
                 "<b style='color:#7f7f7f'>State Waters</b>": layers["state_ln"],
-                "<b style='color:#594600'>Tribal U&A</b>": layers["tribalUA_ln"],
+                "<b style='color:#594600'>Tribal U&A, 2016</b>": layers["tribalUA_ln"],
                 "<b style='color:black'>Latitude Breaks</b>": layers["lat"],
                 "<b style='color:#87bede'>30 fathoms</b>": layers["dep30fm"],
                 "<b style='color:#348ccb'>100 fathoms</b>": layers["dep100fm"],
