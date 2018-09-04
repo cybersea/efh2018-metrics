@@ -95,11 +95,11 @@
                     <i class="fa fa-plus"></i>
                 </button>
             </label>
-            <!-- Midwater Trawlers Cooperative -->
-            <input id="mtcLayer" type="checkbox" value="mtcLayer" checked>
-            <label for="mtcLayer" style='color:#E2007F' data-nice-name="MTC">
+            <!-- EFHCA Preferred Alternative -->
+            <input id="paLayer" type="checkbox" value="paLayer" checked>
+            <label for="paLayer" style='color:#0F6001' data-nice-name="Preferred">
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-check-square-o layer-selection-icon"></i></span> 
-                1c. MTC <span class="layer-counter"><span class="layer-counter-current">0</span>/13</span>
+                1c. Preferred <span class="layer-counter"><span class="layer-counter-current">0</span>/13</span>
                 <button class="layer-unselect-all tooltip" data-tooltip="Remove Proposal from Selection">
                     <i class="fa fa-minus"></i>
                 </button>
@@ -121,7 +121,7 @@
             <input id="removercaLayer" type="checkbox" value="removercaLayer" unchecked>
             <label for="removercaLayer" style='color:#737300' data-nice-name="Remove RCA">
                 <span class="tooltip" data-tooltip="Toggle Visibility"><i class="fa fa-square-o layer-selection-icon"></i></span> 
-                2a. Remove Trawl RCA
+                2c. Remove Trawl RCA
             </label> 
             <!-- Block Area Closures -->
             <input id="bacLayer" type="checkbox" value="bacLayer" unchecked>
@@ -130,8 +130,6 @@
                 2c. Block Area Closures
             </label>
         </div> 
-
-
         
     </div>
     <!-- end right-panel -->
@@ -331,89 +329,35 @@
                 selectable: 1,
                  draw:1,
           },
-             mtcLayer: {
-                proposer: "MTC",
-                color: "#E2007F",
+             paLayer: {
+                proposer: "PFMC FPA",
+                color: "#0F6001",
                 selectable: 1,
                  draw:1,
            },
-            garibLayer: {
-                proposer: "Garibaldi Reef South",
-                color: "#377EB8",
-                selectable: 1,
-                draw:1,
-           },
-            rittLayer: {
-                proposer: "Rittenburg Bank",
-                color: "#650B0B",
-                selectable: 1,
-                draw:1,
-           },
-            potatoLayer: {
-                proposer: "Potato Bank",
-                color: "#E9BD02",
-                selectable: 1,
-                draw:1,
-            },
-            phLayer : {
-                proposer: "Priority Habitats in Trawl RCA - WA",
-                color: "#00E575",
-                selectable: 1,
-                draw:0,
-            },
             removercaLayer: {
                 proposer: "Remove RCA",
                 color: "#737300",
                 selectable: 0,
                 draw:0,
             },
-            dacLayer: {
-                proposer: "Discrete Area Closures",
-                color: "#EEAD0E",
-                selectable: 0,
-                 draw:0,
-            },
             bacLayer: {
                 proposer: "Block Area Closures",
                 color: "#2e9e82",
                 selectable: 0,
                 draw:0,
-            },
-            greenpeaceLayer: {
-                proposer: "Greenpeace",
-                color: "#0F6001",
-                selectable: 0,
-                draw:0,
-            },
-            mciLayer: {
-                proposer: "MCI",
-                color: "#996561",
-                selectable: 0,
-                draw:0,
-            },
-            noneLayer: {
-                proposer: "None",
-                color: "#0F97A3",
-                selectable: 0,
-                draw:0,
-            },  
-
+            }, 
         };
         
         var selectableAlts = [
             "Collaborative",
             "Oceana et al.",
-            "MTC",
-            "Garibaldi Reef South",
-            "Rittenburg Bank",
-            "Potato Bank",
-            "Priority Habitats in Trawl RCA - WA",
+            "PFMC FPA",
         ]
         
         var rcaAlts = [
             "Remove RCA",
             "Block Area Closures",
-            "Discrete Area Closures",
         ]
 
         var geoJsonLayers = {}; // global to store all the geoJSON layers
