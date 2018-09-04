@@ -1181,13 +1181,15 @@
         function cfd4table(val,type){
             if (val == -1){
                 return "**";
-            } else {
+            } else if (val >= 0){
                 if (type == 'dollars'){
                     return dollars(val);
                 } else if (type == 'landings'){
                     return rnd(val,0)
                 } else if (type == 'percent')
                     return prop2pct(val, 4)
+            } else {
+                return "unknown";
             }
         }
         
